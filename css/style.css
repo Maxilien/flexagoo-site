@@ -1,5 +1,5 @@
 /* ============================
-   GLOBAL
+   1. GLOBAL — MOBILE-FIRST
 ============================ */
 body {
   background: #f2f2f2;
@@ -7,6 +7,7 @@ body {
   margin: 0;
   padding: 0;
   color: #111;
+  overflow-x: hidden; /* prevents horizontal scroll */
 }
 
 a {
@@ -14,7 +15,7 @@ a {
 }
 
 /* ============================
-   FADE-IN ANIMATIONS
+   2. FADE-IN ANIMATIONS
 ============================ */
 .fade-in {
   opacity: 0;
@@ -36,7 +37,7 @@ a {
 }
 
 /* ============================
-   NAVBAR — BLUE BANNER
+  3. NAVBAR — RESPONSIVE BLUE BANNER
 ============================ */
 .nav {
   background: linear-gradient(90deg, #0A4DFF, #4C8DFF);
@@ -49,6 +50,13 @@ a {
   z-index: 1000;
 }
 
+/* Mobile: tighter padding */
+@media (max-width: 768px) {
+  .nav {
+    padding: 14px 20px;
+  }
+}
+
 .logo img {
   height: 42px;
   width: auto;
@@ -56,10 +64,18 @@ a {
   animation: fadeIn 1.2s ease-in;
 }
 
+/* NAV RIGHT */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 24px;
+}
+
+/* Mobile: collapse nav links */
+@media (max-width: 768px) {
+  .nav-right {
+    gap: 14px;
+  }
 }
 
 .nav-right .nav-link {
@@ -75,7 +91,7 @@ a {
 }
 
 /* ============================
-   MULTI-LANGUAGE DROPDOWN
+   4. MULTI-LANGUAGE DROPDOWN — RESPONSIVE
 ============================ */
 .lang-select {
   background: #fff;
@@ -92,8 +108,16 @@ a {
   background: #e0e7ff;
 }
 
+/* Mobile: smaller dropdown */
+@media (max-width: 480px) {
+  .lang-select {
+    padding: 5px 8px;
+    font-size: 0.85rem;
+  }
+}
+
 /* ============================
-   HERO — REAL BACKGROUND + GRADIENT OVERLAY
+  5. HERO — RESPONSIVE BACKGROUND + OVERLAY
 ============================ */
 .hero {
   padding: 160px 40px;
@@ -101,6 +125,14 @@ a {
   background: url("IMG/flexago-hero.jpg") center/cover no-repeat fixed;
   color: #fff;
   position: relative;
+}
+
+/* Mobile: reduce padding + remove fixed background */
+@media (max-width: 768px) {
+  .hero {
+    padding: 120px 20px;
+    background-attachment: scroll;
+  }
 }
 
 .hero::before {
@@ -122,11 +154,32 @@ a {
   color: #fff;
 }
 
+/* Mobile: scale down hero title */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+}
+
 .hero p {
   font-size: 1.25rem;
   max-width: 700px;
   margin: 0 auto 40px;
   color: #eaeaea;
+}
+
+/* Mobile: scale down hero text */
+@media (max-width: 768px) {
+  .hero p {
+    font-size: 1.05rem;
+    margin-bottom: 30px;
+  }
 }
 
 .hero-buttons a {
@@ -135,6 +188,22 @@ a {
   font-weight: 600;
   margin: 0 10px;
   transition: all 0.3s ease;
+  display: inline-block;
+}
+
+/* Mobile: stack buttons */
+@media (max-width: 600px) {
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-buttons a {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
 }
 
 .btn-primary {
@@ -157,17 +226,39 @@ a {
 }
 
 /* ============================
-   SECTIONS
+  6. SECTIONS — RESPONSIVE
 ============================ */
 .section {
   padding: 100px 40px;
   text-align: center;
 }
 
+/* Tablet */
+@media (max-width: 900px) {
+  .section {
+    padding: 80px 30px;
+  }
+}
+
+/* Mobile */
+@media (max-width: 600px) {
+  .section {
+    padding: 60px 20px;
+  }
+}
+
 .section-title {
   font-size: 2.2rem;
   font-weight: 700;
   margin-bottom: 40px;
+}
+
+/* Mobile: scale down title */
+@media (max-width: 600px) {
+  .section-title {
+    font-size: 1.8rem;
+    margin-bottom: 28px;
+  }
 }
 
 .section p {
@@ -178,12 +269,20 @@ a {
   color: #444;
 }
 
+/* Mobile: scale down text */
+@media (max-width: 600px) {
+  .section p {
+    font-size: 1rem;
+    line-height: 1.6;
+  }
+}
+
 .section.dark {
   background: #fff;
 }
 
 /* ============================
-   SECTION IMAGES + PARALLAX
+  7. SECTION IMAGES + PARALLAX — RESPONSIVE
 ============================ */
 .section-image {
   width: 100%;
@@ -195,13 +294,21 @@ a {
   animation: fadeIn 1.2s ease-in;
 }
 
+/* Mobile: reduce margins */
+@media (max-width: 600px) {
+  .section-image {
+    margin: 16px auto 28px;
+    max-width: 90%;
+  }
+}
+
 .parallax-img {
   transform: translateY(0);
   transition: transform 0.6s ease-out;
 }
 
 /* ============================
-   HOW IT WORKS — 3 REAL PHOTOS
+  8. HOW IT WORKS — 3 REAL PHOTOS (RESPONSIVE)
 ============================ */
 .steps {
   display: flex;
@@ -210,8 +317,16 @@ a {
   flex-wrap: wrap;
 }
 
+/* Mobile: tighter spacing */
+@media (max-width: 600px) {
+  .steps {
+    gap: 24px;
+  }
+}
+
 .step {
   max-width: 300px;
+  text-align: center;
 }
 
 .step-img {
@@ -221,17 +336,39 @@ a {
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
+/* Mobile: reduce spacing */
+@media (max-width: 600px) {
+  .step-img {
+    margin-bottom: 16px;
+  }
+}
+
 .step h3 {
   margin-bottom: 10px;
+  font-size: 1.2rem;
+}
+
+/* Mobile: scale down */
+@media (max-width: 600px) {
+  .step h3 {
+    font-size: 1.05rem;
+  }
 }
 
 /* ============================
-   FEATURES
+  9. FEATURES — RESPONSIVE GRID
 ============================ */
 .features-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   gap: 30px;
+}
+
+/* Mobile: tighter grid spacing */
+@media (max-width: 600px) {
+  .features-grid {
+    gap: 20px;
+  }
 }
 
 .feature-card {
@@ -242,12 +379,19 @@ a {
   transition: transform 0.3s ease;
 }
 
+/* Mobile: reduce padding */
+@media (max-width: 600px) {
+  .feature-card {
+    padding: 22px;
+  }
+}
+
 .feature-card:hover {
   transform: translateY(-6px);
 }
 
 /* ============================
-   PRICING
+   10. PRICING — RESPONSIVE
 ============================ */
 .pricing-grid {
   display: flex;
@@ -256,12 +400,29 @@ a {
   flex-wrap: wrap;
 }
 
+/* Mobile: tighter spacing */
+@media (max-width: 600px) {
+  .pricing-grid {
+    gap: 24px;
+  }
+}
+
 .pricing-card {
   background: #fff;
   padding: 30px;
   border-radius: 8px;
   width: 260px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  text-align: center;
+}
+
+/* Mobile: reduce padding */
+@media (max-width: 600px) {
+  .pricing-card {
+    padding: 22px;
+    width: 100%;
+    max-width: 300px;
+  }
 }
 
 .price {
@@ -270,8 +431,15 @@ a {
   color: #0A4DFF;
 }
 
+/* Mobile: scale down price */
+@media (max-width: 600px) {
+  .price {
+    font-size: 1.6rem;
+  }
+}
+
 /* ============================
-   CONTACT
+  11. CONTACT — RESPONSIVE
 ============================ */
 .contact-box {
   margin-top: 20px;
@@ -281,16 +449,43 @@ a {
   border-radius: 8px;
 }
 
+/* Mobile: full width */
+@media (max-width: 600px) {
+  .contact-box {
+    width: 100%;
+    padding: 18px;
+  }
+}
+
 /* ============================
-   CTA SECTION
+  12. CTA SECTION — RESPONSIVE
 ============================ */
 .cta-section {
   background: linear-gradient(135deg, #0A4DFF, #4C8DFF);
   color: #fff;
+  text-align: center;
+  padding: 80px 40px;
+}
+
+/* Mobile: reduce padding */
+@media (max-width: 600px) {
+  .cta-section {
+    padding: 60px 20px;
+  }
 }
 
 .cta-section p {
   color: #f5f5f5;
+  font-size: 1.15rem;
+  max-width: 700px;
+  margin: 0 auto;
+}
+
+/* Mobile: scale down text */
+@media (max-width: 600px) {
+  .cta-section p {
+    font-size: 1rem;
+  }
 }
 
 .cta-buttons {
@@ -302,8 +497,23 @@ a {
   margin: 0 10px;
 }
 
+/* Mobile: stack buttons */
+@media (max-width: 600px) {
+  .cta-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .cta-buttons .btn-primary,
+  .cta-buttons .btn-secondary {
+    margin: 0;
+    width: 100%;
+  }
+}
+
 /* ============================
-   FOOTER
+  13. FOOTER — RESPONSIVE
 ============================ */
 .footer {
   padding: 30px 40px;
@@ -312,6 +522,15 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+/* Mobile: stack footer */
+@media (max-width: 768px) {
+  .footer {
+    flex-direction: column;
+    gap: 12px;
+    text-align: center;
+  }
 }
 
 .footer a {
@@ -325,7 +544,7 @@ a {
 }
 
 /* ============================
-   RESPONSIVE (MOBILE)
+  14. RESPONSIVE (MOBILE) — CLEANED & OPTIMIZED
 ============================ */
 @media (max-width: 768px) {
   .nav {
@@ -365,7 +584,10 @@ a {
     text-align: center;
   }
 }
-/* TOP NAVBAR — DARK FLEXAGO BANNER */
+
+/* ============================
+  TOP NAVBAR — DARK FLEXAGO BANNER (RESPONSIVE)
+============================ */
 .top-nav {
   background: #0f172a;
   color: #fff;
@@ -375,6 +597,15 @@ a {
   align-items: center;
 }
 
+/* Mobile: tighter padding */
+@media (max-width: 768px) {
+  .top-nav {
+    padding: 14px 20px;
+    flex-direction: column;
+    gap: 12px;
+  }
+}
+
 .top-nav-left {
   display: flex;
   align-items: center;
@@ -382,9 +613,16 @@ a {
 }
 
 .flexago-logo-img {
-  height:80px;
+  height: 80px;
   width: auto;
   object-fit: contain;
+}
+
+/* Mobile: smaller logo */
+@media (max-width: 480px) {
+  .flexago-logo-img {
+    height: 60px;
+  }
 }
 
 .top-nav-title-main {
@@ -401,6 +639,15 @@ a {
   display: flex;
   align-items: center;
   gap: 24px;
+}
+
+/* Mobile: wrap links */
+@media (max-width: 768px) {
+  .top-nav-right {
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
 }
 
 .top-nav-link {
@@ -421,10 +668,20 @@ a {
 .nav-btn.signup {
   background: #10b981;
 }
+
 .top-nav-links {
   display: flex;
   align-items: center;
-  gap: 22px; /* spacing between links */
+  gap: 22px;
+}
+
+/* Mobile: stack links */
+@media (max-width: 768px) {
+  .top-nav-links {
+    flex-wrap: wrap;
+    gap: 14px;
+    justify-content: center;
+  }
 }
 
 .top-nav-link {
@@ -432,7 +689,7 @@ a {
   font-weight: 500;
   text-transform: uppercase;
   position: relative;
-  padding-right: 18px; /* space for separator */
+  padding-right: 18px;
 }
 
 .top-nav-link:not(:last-child)::after {
@@ -443,6 +700,6 @@ a {
   transform: translateY(-50%);
   height: 18px;
   width: 2px;
-  background: rgba(255, 255, 255, 0.45); /* subtle white line */
+  background: rgba(255, 255, 255, 0.45);
   border-radius: 2px;
 }
