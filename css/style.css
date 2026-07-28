@@ -703,3 +703,20 @@ a {
   background: rgba(255, 255, 255, 0.45);
   border-radius: 2px;
 }
+/* Mobile fix for overlapping buttons */
+@media (max-width: 600px) {
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 16px; /* space between buttons */
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .hero-buttons a {
+    width: 100%;
+    text-align: center;
+    padding: 14px 0;
+  }
+}
+
