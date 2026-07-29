@@ -78,3 +78,7 @@ body {
   font-size: 24px;
   cursor: pointer;
 }
+.chart-container {
+  width: 600px;
+  margin-bottom: 40px;
+}
