@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flexago Admin Dashboard</title>
+  <link rel="stylesheet" href="admin.css">
+
+  <!-- ⭐ D1: Chart.js for Analytics -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+
+<script>
+  // JWT PROTECTION
+  const token = localStorage.getItem("adminToken");
+  if (!token) {
+    window.location.href = "admin-login.html";
+  }
+</script>
+
+<div class="admin-header">
+  <h1>Flexago Admin Dashboard</h1>
+  <button id="logoutBtn">Logout</button>
+</div>
+
+<div class="admin-nav">
+  <button class="tab-btn" data-tab="users">Users</button>
+  <button class="tab-btn" data-tab="orders">Orders</button>
+  <button class="tab-btn" data-tab="escrow">Escrow</button>
+  <button class="tab-btn" data-tab="payouts">Payouts</button>
+  <button class="tab-btn" data-tab="revenue">Revenue</button>
+  <button class="tab-btn" data-tab="analytics">Analytics</button>
+</div>
+
+<div class="admin-content">
+
+  <section id="users" class="tab-section">
+    <h2>Users</h2>
+    <div id="usersTable"></div>
+  </section>
+
+  <section id="orders" class="tab-section" style="display:none;">
+    <h2>Orders</h2>
+    <div id="ordersTable"></div>
+  </section>
+
+  <section id="escrow" class="tab-section" style="display:none;">
+    <h2>Escrow</h2>
+    <div id="escrowTable"></div>
+  </section>
+
+  <section id="payouts" class="tab-section" style="display:none;">
+    <h2>Payouts</h2>
+    <div id="payoutsTable"></div>
+  </section>
+
+  <section id="revenue" class="tab-section" style="display:none;">
+    <h2>Revenue</h2>
+    <div id="revenueTable"></div>
+  </section>
+
+  <!-- ⭐ D2: Updated Analytics Section with Charts -->
+  <section id="analytics" class="tab-section" style="display:none;">
+    <h2>Analytics</h2>
+
+    <div class="chart-container">
+      <h3>Orders Per Day</h3>
+      <canvas id="ordersChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h3>Revenue Per Day</h3>
+      <canvas id="revenueChart"></canvas>
+    </div>
+
+    <div class="chart-container">
+      <h3>User Growth</h3>
+      <canvas id="userChart"></canvas>
+    </div>
+
+    <div id="analyticsTable"></div>
+  </section>
+
+</div>
+
+<!-- ORDER DETAILS MODAL -->
+<div id="orderModal" class="modal" style="display:none;">
+  <div class="modal-content">
+    <span id="closeModal" class="close">&times;</span>
+    <h2>Order Details</h2>
+    <div id="orderDetails"></div>
+  </div>
+</div>
+
+<script src="admin.js"></script>
+</body>
+</html>
+

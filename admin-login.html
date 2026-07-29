@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Flexago Admin Login</title>
+  <link rel="stylesheet" href="admin.css">
+</head>
+<body>
+
+<div class="admin-login-container">
+  <h2>Admin Login</h2>
+
+  <input id="email" type="email" placeholder="Admin Email">
+  <input id="password" type="password" placeholder="Password">
+
+  <button id="send-2fa-btn">Send 2FA Code</button>
+
+  <div id="twofa-section" style="display:none;">
+    <input id="twofa-code" type="text" placeholder="Enter 2FA Code">
+    <button id="login-btn">Login</button>
+  </div>
+
+  <p id="status"></p>
+</div>
+
+<script src="admin-login.js"></script>
+</body>
+</html>
