@@ -3,7 +3,7 @@ document.getElementById("send-2fa-btn").onclick = async () => {
   const email = document.getElementById("email").value;
   const password = document.getElementById("password").value;
 
-  const res = await fetch("https://flexago-backend.onrender.com/admin/login", {
+  const res = await fetch("https://flexago-backend.onrender.com/api/admin/login", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, password })
@@ -24,7 +24,7 @@ document.getElementById("login-btn").onclick = async () => {
   const email = document.getElementById("email").value;
   const code = document.getElementById("twofa-code").value;
 
-  const res = await fetch("https://flexago-backend.onrender.com/admin/verify-2fa", {
+  const res = await fetch("https://flexago-backend.onrender.com/api/admin/verify-2fa", {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ email, code })
