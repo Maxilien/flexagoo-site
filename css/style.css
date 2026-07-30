@@ -308,7 +308,7 @@ a {
 }
 
 /* ============================
-  8. HOW IT WORKS — 3 REAL PHOTOS (RESPONSIVE)
+   8. HOW IT WORKS — 3 REAL PHOTOS (RESPONSIVE)
 ============================ */
 .steps {
   display: flex;
@@ -331,6 +331,8 @@ a {
 
 .step-img {
   width: 100%;
+  height: 200px;        /* REQUIRED: prevents collapse */
+  object-fit: cover;    /* REQUIRED: makes real photos display correctly */
   border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
@@ -340,6 +342,7 @@ a {
 @media (max-width: 600px) {
   .step-img {
     margin-bottom: 16px;
+    height: 160px;      /* slightly smaller on mobile */
   }
 }
 
@@ -351,7 +354,7 @@ a {
 /* Mobile: scale down */
 @media (max-width: 600px) {
   .step h3 {
-    font-size: 1.05rem;
+    font-size: 1.1rem;
   }
 }
 
