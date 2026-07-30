@@ -589,7 +589,7 @@ a {
   TOP NAVBAR — DARK FLEXAGO BANNER
 ============================ */
 .top-nav {
-  background: #0f172a;
+  background: #000000; /* PURE BLACK */
   color: #fff;
   padding: 16px 40px;
   display: flex;
