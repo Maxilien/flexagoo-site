@@ -122,24 +122,24 @@ a {
 .hero {
   padding: 160px 40px;
   text-align: center;
-  background: url("IMG/flexago-hero.jpg") center/cover no-repeat fixed;
+  background: #000000; /* PURE BLACK BANNER */
   color: #fff;
   position: relative;
 }
 
-/* Mobile: reduce padding + remove fixed background */
+/* Mobile: reduce padding */
 @media (max-width: 768px) {
   .hero {
     padding: 120px 20px;
-    background-attachment: scroll;
   }
 }
 
+/* Remove gradient overlay completely */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35));
+  background: rgba(0, 0, 0, 0); /* NO OVERLAY */
 }
 
 .hero-content {
