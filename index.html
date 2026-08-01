@@ -16,7 +16,7 @@
 <body>
 
 <!-- ========================================================= -->
-<!-- TOP NAVBAR — Unified FlexaGo Banner(Updated)               -->
+<!-- TOP NAVBAR — Unified FlexaGo Banner                       -->
 <!-- ========================================================= -->
 <header class="top-nav">
   <div class="top-nav-left">
@@ -166,14 +166,14 @@
 </footer>
 
 <!-- ========================================================= -->
-<!-- ALICE CHAT WIDGET                                         -->
+<!-- ALICE CHAT WIDGET (UPDATED WITH MENU SYSTEM)              -->
 <!-- ========================================================= -->
 <div id="alice-chat-button">💬</div>
 
 <div id="alice-chat-window">
   <div id="alice-header">Alice — FlexaGo Support</div>
   <div id="alice-messages"></div>
-  <input id="alice-input" placeholder="Type your message..." />
+  <div id="alice-menu"></div>
 </div>
 
 <style>
@@ -220,12 +220,21 @@
   font-size: 14px;
 }
 
-#alice-input {
-  border: none;
-  border-top: 1px solid #ddd;
+#alice-menu {
   padding: 10px;
+}
+
+.alice-btn {
+  display: block;
   width: 100%;
-  outline: none;
+  padding: 10px;
+  margin: 6px 0;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
 }
 </style>
 
@@ -233,31 +242,36 @@
 const chatButton = document.getElementById("alice-chat-button");
 const chatWindow = document.getElementById("alice-chat-window");
 const messages = document.getElementById("alice-messages");
-const input = document.getElementById("alice-input");
+const menu = document.getElementById("alice-menu");
 
 chatButton.onclick = () => {
   chatWindow.style.display = chatWindow.style.display === "flex" ? "none" : "flex";
+  if (!messages.innerHTML) showGreetingMenu();
 };
 
-input.addEventListener("keypress", async (e) => {
-  if (e.key === "Enter") {
-    const text = input.value.trim();
-    if (!text) return;
+function showGreetingMenu() {
+  messages.innerHTML = `
+    <div><strong>Alice:</strong> Hi, I’m Alice, I'm here to support you! How can I help you today?</div>
+    <div><em>Select any of the following:</em></div>
+  `;
 
-    messages.innerHTML += `<div><strong>You:</strong> ${text}</div>`;
-    input.value = "";
+  menu.innerHTML = `
+    <button class="alice-btn" onclick="selectCategory('sender')">I’m a Sender</button>
+    <button class="alice-btn" onclick="selectCategory('traveler')">I’m a Traveler</button>
+    <button class="alice-btn" onclick="selectCategory('new')">I’m New to FlexaGo</button>
+  `;
+}
 
-    const res = await fetch("https://flexago-backend.onrender.com/api/support/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ message: text })
-    });
+function selectCategory(type) {
+  let reply = "";
 
-    const data = await res.json();
-    messages.innerHTML += `<div><strong>Alice:</strong> ${data.reply}</div>`;
-    messages.scrollTop = messages.scrollHeight;
-  }
-});
+  if (type === "sender") reply = "Great! As a Sender, you can create delivery requests, track your items, and manage your deliveries.";
+  if (type === "traveler") reply = "Awesome! As a Traveler, you can accept jobs, complete deliveries, and earn payouts instantly.";
+  if (type === "new") reply = "Welcome! FlexaGo connects senders with travelers already heading that way for fast, secure delivery.";
+
+  messages.innerHTML += `<div><strong>Alice:</strong> ${reply}</div>`;
+  messages.scrollTop = messages.scrollHeight;
+}
 </script>
 
 <!-- ========================================================= -->
