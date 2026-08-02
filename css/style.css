@@ -722,4 +722,30 @@ a {
     padding: 14px 0;
   }
 }
+/* ============================================================
+   FLEXAGO WATERMARK — Logistics Flow (Car → Plane → Cargo → Handoff)
+   ============================================================ */
+body::before {
+  content: "";
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("../IMG/flexago-watermark.png");
+  background-size: 900px;
+  background-repeat: no-repeat;
+  opacity: 0.08;
+  width: 900px;
+  height: 450px;
+  z-index: -1;
+  pointer-events: none;
+  user-select: none;
+}
+
+@media (max-width: 768px) {
+  body::before {
+    background-size: 600px;
+    opacity: 0.05;
+  }
+}
 
