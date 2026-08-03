@@ -705,7 +705,7 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
 
-  background-image: url("../IMG/flexago-watermark.png");
+  background-image: url(".../IMG/flexago-watermark.png");
   background-size: 900px;
   background-repeat: no-repeat;
 
