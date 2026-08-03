@@ -686,11 +686,11 @@ a {
   }
 }
 /* ============================================================
-   FLEXAGO WATERMARK — Medium Dark Blue Background (Visible)
+   FLEXAGO WATERMARK — Medium Dark Blue (Visible)
    ============================================================ */
 .hero {
   position: relative;
-  background: #0a2a4d; /* medium-dark blue so watermark becomes visible */
+  background: #0a2a4d; /* medium-dark blue so white watermark becomes visible */
   color: #ffffff;
   padding: 160px 40px;
   text-align: center;
