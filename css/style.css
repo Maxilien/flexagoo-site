@@ -720,6 +720,10 @@ a {
   user-select: none;
   z-index: 0;
 }
+.hero-watermark-preload {
+  display: none;
+}
+
 
 /* Mobile scaling */
 @media (max-width: 768px) {
