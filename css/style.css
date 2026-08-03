@@ -117,7 +117,7 @@ a {
    ============================================================ */
 .hero {
 
-  background-color: #d9d9d9; /* light gray background */
+  background-color: #ffffff; /* light gray background */
   background-image: url("IMG/flexago-hero.png");
   background-repeat: no-repeat;
   background-position: center top;
@@ -138,8 +138,7 @@ a {
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2; /* above overlay */
+  /* no positioning needed */
 }
 
 /* HERO TEXT */
@@ -151,7 +150,7 @@ a {
 
 .hero p {
   font-size: 1.2rem;
-  max-width: 650px;
+  max-width: 450px;
   margin: 0 auto 35px;
   color: #f0f0f0;
 }
