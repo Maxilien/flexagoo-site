@@ -113,25 +113,27 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Scaled Background Image + Strong Overlay
+   FLEXAGO HERO — Dark Gray Background + Reduced Watermark Image
    ============================================================ */
 .hero {
   position: relative;
-  background: url("IMG/flexago-hero.png") center top / contain no-repeat;
-  /* contain = image fits without blowing up */
-  background-color: #0a2a4d; /* fallback + blends with image */
+  background-color: #2b2b2b; /* dark gray background */
+  background-image: url("IMG/flexago-hero.png");
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: 480px; /* reduced image size */
   color: #ffffff;
-  padding: 120px 40px; /* reduced height */
+  padding: 140px 40px; /* reduced height */
   text-align: center;
   overflow: hidden;
 }
 
-/* Strong overlay for readability */
+/* Dark overlay for readability */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.55); /* darker overlay */
+  background: rgba(0, 0, 0, 0.55); /* stronger overlay */
   z-index: 1;
 }
 
@@ -190,8 +192,8 @@ a {
 @media (max-width: 768px) {
   .hero {
     padding: 100px 20px;
-    background-size: cover; /* better fit on mobile */
-    background-position: center;
+    background-size: 320px; /* smaller watermark on mobile */
+    background-position: center top;
   }
 
   .hero h1 {
