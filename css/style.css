@@ -727,6 +727,8 @@ a {
    ============================================================ */
 .hero {
   position: relative;
+  background: #e5e5e5; /* slightly darker gray for clarity */
+  color: #000; /* ensures text stays readable */
 }
 
 .hero::before {
@@ -738,17 +740,18 @@ a {
   background-image: url("../IMG/flexago-watermark.png");
   background-size: 900px;
   background-repeat: no-repeat;
-  opacity: 0.08;
+  opacity: 0.06; /* reduced slightly for clarity */
   width: 900px;
   height: 450px;
   pointer-events: none;
   user-select: none;
-  z-index: 0;
+  z-index: 0; /* behind text, above background */
 }
 
+/* Mobile scaling */
 @media (max-width: 768px) {
   .hero::before {
     background-size: 600px;
-    opacity: 0.05;
+    opacity: 0.04;
   }
 }
