@@ -150,10 +150,10 @@ a {
 }
 
 .hero p {
-  font-size: 1.25rem;
-  max-width: 700px;
-  margin: 0 auto 40px;
-  color: #e8e8e8;
+  font-size: 1.2rem;
+  max-width: 650px;
+  margin: 0 auto 35px;
+  color: #f0f0f0;
 }
 
 /* HERO BUTTONS */
