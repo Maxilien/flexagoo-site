@@ -725,9 +725,13 @@ a {
 /* ============================================================
    FLEXAGO WATERMARK — Logistics Flow (Car → Plane → Cargo → Handoff)
    ============================================================ */
-body::before {
+.hero {
+  position: relative;
+}
+
+.hero::before {
   content: "";
-  position: fixed;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -737,15 +741,14 @@ body::before {
   opacity: 0.08;
   width: 900px;
   height: 450px;
-  z-index: -1;
   pointer-events: none;
   user-select: none;
+  z-index: 0;
 }
 
 @media (max-width: 768px) {
-  body::before {
+  .hero::before {
     background-size: 600px;
     opacity: 0.05;
   }
 }
-
