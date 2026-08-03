@@ -686,15 +686,15 @@ a {
   }
 }
 /* ============================================================
-   FLEXAGO WATERMARK — Pure Dark Blue Background
+   FLEXAGO WATERMARK — Medium Dark Blue Background (Visible)
    ============================================================ */
 .hero {
   position: relative;
-  background: #001a33; /* PURE DARK BLUE */
-  color: #ffffff; /* white text for contrast */
+  background: #0a2a4d; /* medium-dark blue so watermark becomes visible */
+  color: #ffffff;
   padding: 160px 40px;
   text-align: center;
-  overflow: hidden; /* prevents watermark overflow on mobile */
+  overflow: hidden;
 }
 
 /* Watermark */
@@ -709,9 +709,9 @@ a {
   background-size: 900px;
   background-repeat: no-repeat;
 
-  /* Strong visibility on dark blue */
+  /* tuned for visibility on medium-dark blue */
   opacity: 0.22;
-  filter: brightness(1.1) contrast(1.4);
+  filter: brightness(1.15) contrast(1.35);
 
   width: 900px;
   height: 450px;
@@ -733,7 +733,7 @@ a {
     height: 300px;
 
     opacity: 0.18;
-    filter: brightness(1.15) contrast(1.45);
+    filter: brightness(1.2) contrast(1.4);
   }
 }
 
