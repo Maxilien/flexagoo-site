@@ -138,8 +138,8 @@ a {
 }
 
 .hero-content {
-  position: relative;
-  z-index: 2; /* above overlay */
+  position: Center;
+  z-index: 1; /* above overlay */
 }
 
 /* HERO TEXT */
@@ -150,7 +150,7 @@ a {
 }
 
 .hero p {
-  font-size: 3.2rem;
+  font-size: 1.2rem;
   max-width: 650px;
   margin: 0 auto 35px;
   color: #f0f0f0;
