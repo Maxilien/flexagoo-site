@@ -116,7 +116,7 @@ a {
    FLEXAGO HERO — Real Background Image (Final Version)
    ============================================================ */
 .hero {
-  position: relative;
+ 
   background-color: #ffffff; /* light gray background */
   background-image: url("IMG/flexago-hero.png");
   background-repeat: no-repeat;
