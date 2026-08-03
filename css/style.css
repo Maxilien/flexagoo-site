@@ -121,9 +121,9 @@ a {
   background-image: url("IMG/flexago-hero.png");
   background-repeat: no-repeat;
   background-position: center top;
-  background-size: 220px; /* reduced image size */
+  background-size: 120px; /* reduced image size */
   color: #ffffff;
-   padding: 90px 30px 70px;  /* reduced height */
+  padding: 80px 20px 60px;  /* reduced height */
   text-align: center;
   overflow: hidden;
 }
