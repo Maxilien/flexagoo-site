@@ -120,8 +120,8 @@ a {
   background-color: #ffffff; /* light gray background */
   background-image: url("IMG/flexago-hero.png");
   background-repeat: no-repeat;
-  background-position: center top;
-  background-size: 30px; /* reduced image size */
+
+
   color: #ffffff;
   padding: 20px 10px 10px;  /* reduced height */
   text-align: center;
