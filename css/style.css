@@ -113,7 +113,7 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Real Background Image
+   FLEXAGO HERO — Real Background Image (Final Version)
    ============================================================ */
 .hero {
   position: relative;
@@ -124,18 +124,93 @@ a {
   overflow: hidden;
 }
 
-.hero-content {
-  position: relative;
-  z-index: 2;
+/* Dark overlay for readability */
+.hero::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.45); /* darkens image so text is readable */
+  z-index: 1;
 }
 
+.hero-content {
+  position: relative;
+  z-index: 2; /* above overlay */
+}
+
+/* HERO TEXT */
+.hero h1 {
+  font-size: 3.2rem;
+  font-weight: 700;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  font-size: 1.25rem;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  color: #e8e8e8;
+}
+
+/* HERO BUTTONS */
+.hero-buttons a {
+  padding: 14px 28px;
+  border-radius: 6px;
+  font-weight: 600;
+  margin: 0 10px;
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+/* Primary button */
+.btn-primary {
+  background: #0A4DFF;
+  color: #fff;
+}
+
+/* Secondary button */
+.btn-secondary {
+  background: transparent;
+  border: 2px solid #fff;
+  color: #fff;
+}
+
+/* Hover effects */
+.btn-primary:hover {
+  background: #0039d6;
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* MOBILE */
 @media (max-width: 768px) {
   .hero {
     padding: 120px 20px;
     background-attachment: scroll;
   }
-}
 
+  .hero h1 {
+    font-size: 2.4rem;
+  }
+
+  .hero p {
+    font-size: 1.05rem;
+  }
+
+  .hero-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .hero-buttons a {
+    margin: 0;
+    width: 100%;
+    text-align: center;
+  }
+}
 /* ============================
   6. SECTIONS — RESPONSIVE
 ============================ */
