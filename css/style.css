@@ -123,7 +123,7 @@ a {
   background-position: center top;
   background-size: 220px; /* reduced image size */
   color: #ffffff;
-  padding: 140px 40px; /* reduced height */
+   padding: 90px 30px 70px;  /* reduced height */
   text-align: center;
   overflow: hidden;
 }
