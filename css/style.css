@@ -7,7 +7,7 @@ body {
   margin: 0;
   padding: 0;
   color: #111;
-  overflow-x: hidden; /* prevents horizontal scroll */
+  overflow-x: hidden;
 }
 
 a {
@@ -40,7 +40,7 @@ a {
   3. NAVBAR — PURE BLACK BANNER
 ============================ */
 .nav {
-  background: #000000; /* PURE BLACK */
+  background: #000000;
   padding: 18px 40px;
   display: flex;
   justify-content: space-between;
@@ -50,7 +50,6 @@ a {
   z-index: 1000;
 }
 
-/* Mobile: tighter padding */
 @media (max-width: 768px) {
   .nav {
     padding: 14px 20px;
@@ -64,14 +63,12 @@ a {
   animation: fadeIn 1.2s ease-in;
 }
 
-/* NAV RIGHT */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 24px;
 }
 
-/* Mobile: collapse nav links */
 @media (max-width: 768px) {
   .nav-right {
     gap: 14px;
@@ -91,7 +88,7 @@ a {
 }
 
 /* ============================
-   4. MULTI-LANGUAGE DROPDOWN — RESPONSIVE
+   4. MULTI-LANGUAGE DROPDOWN
 ============================ */
 .lang-select {
   background: #fff;
@@ -108,7 +105,6 @@ a {
   background: #e0e7ff;
 }
 
-/* Mobile: smaller dropdown */
 @media (max-width: 480px) {
   .lang-select {
     padding: 5px 8px;
@@ -117,29 +113,38 @@ a {
 }
 
 /* ============================
-  5. HERO — RESPONSIVE BACKGROUND + OVERLAY
+  5. HERO — CLEAN BACKGROUND + WATERMARK
 ============================ */
 .hero {
   padding: 160px 40px;
   text-align: center;
-  background: url("IMG/flexago-hero.jpg") center/cover no-repeat fixed;
-  color: #fff;
+  background: #e5e5e5; /* clean neutral background */
+  color: #000;
   position: relative;
 }
 
-/* Mobile: reduce padding + remove fixed background */
 @media (max-width: 768px) {
   .hero {
     padding: 120px 20px;
-    background-attachment: scroll;
   }
 }
 
+/* WATERMARK */
 .hero::before {
   content: "";
   position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.35));
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-image: url("../IMG/flexago-watermark.png");
+  background-size: 900px;
+  background-repeat: no-repeat;
+  opacity: 0.06;
+  width: 900px;
+  height: 450px;
+  pointer-events: none;
+  user-select: none;
+  z-index: 0;
 }
 
 .hero-content {
@@ -151,10 +156,9 @@ a {
   font-size: 3.2rem;
   font-weight: 700;
   margin-bottom: 20px;
-  color: #fff;
+  color: #000;
 }
 
-/* Mobile: scale down hero title */
 @media (max-width: 768px) {
   .hero h1 {
     font-size: 2.4rem;
@@ -171,10 +175,9 @@ a {
   font-size: 1.25rem;
   max-width: 700px;
   margin: 0 auto 40px;
-  color: #eaeaea;
+  color: #333;
 }
 
-/* Mobile: scale down hero text */
 @media (max-width: 768px) {
   .hero p {
     font-size: 1.05rem;
@@ -191,7 +194,6 @@ a {
   display: inline-block;
 }
 
-/* Mobile: stack buttons */
 @media (max-width: 600px) {
   .hero-buttons {
     display: flex;
@@ -206,23 +208,12 @@ a {
   }
 }
 
-.btn-primary {
-  background: #0A4DFF;
-  color: #fff;
-}
-
-.btn-primary:hover {
-  background: #083bcc;
-}
-
-.btn-secondary {
-  background: #fff;
-  color: #0A4DFF;
-  border: 2px solid #0A4DFF;
-}
-
-.btn-secondary:hover {
-  background: #e0e7ff;
+/* Mobile watermark scaling */
+@media (max-width: 768px) {
+  .hero::before {
+    background-size: 600px;
+    opacity: 0.04;
+  }
 }
 
 /* ============================
@@ -233,14 +224,12 @@ a {
   text-align: center;
 }
 
-/* Tablet */
 @media (max-width: 900px) {
   .section {
     padding: 80px 30px;
   }
 }
 
-/* Mobile */
 @media (max-width: 600px) {
   .section {
     padding: 60px 20px;
@@ -253,7 +242,6 @@ a {
   margin-bottom: 40px;
 }
 
-/* Mobile: scale down title */
 @media (max-width: 600px) {
   .section-title {
     font-size: 1.8rem;
@@ -269,7 +257,6 @@ a {
   color: #444;
 }
 
-/* Mobile: scale down text */
 @media (max-width: 600px) {
   .section p {
     font-size: 1rem;
@@ -282,7 +269,7 @@ a {
 }
 
 /* ============================
-  7. SECTION IMAGES + PARALLAX — RESPONSIVE
+  7. SECTION IMAGES
 ============================ */
 .section-image {
   width: 100%;
@@ -294,7 +281,6 @@ a {
   animation: fadeIn 1.2s ease-in;
 }
 
-/* Mobile: reduce margins */
 @media (max-width: 600px) {
   .section-image {
     margin: 16px auto 28px;
@@ -302,13 +288,8 @@ a {
   }
 }
 
-.parallax-img {
-  transform: translateY(0);
-  transition: transform 0.6s ease-out;
-}
-
 /* ============================
-   8. HOW IT WORKS — 3 REAL PHOTOS (RESPONSIVE)
+   8. HOW IT WORKS
 ============================ */
 .steps {
   display: flex;
@@ -317,7 +298,6 @@ a {
   flex-wrap: wrap;
 }
 
-/* Mobile: tighter spacing */
 @media (max-width: 600px) {
   .steps {
     gap: 24px;
@@ -331,18 +311,17 @@ a {
 
 .step-img {
   width: 100%;
-  height: 200px;        /* REQUIRED: prevents collapse */
-  object-fit: cover;    /* REQUIRED: makes real photos display correctly */
+  height: 200px;
+  object-fit: cover;
   border-radius: 12px;
   margin-bottom: 20px;
   box-shadow: 0 4px 20px rgba(0,0,0,0.1);
 }
 
-/* Mobile: reduce spacing */
 @media (max-width: 600px) {
   .step-img {
     margin-bottom: 16px;
-    height: 160px;      /* slightly smaller on mobile */
+    height: 160px;
   }
 }
 
@@ -351,7 +330,6 @@ a {
   font-size: 1.2rem;
 }
 
-/* Mobile: scale down */
 @media (max-width: 600px) {
   .step h3 {
     font-size: 1.1rem;
@@ -359,7 +337,7 @@ a {
 }
 
 /* ============================
-  9. FEATURES — RESPONSIVE GRID
+  9. FEATURES GRID
 ============================ */
 .features-grid {
   display: grid;
@@ -367,7 +345,6 @@ a {
   gap: 30px;
 }
 
-/* Mobile: tighter grid spacing */
 @media (max-width: 600px) {
   .features-grid {
     gap: 20px;
@@ -382,7 +359,6 @@ a {
   transition: transform 0.3s ease;
 }
 
-/* Mobile: reduce padding */
 @media (max-width: 600px) {
   .feature-card {
     padding: 22px;
@@ -394,7 +370,7 @@ a {
 }
 
 /* ============================
-   10. PRICING — RESPONSIVE
+   10. PRICING
 ============================ */
 .pricing-grid {
   display: flex;
@@ -403,7 +379,6 @@ a {
   flex-wrap: wrap;
 }
 
-/* Mobile: tighter spacing */
 @media (max-width: 600px) {
   .pricing-grid {
     gap: 24px;
@@ -419,7 +394,6 @@ a {
   text-align: center;
 }
 
-/* Mobile: reduce padding */
 @media (max-width: 600px) {
   .pricing-card {
     padding: 22px;
@@ -434,7 +408,6 @@ a {
   color: #0A4DFF;
 }
 
-/* Mobile: scale down price */
 @media (max-width: 600px) {
   .price {
     font-size: 1.6rem;
@@ -442,7 +415,7 @@ a {
 }
 
 /* ============================
-  11. CONTACT — RESPONSIVE
+  11. CONTACT
 ============================ */
 .contact-box {
   margin-top: 20px;
@@ -452,7 +425,6 @@ a {
   border-radius: 8px;
 }
 
-/* Mobile: full width */
 @media (max-width: 600px) {
   .contact-box {
     width: 100%;
@@ -461,7 +433,7 @@ a {
 }
 
 /* ============================
-  12. CTA SECTION — RESPONSIVE
+  12. CTA SECTION
 ============================ */
 .cta-section {
   background: linear-gradient(135deg, #0A4DFF, #4C8DFF);
@@ -470,7 +442,6 @@ a {
   padding: 80px 40px;
 }
 
-/* Mobile: reduce padding */
 @media (max-width: 600px) {
   .cta-section {
     padding: 60px 20px;
@@ -484,7 +455,6 @@ a {
   margin: 0 auto;
 }
 
-/* Mobile: scale down text */
 @media (max-width: 600px) {
   .cta-section p {
     font-size: 1rem;
@@ -500,7 +470,6 @@ a {
   margin: 0 10px;
 }
 
-/* Mobile: stack buttons */
 @media (max-width: 600px) {
   .cta-buttons {
     display: flex;
@@ -516,7 +485,7 @@ a {
 }
 
 /* ============================
-  13. FOOTER — RESPONSIVE
+  13. FOOTER
 ============================ */
 .footer {
   padding: 30px 40px;
@@ -527,7 +496,6 @@ a {
   align-items: center;
 }
 
-/* Mobile: stack footer */
 @media (max-width: 768px) {
   .footer {
     flex-direction: column;
@@ -547,7 +515,7 @@ a {
 }
 
 /* ============================
-  14. RESPONSIVE (MOBILE) — CLEANED & OPTIMIZED
+  14. RESPONSIVE CLEANUP
 ============================ */
 @media (max-width: 768px) {
   .nav {
@@ -570,7 +538,6 @@ a {
 
   .hero {
     padding: 120px 20px;
-    background-attachment: scroll;
   }
 
   .hero h1 {
@@ -592,7 +559,7 @@ a {
   TOP NAVBAR — DARK FLEXAGO BANNER
 ============================ */
 .top-nav {
-  background: #000000; /* PURE BLACK */
+  background: #000000;
   color: #fff;
   padding: 16px 40px;
   display: flex;
@@ -600,7 +567,6 @@ a {
   align-items: center;
 }
 
-/* Mobile: tighter padding */
 @media (max-width: 768px) {
   .top-nav {
     padding: 14px 20px;
@@ -621,7 +587,6 @@ a {
   object-fit: contain;
 }
 
-/* Mobile: smaller logo */
 @media (max-width: 480px) {
   .flexago-logo-img {
     height: 60px;
@@ -644,7 +609,6 @@ a {
   gap: 24px;
 }
 
-/* Mobile: wrap links */
 @media (max-width: 768px) {
   .top-nav-right {
     flex-wrap: wrap;
@@ -678,7 +642,6 @@ a {
   gap: 22px;
 }
 
-/* Mobile: stack links */
 @media (max-width: 768px) {
   .top-nav-links {
     flex-wrap: wrap;
@@ -706,12 +669,12 @@ a {
   background: rgba(255, 255, 255, 0.45);
   border-radius: 2px;
 }
-/* Mobile fix for overlapping buttons */
+
 @media (max-width: 600px) {
   .hero-buttons {
     display: flex;
     flex-direction: column;
-    gap: 16px; /* space between buttons */
+    gap: 16px;
     width: 100%;
     margin-top: 24px;
   }
@@ -720,38 +683,5 @@ a {
     width: 100%;
     text-align: center;
     padding: 14px 0;
-  }
-}
-/* ============================================================
-   FLEXAGO WATERMARK — Logistics Flow (Car → Plane → Cargo → Handoff)
-   ============================================================ */
-.hero {
-  position: relative;
-  background: #e5e5e5; /* slightly darker gray for clarity */
-  color: #000; /* ensures text stays readable */
-}
-
-.hero::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-image: url("../IMG/flexago-watermark.png");
-  background-size: 900px;
-  background-repeat: no-repeat;
-  opacity: 0.06; /* reduced slightly for clarity */
-  width: 900px;
-  height: 450px;
-  pointer-events: none;
-  user-select: none;
-  z-index: 0; /* behind text, above background */
-}
-
-/* Mobile scaling */
-@media (max-width: 768px) {
-  .hero::before {
-    background-size: 600px;
-    opacity: 0.04;
   }
 }
