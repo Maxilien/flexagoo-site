@@ -116,37 +116,45 @@ a {
    FLEXAGO HERO — Real Background Image (Final Version)
    ============================================================ */
 .hero {
- 
-  background-color: #f0f0f0; /* light gray background */
-  background-image: url("IMG/flexago-hero.png");
+  background-color: #ffffff; /* white background */
+  background-image: url("img/flexago-hero.png");
   background-repeat: no-repeat;
-
-
+  background-position: center 10px; /* move image up */
+  background-size: 100px; /* small watermark */
   color: #ffffff;
-  padding: 20px 10px 10px;  /* reduced height */
+  padding: 20px 10px; /* balanced height */
   text-align: center;
   overflow: hidden;
 }
+.hero-watermark-preload {
+  width: 300px;
+  height: 300px;
+  opacity: 3;      /* fully invisible */
+  position: relative;
+  top: 0;
+  left: 0;
+}
+
 
 /* Dark overlay for readability */
 .hero::after {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(40, 40, 40, 0.65); /* dark gray overlay */
+  background: rgba(40, 30, 30, 0.55); /* dark gray overlay */
   z-index: 1;
 }
 
 .hero-content {
-  position: Center;
-  z-index: 1; /* above overlay */
+  position: relative;
+  z-index: 2; /* above overlay */
 }
 
 /* HERO TEXT */
 .hero h1 {
-  font-size: 3.2rem;
+  font-size: 2.4rem;
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
 }
 
 .hero p {
@@ -158,7 +166,7 @@ a {
 
 /* HERO BUTTONS */
 .hero-buttons a {
-  padding: 14px 28px;
+  padding: 10px 28px;
   border-radius: 6px;
   font-weight: 600;
   margin: 0 10px;
