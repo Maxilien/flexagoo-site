@@ -156,15 +156,21 @@
 </section>
 
 <!-- ========================================================= -->
-<!-- FOOTER                                                    -->
+<!-- UBER-STYLE FOOTER                                         -->
 <!-- ========================================================= -->
-<footer class="footer">
-  <div class="footer-left">© 2026 FlexaGo. All rights reserved.</div>
-
-  <div class="footer-right">
-    <a href="https://www.flexagoo.com/privacy.html" target="_blank">Privacy Policy</a>
-    <a href="https://www.flexagoo.com/terms.html" target="_blank">Terms of Service</a>
+<footer class="uber-footer">
+  <div class="uber-footer-row">
+    <span id="footerLanguage">English</span>
+    <span id="footerLocation">Detecting location…</span>
   </div>
+
+  <div class="uber-footer-links">
+    <a href="https://www.flexagoo.com/privacy.html" target="_blank">Privacy</a>
+    <a href="https://www.flexagoo.com/terms.html" target="_blank">Terms</a>
+    <a href="about.html">About</a>
+  </div>
+
+  <div class="uber-footer-copy">© 2026 FlexaGo</div>
 </footer>
 
 <!-- ========================================================= -->
@@ -294,6 +300,43 @@ function selectCategory(type) {
     const lang = this.value;
     alert('Language switched to: ' + lang);
   });
+</script>
+
+<!-- ⭐ LOCATION + LANGUAGE DETECTION (Uber-style) -->
+<script>
+  const languageMap = {
+    "United States": "en",
+    "Mexico": "es",
+    "France": "fr",
+    "Haiti": "ht",
+    "China": "zh",
+    "Brazil": "pt"
+  };
+
+  fetch("https://ipapi.co/json/")
+    .then(res => res.json())
+    .then(data => {
+      const city = data.city;
+      const country = data.country_name;
+
+      // ⭐ Show city in footer
+      document.getElementById("footerLocation").innerText = city;
+
+      // ⭐ Auto-select language
+      const lang = languageMap[country] || "en";
+
+      const langText = {
+        en: "English",
+        es: "Español",
+        fr: "Français",
+        ht: "Kreyòl",
+        zh: "中文",
+        pt: "Português"
+      }[lang];
+
+      document.getElementById("footerLanguage").innerText = langText;
+    })
+    .catch(err => console.error("Location detection failed:", err));
 </script>
 
 </body>
