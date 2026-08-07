@@ -715,3 +715,129 @@ a {
     padding: 14px 0;
   }
 }
+/* ============================================================
+   SENDER & TRAVELER SECTIONS
+============================================================ */
+.section-intro {
+  font-size: 1.05rem;
+  color: #444;
+  max-width: 700px;
+  margin: 0 auto 40px;
+  line-height: 1.75;
+  text-align: center;
+}
+
+.info-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 24px;
+  margin-bottom: 48px;
+}
+
+.info-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 28px 22px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  text-align: center;
+  transition: transform 0.2s;
+}
+
+.info-card:hover { transform: translateY(-4px); }
+
+.info-card-icon { font-size: 2rem; margin-bottom: 12px; }
+.info-card h3   { font-size: 1rem; font-weight: 700; color: #0a1628; margin-bottom: 8px; }
+.info-card p    { font-size: 0.92rem; color: #666; line-height: 1.6; }
+
+/* Steps */
+.section-steps { margin-bottom: 40px; }
+.section-steps h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #0a1628;
+}
+
+.steps-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  flex: 1;
+  min-width: 200px;
+  max-width: 260px;
+}
+
+.step-num {
+  width: 34px; height: 34px;
+  background: #00A3FF;
+  color: #fff;
+  font-weight: 800;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 0.95rem;
+}
+
+.step-item p { font-size: 0.92rem; color: #555; line-height: 1.5; margin: 0; }
+
+/* CTA */
+.section-cta { text-align: center; margin-top: 16px; }
+
+/* Traveler section alt background */
+.traveler-section { background: #f4fff9; }
+.traveler-btn { background: #00b87a !important; }
+.traveler-btn:hover { background: #009962 !important; }
+
+/* Earnings */
+.earnings-row { margin-bottom: 40px; }
+.earnings-row h3 {
+  font-size: 1.3rem;
+  font-weight: 700;
+  text-align: center;
+  margin-bottom: 24px;
+  color: #0a1628;
+}
+
+.earnings-cards {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.earning-card {
+  background: #fff;
+  border-radius: 16px;
+  padding: 24px 32px;
+  box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+  text-align: center;
+  min-width: 160px;
+}
+
+.earning-amount {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #00A3FF;
+  margin-bottom: 6px;
+}
+
+.earning-label {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+/* scroll-margin so fixed nav doesn't overlap sections */
+#about, #sender-section, #traveler-section {
+  scroll-margin-top: 70px;
+}
