@@ -127,8 +127,8 @@ a {
   overflow: hidden;
 }
 .hero-watermark-preload {
-  width: 600px;
-  height: 400px;
+  width: 1000px;
+  height: 800px;
   opacity: 3;      /* fully invisible */
   position: relative;
   top: 0;
