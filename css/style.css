@@ -113,22 +113,24 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Real Background Image (Final Version)
+   FLEXAGO HERO — Fixed Height + Scalable Watermark
    ============================================================ */
 .hero {
-  background-color: #ffffff; /* white background */
+  position: relative;
+  height: 420px; /* FIXED gray area height */
+  background-color: #ffffff;
   background-image: url("img/flexago-hero.png");
   background-repeat: no-repeat;
-  background-position: center 10px; /* move image up */
-  background-size: 100px; /* small watermark */
-  color: #ffffff;
-  padding: 20px 10px; /* balanced height */
+  background-position: center;
+  background-size: 480px; /* increase watermark size freely */
   text-align: center;
   overflow: hidden;
+  padding: 0; /* remove padding so height stays fixed */
 }
+
 .hero-watermark-preload {
-  width: 500px;
-  height: 300px;
+  width: 1000px;
+  height: 500px;
   opacity: 3;      /* fully invisible */
   position: relative;
   top: 0;
