@@ -117,7 +117,7 @@ a {
    ============================================================ */
 .hero {
   position: relative;
-  height: 520px;              /* increased height to show full watermark */
+  height: 100px;              /* increased height to show full watermark */
   background-color: #ffffff;
   padding: 0;
   text-align: center;
