@@ -113,39 +113,40 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Responsive Watermark (Final)
+   FLEXAGO HERO — Bright Watermark + Clear Text (Safe Version)
    ============================================================ */
 .hero {
   position: relative;
   height: 420px;              /* fixed hero height */
   background-color: #ffffff;
-  background-image: url("img/flexago-hero.png");
-  background-repeat: no-repeat;
-  background-position: center 20px; /* move watermark upward */
-  background-size: contain;         /* auto-fit ANY screen */
-  filter: opacity(0.22) brightness(1.1); /* faint watermark */
   padding: 0;
   text-align: center;
   overflow: hidden;
 }
 
-.hero-watermark-preload {
-  width: 1200px;
-  height: 500px;
-  opacity: 3;      /* fully invisible */
-  position: relative;
-  top: 0;
-  left: 0;
-}
-
-
-/* Dark overlay for readability */
-.hero::after {
+/* Watermark layer (BRIGHT + RESPONSIVE) */
+.hero::before {
   content: "";
   position: absolute;
   inset: 0;
-  background: rgba(40, 30, 30, 0.55); /* dark gray overlay */
-  z-index: 1;
+  background-image: url("img/flexago-hero.png");
+  background-repeat: no-repeat;
+  background-position: center 20px;
+  background-size: contain;     /* auto-fit ANY screen */
+  opacity: 0.45;                /* brighter watermark */
+  z-index: 1;                   /* behind text */
+}
+
+/* Remove dark overlay completely */
+.hero::after {
+  content: none;
+}
+
+/* Text stays ABOVE watermark */
+.hero-content {
+  position: relative;
+  z-index: 2;                   /* text above watermark */
+  color: #000;                  /* readable */
 }
 
 .hero-content {
