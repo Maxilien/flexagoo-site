@@ -136,12 +136,13 @@ a {
   opacity: 0.45;                /* bright watermark */
   z-index: 1;
 }
+
 /* Text stays ABOVE watermark */
 .hero-content {
   position: relative;
   z-index: 2;
   color: #000;
-  padding-top: 120px;              /* push text down into view */
+  padding-top: 120px;           /* adjust text position */
 }
 
 
