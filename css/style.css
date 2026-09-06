@@ -113,11 +113,11 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Bright Watermark + Visible Text (Safe Version)
+   FLEXAGO HERO — Full Photo, No Scrolling
    ============================================================ */
 .hero {
   position: relative;
-  height: 1000px;              /* increased height to show full watermark */
+  height: 85vh;                 /* fits full photo on screen */
   background-color: #ffffff;
   padding: 0;
   text-align: center;
@@ -131,12 +131,11 @@ a {
   inset: 0;
   background-image: url("img/flexago-hero.png");
   background-repeat: no-repeat;
-  background-position: center top; /* show full image */
-  background-size: cover;          /* fill hero area */
-  opacity: 0.45;                   /* bright watermark */
+  background-position: center;  /* center full image */
+  background-size: contain;     /* show full photo */
+  opacity: 0.45;                /* bright watermark */
   z-index: 1;
 }
-
 /* Text stays ABOVE watermark */
 .hero-content {
   position: relative;
