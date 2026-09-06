@@ -117,7 +117,7 @@ a {
    ============================================================ */
 .hero {
   position: relative;
-  height: 85vh;                 /* fits full photo on screen */
+  height: 70vh;                 /* fits full photo on screen */
   background-color: #ffffff;
   padding: 0;
   text-align: center;
