@@ -113,40 +113,36 @@ a {
 }
 
 /* ============================================================
-   FLEXAGO HERO — Bright Watermark + Clear Text (Safe Version)
+   FLEXAGO HERO — Bright Watermark + Visible Text (Safe Version)
    ============================================================ */
 .hero {
   position: relative;
-  height: 420px;              /* fixed hero height */
+  height: 520px;              /* increased height to show full watermark */
   background-color: #ffffff;
   padding: 0;
   text-align: center;
   overflow: hidden;
 }
 
-/* Watermark layer (BRIGHT + RESPONSIVE) */
+/* Watermark layer */
 .hero::before {
   content: "";
   position: absolute;
   inset: 0;
   background-image: url("img/flexago-hero.png");
   background-repeat: no-repeat;
-  background-position: center 20px;
-  background-size: contain;     /* auto-fit ANY screen */
-  opacity: 0.45;                /* brighter watermark */
-  z-index: 1;                   /* behind text */
-}
-
-/* Remove dark overlay completely */
-.hero::after {
-  content: none;
+  background-position: center top; /* show full image */
+  background-size: cover;          /* fill hero area */
+  opacity: 0.45;                   /* bright watermark */
+  z-index: 1;
 }
 
 /* Text stays ABOVE watermark */
 .hero-content {
   position: relative;
-  z-index: 2;                   /* text above watermark */
-  color: #000;                  /* readable */
+  z-index: 2;
+  color: #000;
+  padding-top: 120px;              /* push text down into view */
 }
 
 
