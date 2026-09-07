@@ -115,16 +115,6 @@ a {
 /* ============================================================
    FLEXAGO HERO — Forced Watermark + Visible Buttons
    ============================================================ */
-.hero {
-  position: relative;
-  min-height: 70vh !important;
-  height: 70vh !important;
-  background-color: #ffffff !important;
-  padding: 0;
-  text-align: center;
-  overflow: hidden;
-}
-
 /* Watermark layer — forced to render */
 .hero::before {
   content: "";
@@ -137,6 +127,16 @@ a {
   opacity: 0.45 !important;
   z-index: 1;
   pointer-events: none; /* prevents blocking clicks */
+}
+
+.hero {
+  position: relative;
+  min-height: 70vh !important;
+  height: 70vh !important;
+  background-color: #ffffff !important;
+  padding: 0;
+  text-align: center;
+  overflow: hidden;
 }
 
 /* Text stays ABOVE watermark */
