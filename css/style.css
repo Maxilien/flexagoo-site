@@ -154,11 +154,11 @@ a {
   border: 2px solid #000;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  max-width: 650px;
-  margin: 0 auto 35px;
-  color: #f0f0f0;
+/* HERO TEXT */
+.hero h1 {
+  font-size: 2.4rem;
+  font-weight: 700;
+  margin-bottom: 10px;
 }
 
 /* HERO BUTTONS */
