@@ -180,9 +180,10 @@ a {
 /* Secondary button */
 .btn-secondary {
   background: transparent;
-  border: 2px solid #fff;
-  color: #fff;
+  color: #000;
+  border: 2px solid #000;
 }
+
 
 /* Hover effects */
 .btn-primary:hover {
