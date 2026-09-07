@@ -130,7 +130,7 @@ a {
   content: "";
   position: absolute;
   inset: 0;
- background-image: url("img/flexago-watermark.png") !important;
+ background-image: url("IMG/flexago-watermark.png") !important;
   background-repeat: no-repeat !important;
   background-position: center !important;
   background-size: contain !important;
