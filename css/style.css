@@ -198,6 +198,11 @@ a {
   border: 2px solid #000;
 }
 
+.about-section .hero-watermark-preload {
+  opacity: 0.55;
+  object-fit: cover;
+  object-position: center;
+}
 
 /* Hover effects */
 .btn-primary:hover {
