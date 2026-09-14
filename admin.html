@@ -4,7 +4,7 @@
   <title>Flexago Admin Dashboard</title>
   <link rel="stylesheet" href="css/admin.css">
 
-  <!-- ⭐ D1: Chart.js for Analytics -->
+  <!-- Chart.js for Analytics -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
@@ -25,7 +25,7 @@
 
 <div class="admin-nav">
   <button class="tab-btn" data-tab="users">Users</button>
-  <button class="tab-btn" data-tab="orders">Orders</button>
+  <button class="tab-btn" data-tab="deliveries">Deliveries</button>
   <button class="tab-btn" data-tab="escrow">Escrow</button>
   <button class="tab-btn" data-tab="payouts">Payouts</button>
   <button class="tab-btn" data-tab="revenue">Revenue</button>
@@ -34,38 +34,43 @@
 
 <div class="admin-content">
 
+  <!-- USERS TAB -->
   <section id="users" class="tab-section">
     <h2>Users</h2>
     <div id="usersTable"></div>
   </section>
 
-  <section id="orders" class="tab-section" style="display:none;">
-    <h2>Orders</h2>
-    <div id="ordersTable"></div>
+  <!-- DELIVERIES TAB (replaces Orders) -->
+  <section id="deliveries" class="tab-section" style="display:none;">
+    <h2>Deliveries</h2>
+    <div id="deliveriesTable"></div>
   </section>
 
+  <!-- ESCROW TAB -->
   <section id="escrow" class="tab-section" style="display:none;">
     <h2>Escrow</h2>
     <div id="escrowTable"></div>
   </section>
 
+  <!-- PAYOUTS TAB -->
   <section id="payouts" class="tab-section" style="display:none;">
     <h2>Payouts</h2>
     <div id="payoutsTable"></div>
   </section>
 
+  <!-- REVENUE TAB -->
   <section id="revenue" class="tab-section" style="display:none;">
     <h2>Revenue</h2>
     <div id="revenueTable"></div>
   </section>
 
-  <!-- ⭐ D2: Updated Analytics Section with Charts -->
+  <!-- ANALYTICS TAB -->
   <section id="analytics" class="tab-section" style="display:none;">
     <h2>Analytics</h2>
 
     <div class="chart-container">
-      <h3>Orders Per Day</h3>
-      <canvas id="ordersChart"></canvas>
+      <h3>Deliveries Per Day</h3>
+      <canvas id="deliveriesChart"></canvas>
     </div>
 
     <div class="chart-container">
@@ -83,16 +88,15 @@
 
 </div>
 
-<!-- ORDER DETAILS MODAL -->
-<div id="orderModal" class="modal" style="display:none;">
+<!-- DELIVERY DETAILS MODAL (replaces Order modal) -->
+<div id="deliveryModal" class="modal" style="display:none;">
   <div class="modal-content">
     <span id="closeModal" class="close">&times;</span>
-    <h2>Order Details</h2>
-    <div id="orderDetails"></div>
+    <h2>Delivery Details</h2>
+    <div id="deliveryDetails"></div>
   </div>
 </div>
 
 <script src="admin.js"></script>
 </body>
 </html>
-

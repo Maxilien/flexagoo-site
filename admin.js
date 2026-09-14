@@ -11,7 +11,7 @@ tabs.forEach(btn => {
     });
 
     if (tab === "users") loadUsers();
-    if (tab === "orders") loadOrders();
+    if (tab === "deliveries") loadDeliveries();
     if (tab === "escrow") loadEscrow();
     if (tab === "payouts") loadPayouts();
     if (tab === "revenue") loadRevenue();
@@ -36,122 +36,141 @@ function adminFetch(url) {
   }).then(res => res.json());
 }
 
-// UTIL — Build HTML Table
-function buildTable(dataArray) {
-  if (!Array.isArray(dataArray) || dataArray.length === 0) {
-    return "<p>No data found.</p>";
-  }
-
-  let keys = Object.keys(dataArray[0]);
-  let html = "<table class='admin-table'><thead><tr>";
-
-  keys.forEach(k => {
-    html += `<th>${k}</th>`;
-  });
-
-  html += "</tr></thead><tbody>";
-
-  dataArray.forEach(row => {
-    html += "<tr>";
-    keys.forEach(k => {
-      html += `<td>${row[k]}</td>`;
-    });
-    html += "</tr>";
-  });
-
-  html += "</tbody></table>";
-  return html;
-}
-
 /* ============================================================
-   STEP 3 — VIEW ORDER DETAILS MODAL
+   DELIVERIES TAB (REPLACES ORDERS)
    ============================================================ */
 
-function loadOrders(page = 1, statusFilter = "", searchQuery = "") {
-  adminFetch(`/api/admin/orders?page=${page}&status=${statusFilter}&search=${searchQuery}`)
+function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
+  adminFetch(`/api/admin/deliveries?page=${page}&status=${statusFilter}&search=${searchQuery}`)
     .then(data => {
 
       let html = `
         <div class="search-filter-bar">
-          <input id="orderSearch" placeholder="Search orders..." />
-          <select id="orderStatusFilter">
+          <input id="deliverySearch" placeholder="Search deliveries..." />
+          <select id="deliveryStatusFilter">
             <option value="">All Status</option>
-            <option value="pending">Pending</option>
+            <option value="available">Available</option>
             <option value="accepted">Accepted</option>
+            <option value="in_transit">In Transit</option>
             <option value="delivered">Delivered</option>
+            <option value="payout_pending">Payout Pending</option>
+            <option value="payout_completed">Payout Completed</option>
           </select>
-          <button onclick="applyOrderFilters()">Apply</button>
+          <button onclick="applyDeliveryFilters()">Apply</button>
         </div>
       `;
 
-      html += "<table class='admin-table'><thead><tr>";
+      html += `
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Photo</th>
+              <th>ID</th>
+              <th>Sender</th>
+              <th>Traveler</th>
+              <th>Status</th>
+              <th>Price</th>
+              <th>Payout</th>
+              <th>Type</th>
+              <th>Pickup</th>
+              <th>Dropoff</th>
+              <th>Created</th>
+              <th>Accepted</th>
+              <th>Picked Up</th>
+              <th>Delivered</th>
+              <th>Payout Completed</th>
+              <th>View</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
 
-      const keys = ["_id", "senderId", "travelerId", "status", "price", "createdAt", "view"];
-      keys.forEach(k => html += `<th>${k}</th>`);
-      html += "</tr></thead><tbody>";
+      data.deliveries.forEach(d => {
+        const photo = d.proofPhoto || d.package?.photoUrl || "";
+        const senderName = d.sender?.name || "N/A";
+        const travelerName = d.travelerDetails
+          ? `${d.travelerDetails.firstName} ${d.travelerDetails.lastName}`
+          : "N/A";
 
-      data.orders.forEach(order => {
-        html += "<tr>";
-        html += `<td>${order._id}</td>`;
-        html += `<td>${order.senderId}</td>`;
-        html += `<td>${order.travelerId}</td>`;
-        html += `<td>${order.status}</td>`;
-        html += `<td>${order.price}</td>`;
-        html += `<td>${order.createdAt}</td>`;
-        html += `<td><button onclick="viewOrder('${order._id}')">View</button></td>`;
-        html += "</tr>";
+        html += `
+          <tr>
+            <td>${photo ? `<img src="${photo}" width="60" height="60" style="border-radius:6px;">` : "—"}</td>
+            <td>${d._id}</td>
+            <td>${senderName} <br><small>${d.senderId}</small></td>
+            <td>${travelerName} <br><small>${d.travelerId || "—"}</small></td>
+            <td>${d.status}</td>
+            <td>$${d.price}</td>
+            <td>$${d.payoutAmount}</td>
+            <td>${d.package?.deliveryType || "—"}</td>
+            <td>${d.pickup?.address || "—"}</td>
+            <td>${d.dropoff?.address || "—"}</td>
+            <td>${d.createdAt || "—"}</td>
+            <td>${d.acceptedAt || "—"}</td>
+            <td>${d.pickedUpAt || "—"}</td>
+            <td>${d.deliveredAt || "—"}</td>
+            <td>${d.payoutCompletedAt || "—"}</td>
+            <td><button onclick="viewDelivery('${d._id}')">View</button></td>
+          </tr>
+        `;
       });
 
-      html += "</tbody></table>";
-
-      // Pagination
       html += `
+          </tbody>
+        </table>
         <div class="pagination">
-          ${page > 1 ? `<button onclick="loadOrders(${page - 1})">Prev</button>` : ""}
-          <button onclick="loadOrders(${page + 1})">Next</button>
+          ${page > 1 ? `<button onclick="loadDeliveries(${page - 1})">Prev</button>` : ""}
+          <button onclick="loadDeliveries(${page + 1})">Next</button>
         </div>
       `;
 
-      document.getElementById("ordersTable").innerHTML = html;
+      document.getElementById("deliveriesTable").innerHTML = html;
     });
 }
 
-function applyOrderFilters() {
-  const searchQuery = document.getElementById("orderSearch").value;
-  const statusFilter = document.getElementById("orderStatusFilter").value;
-  loadOrders(1, statusFilter, searchQuery);
+function applyDeliveryFilters() {
+  const searchQuery = document.getElementById("deliverySearch").value;
+  const statusFilter = document.getElementById("deliveryStatusFilter").value;
+  loadDeliveries(1, statusFilter, searchQuery);
 }
 
-function viewOrder(orderId) {
-  adminFetch(`/api/admin/orders?id=${orderId}`).then(order => {
+/* ============================================================
+   VIEW DELIVERY DETAILS MODAL
+   ============================================================ */
 
-    document.getElementById("orderDetails").innerHTML = `
-      <p><strong>Order ID:</strong> ${order._id}</p>
-      <p><strong>Sender:</strong> ${order.senderId}</p>
-      <p><strong>Traveler:</strong> ${order.travelerId}</p>
-      <p><strong>Status:</strong> ${order.status}</p>
-      <p><strong>Pickup:</strong> ${order.pickupAddress}</p>
-      <p><strong>Dropoff:</strong> ${order.dropoffAddress}</p>
-      <p><strong>Price:</strong> $${order.price}</p>
-      <p><strong>Flexago Fee:</strong> $${order.flexagoFee}</p>
-      <p><strong>Escrow Status:</strong> ${order.escrowStatus}</p>
-      <p><strong>Created:</strong> ${order.createdAt}</p>
-      <p><strong>Accepted:</strong> ${order.acceptedAt || "N/A"}</p>
-      <p><strong>Delivered:</strong> ${order.deliveredAt || "N/A"}</p>
-      ${order.deliveryPhoto ? `<img src="${order.deliveryPhoto}" width="200">` : ""}
+function viewDelivery(id) {
+  adminFetch(`/api/admin/deliveries?id=${id}`).then(d => {
+
+    const photo = d.proofPhoto || d.package?.photoUrl || "";
+
+    document.getElementById("deliveryDetails").innerHTML = `
+      <p><strong>ID:</strong> ${d._id}</p>
+      <p><strong>Sender:</strong> ${d.sender?.name} (${d.senderId})</p>
+      <p><strong>Traveler:</strong> ${d.travelerDetails?.firstName || ""} ${d.travelerDetails?.lastName || ""} (${d.travelerId || "—"})</p>
+      <p><strong>Status:</strong> ${d.status}</p>
+      <p><strong>Pickup:</strong> ${d.pickup?.address}</p>
+      <p><strong>Dropoff:</strong> ${d.dropoff?.address}</p>
+      <p><strong>Price:</strong> $${d.price}</p>
+      <p><strong>Payout:</strong> $${d.payoutAmount}</p>
+      <p><strong>Delivery Type:</strong> ${d.package?.deliveryType}</p>
+      <p><strong>Description:</strong> ${d.package?.description}</p>
+      <p><strong>Created:</strong> ${d.createdAt}</p>
+      <p><strong>Accepted:</strong> ${d.acceptedAt || "N/A"}</p>
+      <p><strong>Picked Up:</strong> ${d.pickedUpAt || "N/A"}</p>
+      <p><strong>Delivered:</strong> ${d.deliveredAt || "N/A"}</p>
+      <p><strong>Payout Completed:</strong> ${d.payoutCompletedAt || "N/A"}</p>
+      ${photo ? `<img src="${photo}" width="250" style="margin-top:10px;border-radius:8px;">` : ""}
     `;
 
-    document.getElementById("orderModal").style.display = "flex";
+    document.getElementById("deliveryModal").style.display = "flex";
   });
 }
 
-// Close modal
 document.getElementById("closeModal").onclick = () => {
-  document.getElementById("orderModal").style.display = "none";
+  document.getElementById("deliveryModal").style.display = "none";
 };
 
 /* ============================================================
-   STEP 4 — SEARCH + FILTERING + PAGINATION (USERS)
+   USERS TAB
    ============================================================ */
 
 function loadUsers(page = 1, searchQuery = "") {
@@ -192,7 +211,7 @@ function applyUserSearch() {
 }
 
 /* ============================================================
-   OTHER TABS
+   ESCROW TAB
    ============================================================ */
 
 function loadEscrow() {
@@ -201,30 +220,47 @@ function loadEscrow() {
   });
 }
 
+/* ============================================================
+   PAYOUTS TAB
+   ============================================================ */
+
 function loadPayouts() {
   adminFetch("/api/admin/payouts").then(data => {
     document.getElementById("payoutsTable").innerHTML = buildTable(data);
   });
 }
 
+/* ============================================================
+   REVENUE TAB
+   ============================================================ */
+
 function loadRevenue() {
   adminFetch("/api/admin/revenue").then(data => {
     document.getElementById("revenueTable").innerHTML = `
       <h3>Total Revenue</h3>
       <p>$${data.totalRevenue}</p>
+      <h3>Total Payouts</h3>
+      <p>$${data.totalPayouts}</p>
+      <h3>Flexago Fee</h3>
+      <p>$${data.flexagoFee}</p>
     `;
   });
 }
+
+/* ============================================================
+   ANALYTICS TAB
+   ============================================================ */
 
 function loadAnalytics() {
   adminFetch("/api/admin/analytics").then(data => {
     document.getElementById("analyticsTable").innerHTML = `
       <p><strong>Total Senders:</strong> ${data.senderCount}</p>
       <p><strong>Total Travelers:</strong> ${data.travelerCount}</p>
-      <p><strong>Total Orders:</strong> ${data.orderCount}</p>
+      <p><strong>Total Deliveries:</strong> ${data.deliveryCount}</p>
     `;
   });
 }
 
 // Load default tab
 loadUsers();
+
