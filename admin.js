@@ -248,19 +248,106 @@ function loadRevenue() {
 }
 
 /* ============================================================
-   ANALYTICS TAB
+   ANALYTICS TAB (UPDATED WITH 4 CHARTS + DATE FILTERS)
    ============================================================ */
 
-function loadAnalytics() {
-  adminFetch("/api/admin/analytics").then(data => {
+function loadAnalytics(range = "") {
+  adminFetch(`/api/admin/analytics${range ? `?range=${range}` : ""}`).then(data => {
+
     document.getElementById("analyticsTable").innerHTML = `
       <p><strong>Total Senders:</strong> ${data.senderCount}</p>
       <p><strong>Total Travelers:</strong> ${data.travelerCount}</p>
-      <p><strong>Total Deliveries:</strong> ${data.deliveryCount}</p>
+      <p><strong>Total Deliveries:</strong> ${data.orderCount}</p>
+
+      <div class="analytics-filters">
+        <button onclick="loadAnalytics('7d')">Last 7 Days</button>
+        <button onclick="loadAnalytics('30d')">Last 30 Days</button>
+        <button onclick="loadAnalytics()">All Time</button>
+      </div>
+
+      <h3>Deliveries Per Day</h3>
+      <canvas id="chartDeliveriesPerDay"></canvas>
+
+      <h3>Revenue Per Day</h3>
+      <canvas id="chartRevenuePerDay"></canvas>
+
+      <h3>Hourly Deliveries</h3>
+      <canvas id="chartHourlyDeliveries"></canvas>
+
+      <h3>Weekly Deliveries</h3>
+      <canvas id="chartWeeklyDeliveries"></canvas>
     `;
+
+    /* ============================================================
+       CHART 1 — Deliveries Per Day
+       ============================================================ */
+    const ctx1 = document.getElementById("chartDeliveriesPerDay").getContext("2d");
+    new Chart(ctx1, {
+      type: "line",
+      data: {
+        labels: data.chartDailyOrders.labels,
+        datasets: [{
+          label: "Deliveries",
+          data: data.chartDailyOrders.datasets[0].data,
+          borderColor: "#007bff",
+          backgroundColor: "rgba(0, 123, 255, 0.2)",
+          tension: 0.3
+        }]
+      }
+    });
+
+    /* ============================================================
+       CHART 2 — Revenue Per Day
+       ============================================================ */
+    const ctx2 = document.getElementById("chartRevenuePerDay").getContext("2d");
+    new Chart(ctx2, {
+      type: "line",
+      data: {
+        labels: data.chartDailyRevenue.labels,
+        datasets: [{
+          label: "Revenue ($)",
+          data: data.chartDailyRevenue.datasets[0].data,
+          borderColor: "#28a745",
+          backgroundColor: "rgba(40, 167, 69, 0.2)",
+          tension: 0.3
+        }]
+      }
+    });
+
+    /* ============================================================
+       CHART 3 — Hourly Deliveries
+       ============================================================ */
+    const ctx3 = document.getElementById("chartHourlyDeliveries").getContext("2d");
+    new Chart(ctx3, {
+      type: "bar",
+      data: {
+        labels: data.chartHourlyOrders.labels,
+        datasets: [{
+          label: "Deliveries",
+          data: data.chartHourlyOrders.datasets[0].data,
+          backgroundColor: "#ffc107"
+        }]
+      }
+    });
+
+    /* ============================================================
+       CHART 4 — Weekly Deliveries
+       ============================================================ */
+    const ctx4 = document.getElementById("chartWeeklyDeliveries").getContext("2d");
+    new Chart(ctx4, {
+      type: "bar",
+      data: {
+        labels: data.ordersPerWeek.map(w => `Week ${w._id}`),
+        datasets: [{
+          label: "Deliveries",
+          data: data.ordersPerWeek.map(w => w.count),
+          backgroundColor: "#6610f2"
+        }]
+      }
+    });
+
   });
 }
 
 // Load default tab
 loadUsers();
-
