@@ -35,14 +35,23 @@ document.getElementById("logoutBtn").onclick = () => {
    API CALL HELPER
 ============================================================ */
 
-function adminFetch(url) {
+const API_BASE = "https://flexago-backend.onrender.com";
+
+function adminFetch(path) {
   const token = localStorage.getItem("adminToken");
 
-  return fetch(url, {
+  return fetch(API_BASE + path, {
     headers: {
       "Authorization": `Bearer ${token}`
     }
-  }).then(res => res.json());
+  }).then(async res => {
+    const text = await res.text();
+    try {
+      return JSON.parse(text);
+    } catch {
+      throw new Error("Invalid JSON: " + text);
+    }
+  });
 }
 
 /* ============================================================
