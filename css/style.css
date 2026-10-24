@@ -1029,8 +1029,8 @@ a {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  opacity: 0.45;
-  filter: brightness(0.55);
+  opacity: 0.65;
+  filter: brightness(0.30);
 }
 
 .about-section .hero-content {
@@ -1041,13 +1041,17 @@ a {
   align-items: center;
   justify-content: center;
   color: #fff;
-  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+  text-shadow:
+    0 2px 5px rgba(0, 0, 0, 1),
+    0 0 12px rgba(0, 0, 0, 0.9);
 }
 
 .about-section .section-title {
   font-size: 1.8rem;
   line-height: 1.2;
   margin: 0 0 22px;
+  color: #fff;
+  font-weight: 700;
 }
 
 .about-section p {
@@ -1058,8 +1062,8 @@ a {
   line-height: 1.55;
   text-align: center;
   color: #fff;
-}
-  /* ----------------------------------------------------------
+  font-weight: 600;
+}  /* ----------------------------------------------------------
      GENERAL SECTIONS
   ---------------------------------------------------------- */
   .section {
