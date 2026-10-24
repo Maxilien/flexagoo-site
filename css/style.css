@@ -1362,81 +1362,126 @@ a {
   }
 }
 /* ============================================================
-   MOBILE - FOR SENDERS ONLY
-   ============================================================ */
+   FLEXAGO LOWER PAGE - MOBILE REBUILD
+   Sender -> Traveler -> How -> Features -> Contact -> CTA/Footer
+   Hero + About intentionally untouched
+============================================================ */
+
 @media (max-width: 768px) {
 
-  #sender-section {
-    padding: 42px 20px 46px;
+  /* ==========================================================
+     LOWER PAGE SHARED FOUNDATION
+  ========================================================== */
+
+  #sender-section,
+  #traveler-section,
+  #how,
+  #features,
+  #contact {
+    width: 100%;
+    max-width: none;
+    padding: 44px 16px;
+    margin: 0;
+    box-sizing: border-box;
+    overflow: hidden;
   }
 
-  #sender-section .section-title {
+  #sender-section .section-title,
+  #traveler-section .section-title,
+  #how .section-title,
+  #features .section-title,
+  #contact .section-title {
     margin: 0 0 20px;
     font-size: 1.7rem;
     line-height: 1.2;
+    text-align: center;
   }
 
-  #sender-section .section-intro {
+
+  /* ==========================================================
+     SENDER + TRAVELER INTRO
+  ========================================================== */
+
+  #sender-section .section-intro,
+  #traveler-section .section-intro {
     width: 100%;
-    max-width: 380px;
+    max-width: 100%;
+    margin: 0 auto 28px;
     padding: 0;
-    margin: 0 auto 26px;
 
-    font-size: 0.94rem;
+    font-size: 0.95rem;
     line-height: 1.55;
+    text-align: center;
   }
 
-  /* Sender cards */
-  #sender-section .info-cards {
+
+  /* ==========================================================
+     SENDER + TRAVELER CARDS
+  ========================================================== */
+
+  #sender-section .info-cards,
+  #traveler-section .info-cards {
+    width: 100%;
+    max-width: 100%;
+    margin: 0 auto 34px;
+
     display: grid;
     grid-template-columns: 1fr;
-
-    width: 100%;
-    max-width: 400px;
-
-    margin: 0 auto 34px;
     gap: 14px;
   }
 
-  #sender-section .info-card {
+  #sender-section .info-card,
+  #traveler-section .info-card {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
     min-height: 0;
 
     margin: 0;
-    padding: 20px 18px;
+    padding: 20px 16px;
 
+    box-sizing: border-box;
     border-radius: 14px;
   }
 
-  #sender-section .info-card-icon {
+  #sender-section .info-card-icon,
+  #traveler-section .info-card-icon {
     margin: 0 0 8px;
-    font-size: 1.55rem;
+    font-size: 1.6rem;
     line-height: 1;
   }
 
-  #sender-section .info-card h3 {
+  #sender-section .info-card h3,
+  #traveler-section .info-card h3 {
     margin: 0 0 7px;
 
-    font-size: 0.98rem;
+    font-size: 1rem;
     line-height: 1.3;
   }
 
-  #sender-section .info-card p {
+  #sender-section .info-card p,
+  #traveler-section .info-card p {
     width: 100%;
-    max-width: 340px;
+    max-width: none;
 
-    margin: 0 auto;
+    margin: 0;
+    padding: 0;
 
     font-size: 0.88rem;
     line-height: 1.5;
+    text-align: center;
   }
 
-  /* How Sending Works */
+
+  /* ==========================================================
+     HOW SENDING WORKS
+  ========================================================== */
+
   #sender-section .section-steps {
     width: 100%;
-    max-width: 400px;
+    max-width: 100%;
 
-    margin: 0 auto 28px;
+    margin: 0 auto 30px;
     padding: 0;
   }
 
@@ -1445,32 +1490,35 @@ a {
 
     font-size: 1.2rem;
     line-height: 1.3;
+    text-align: center;
   }
 
   #sender-section .steps-row {
-    display: grid;
-    grid-template-columns: 1fr;
-
     width: 100%;
     max-width: 100%;
 
-    margin: 0;
+    display: grid;
+    grid-template-columns: 1fr;
     gap: 16px;
+
+    margin: 0;
+    padding: 0;
   }
 
   #sender-section .step-item {
-    display: grid;
-    grid-template-columns: 34px minmax(0, 1fr);
-    align-items: start;
-
     width: 100%;
     max-width: 100%;
     min-width: 0;
 
     margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: 34px minmax(0, 1fr);
+    align-items: start;
     gap: 12px;
 
-    text-align: left;
+    box-sizing: border-box;
   }
 
   #sender-section .step-num {
@@ -1482,6 +1530,8 @@ a {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    flex-shrink: 0;
   }
 
   #sender-section .step-item p {
@@ -1496,25 +1546,377 @@ a {
     text-align: left;
   }
 
-  /* Sender CTA */
-  #sender-section .section-cta {
-    width: 100%;
-    max-width: 400px;
 
-    margin: 26px auto 0;
+  /* ==========================================================
+     SENDER + TRAVELER CTA
+  ========================================================== */
+
+  #sender-section .section-cta,
+  #traveler-section .section-cta {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 28px auto 0;
+    padding: 0;
   }
 
-  #sender-section .section-cta .btn-primary {
+  #sender-section .section-cta .btn-primary,
+  #traveler-section .section-cta .btn-primary {
     display: block;
 
     width: 100%;
-    margin: 0;
-    padding: 13px 18px;
+    max-width: 100%;
 
+    margin: 0;
+    padding: 13px 16px;
+
+    box-sizing: border-box;
+    border-radius: 7px;
+
+    font-size: 0.95rem;
+    text-align: center;
+  }
+
+
+  /* ==========================================================
+     TRAVELER EARNINGS
+  ========================================================== */
+
+  #traveler-section .earnings-row {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0 auto 30px;
+    padding: 0;
+  }
+
+  #traveler-section .earnings-row h3 {
+    margin: 0 0 20px;
+
+    font-size: 1.2rem;
+    line-height: 1.3;
+    text-align: center;
+  }
+
+  #traveler-section .earnings-cards {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  #traveler-section .earning-card {
+    width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 18px 16px;
+
+    box-sizing: border-box;
+    border-radius: 14px;
+  }
+
+  #traveler-section .earning-amount {
+    margin-bottom: 5px;
+    font-size: 1.35rem;
+  }
+
+  #traveler-section .earning-label {
+    font-size: 0.85rem;
+  }
+
+
+  /* ==========================================================
+     HOW FLEXAGO WORKS
+  ========================================================== */
+
+  #how .steps {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 30px;
+  }
+
+  #how .step {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+    padding: 0;
+  }
+
+  #how .step-img {
+    display: block;
+
+    width: 100%;
+    height: auto;
+    max-height: 220px;
+
+    margin: 0 0 14px;
+
+    object-fit: cover;
+    aspect-ratio: 16 / 9;
+
+    border-radius: 12px;
+  }
+
+  #how .step h3 {
+    margin: 0 0 8px;
+
+    font-size: 1.05rem;
+    line-height: 1.35;
+  }
+
+  #how .step p {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    font-size: 0.9rem;
+    line-height: 1.5;
+  }
+
+
+  /* ==========================================================
+     WHY FLEXAGO
+  ========================================================== */
+
+  #features .features-grid {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  #features .feature-card {
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+
+    margin: 0;
+    padding: 20px 16px;
+
+    box-sizing: border-box;
+    border-radius: 12px;
+  }
+
+  #features .feature-card h3 {
+    margin: 0 0 8px;
+
+    font-size: 1rem;
+    line-height: 1.3;
+  }
+
+  #features .feature-card p {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+
+    font-size: 0.88rem;
+    line-height: 1.5;
+  }
+
+
+  /* ==========================================================
+     CONTACT
+  ========================================================== */
+
+  #contact .contact-text {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0 auto;
+
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  #contact .contact-box {
+    display: block;
+
+    width: 100%;
+    max-width: 100%;
+
+    margin: 20px auto 0;
+    padding: 16px;
+
+    box-sizing: border-box;
+  }
+
+  #contact .contact-box p {
+    margin: 0;
+
+    font-size: 0.88rem;
+    line-height: 1.5;
+
+    overflow-wrap: anywhere;
+  }
+
+
+  /* ==========================================================
+     FINAL BLUE CTA
+  ========================================================== */
+
+  .cta-section {
+    width: 100%;
+    max-width: none;
+
+    margin: 0;
+    padding: 44px 16px;
+
+    box-sizing: border-box;
+    overflow: hidden;
+  }
+
+  .cta-section .section-title {
+    margin: 0 0 18px;
+
+    font-size: 1.65rem;
+    line-height: 1.25;
+  }
+
+  .cta-section p {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 0;
+
+    font-size: 0.95rem;
+    line-height: 1.55;
+  }
+
+  .cta-section .cta-buttons {
+    width: 100%;
+    max-width: 100%;
+
+    margin: 24px auto 0;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .cta-section .cta-buttons .btn-primary,
+  .cta-section .cta-buttons .btn-secondary {
+    display: block;
+
+    width: 100%;
+
+    margin: 0;
+    padding: 13px 16px;
+
+    box-sizing: border-box;
     border-radius: 7px;
 
     text-align: center;
-    font-size: 0.95rem;
-    font-weight: 600;
+  }
+
+
+  /* ==========================================================
+     FOOTER
+  ========================================================== */
+
+  .uber-footer {
+    width: 100%;
+
+    margin: 0;
+    padding: 28px 16px;
+
+    box-sizing: border-box;
+  }
+
+  .uber-footer-row,
+  .uber-footer-links {
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    gap: 10px;
+  }
+
+
+  /* ==========================================================
+     ALICE
+  ========================================================== */
+
+  #alice-widget {
+    right: 10px;
+    bottom: 10px;
+
+    max-width: calc(100vw - 20px);
+  }
+
+  #alice-window {
+    width: calc(100vw - 20px);
+    max-width: 340px;
+    max-height: 70vh;
+  }
+
+  #alice-bubble {
+    padding: 10px 13px;
+
+    font-size: 0.78rem;
+    gap: 6px;
+  }
+}
+
+
+/* ============================================================
+   FLEXAGO LOWER PAGE - SMALL PHONES
+============================================================ */
+
+@media (max-width: 480px) {
+
+  #sender-section,
+  #traveler-section,
+  #how,
+  #features,
+  #contact {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  #sender-section .section-title,
+  #traveler-section .section-title,
+  #how .section-title,
+  #features .section-title,
+  #contact .section-title {
+    font-size: 1.6rem;
+  }
+
+  #sender-section .section-intro,
+  #traveler-section .section-intro {
+    font-size: 0.92rem;
+  }
+
+  #sender-section .info-card,
+  #traveler-section .info-card,
+  #features .feature-card {
+    padding: 18px 14px;
+  }
+
+  #how .step-img {
+    max-height: none;
+  }
+
+  .cta-section {
+    padding: 42px 16px;
   }
 }
