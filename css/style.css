@@ -199,11 +199,11 @@ a {
 }
 
 .about-section .hero-watermark-preload {
-  opacity: 0.55;
+  opacity: 0.35;
   object-fit: cover;
   object-position: center;
+  filter: brightness(0.55);
 }
-
 /* Hover effects */
 .btn-primary:hover {
   background: #0039d6;
@@ -1015,47 +1015,50 @@ a {
   }
 
 
-  /* ----------------------------------------------------------
-     ABOUT FLEXAGO
-  ---------------------------------------------------------- */
-  .about-section {
-    height: 430px;
-    min-height: 430px;
-    padding: 0;
-  }
+/* ----------------------------------------------------------
+   ABOUT FLEXAGO
+---------------------------------------------------------- */
+.about-section {
+  height: 430px;
+  min-height: 430px;
+  padding: 0;
+}
 
-  .about-section .hero-watermark-preload {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    object-position: center;
-  }
+.about-section .hero-watermark-preload {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  opacity: 0.45;
+  filter: brightness(0.55);
+}
 
-  .about-section .hero-content {
-    height: 100%;
-    padding: 0 22px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+.about-section .hero-content {
+  height: 100%;
+  padding: 0 22px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  text-shadow: 0 2px 6px rgba(0, 0, 0, 0.8);
+}
 
-  .about-section .section-title {
-    font-size: 1.8rem;
-    line-height: 1.2;
-    margin: 0 0 22px;
-  }
+.about-section .section-title {
+  font-size: 1.8rem;
+  line-height: 1.2;
+  margin: 0 0 22px;
+}
 
-  .about-section p {
-    width: 100%;
-    max-width: 340px;
-    margin: 0 auto;
-    font-size: 1rem;
-    line-height: 1.55;
-    text-align: center;
-  }
-
-
+.about-section p {
+  width: 100%;
+  max-width: 340px;
+  margin: 0 auto;
+  font-size: 1rem;
+  line-height: 1.55;
+  text-align: center;
+  color: #fff;
+}
   /* ----------------------------------------------------------
      GENERAL SECTIONS
   ---------------------------------------------------------- */
