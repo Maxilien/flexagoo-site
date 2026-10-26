@@ -381,6 +381,74 @@ function adminFetch(path) {
     }
   });
 }
+function updateDeliveryKpis(deliveries) {
+  if (!Array.isArray(deliveries)) {
+    return;
+  }
+
+  const total =
+    deliveries.length;
+
+  const available =
+    deliveries.filter(
+      (delivery) =>
+        delivery.status === "available"
+    ).length;
+
+  const inTransit =
+    deliveries.filter(
+      (delivery) =>
+        delivery.status === "in_transit"
+    ).length;
+
+  const completed =
+    deliveries.filter(
+      (delivery) =>
+        delivery.status === "delivered" ||
+        delivery.status === "payout_pending" ||
+        delivery.status === "payout_completed"
+    ).length;
+
+  const totalElement =
+    document.getElementById(
+      "deliveriesKpiTotal"
+    );
+
+  const availableElement =
+    document.getElementById(
+      "deliveriesKpiAvailable"
+    );
+
+  const transitElement =
+    document.getElementById(
+      "deliveriesKpiTransit"
+    );
+
+  const completedElement =
+    document.getElementById(
+      "deliveriesKpiCompleted"
+    );
+
+  if (totalElement) {
+    totalElement.textContent =
+      total;
+  }
+
+  if (availableElement) {
+    availableElement.textContent =
+      available;
+  }
+
+  if (transitElement) {
+    transitElement.textContent =
+      inTransit;
+  }
+
+  if (completedElement) {
+    completedElement.textContent =
+      completed;
+  }
+}
 /* ============================================================
    DELIVERIES TAB
 ============================================================ */
@@ -389,22 +457,59 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
   adminFetch(
     `/api/admin/deliveries?page=${page}&status=${statusFilter}&search=${searchQuery}`
   ).then(data => {
+    const deliveries =
+      Array.isArray(data.deliveries)
+        ? data.deliveries
+        : [];
+
+    updateDeliveryKpis(
+      deliveries
+    );
+
     let html = `
       <div class="search-filter-bar">
-        <input id="deliverySearch" placeholder="Search deliveries..." />
+        <input
+          id="deliverySearch"
+          placeholder="Search deliveries..."
+        />
+
         <select id="deliveryStatusFilter">
-          <option value="">All Status</option>
-          <option value="available">Available</option>
-          <option value="accepted">Accepted</option>
-          <option value="in_transit">In Transit</option>
-          <option value="delivered">Delivered</option>
-          <option value="payout_pending">Payout Pending</option>
-          <option value="payout_completed">Payout Completed</option>
+          <option value="">
+            All Status
+          </option>
+
+          <option value="available">
+            Available
+          </option>
+
+          <option value="accepted">
+            Accepted
+          </option>
+
+          <option value="in_transit">
+            In Transit
+          </option>
+
+          <option value="delivered">
+            Delivered
+          </option>
+
+          <option value="payout_pending">
+            Payout Pending
+          </option>
+
+          <option value="payout_completed">
+            Payout Completed
+          </option>
         </select>
-        <button onclick="applyDeliveryFilters()">Apply</button>
+
+        <button
+          onclick="applyDeliveryFilters()"
+        >
+          Apply
+        </button>
       </div>
     `;
-
     html += `
       <table class="admin-table">
         <thead>
