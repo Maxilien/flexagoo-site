@@ -1,113 +1,1092 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
   <title>Flexago Admin Dashboard</title>
+
   <link rel="stylesheet" href="css/admin.css">
 
+
   <!-- Chart.js for Analytics -->
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/chart.js"
+  ></script>
 </head>
 
 <body>
 
-<script>
-  // JWT PROTECTION
-  const token = localStorage.getItem("adminToken");
-  if (!token) {
-    window.location.href = "admin-login.html";
-  }
-</script>
+  <!-- ======================================================
+       ADMIN AUTH PROTECTION
+  ======================================================= -->
 
-<div class="admin-header">
-  <h1>Flexago Admin Dashboard</h1>
-  <button id="logoutBtn">Logout</button>
-</div>
+  <script>
+    const token =
+      localStorage.getItem(
+        "adminToken"
+      );
 
-<div class="admin-nav">
-  <button class="tab-btn" data-tab="users">Users</button>
-  <button class="tab-btn" data-tab="deliveries">Deliveries</button>
-  <button class="tab-btn" data-tab="escrow">Escrow</button>
-  <button class="tab-btn" data-tab="payouts">Payouts</button>
-  <button class="tab-btn" data-tab="revenue">Revenue</button>
-  <button class="tab-btn" data-tab="analytics">Analytics</button>
-</div>
+    if (!token) {
+      window.location.href =
+        "admin-login.html";
+    }
+  </script>
 
-<div class="admin-content">
+  <!-- ======================================================
+       ADMIN APPLICATION
+  ======================================================= -->
 
-  <!-- USERS TAB -->
-  <section id="users" class="tab-section">
-    <h2>Users</h2>
-    <div id="usersTable"></div>
-  </section>
+  <div class="admin-app">
 
-  <!-- DELIVERIES TAB -->
-  <section id="deliveries" class="tab-section" style="display:none;">
-    <h2>Deliveries</h2>
-    <div id="deliveriesTable"></div>
-  </section>
+    <!-- ====================================================
+         SIDEBAR
+    ===================================================== -->
 
-  <!-- ESCROW TAB -->
-  <section id="escrow" class="tab-section" style="display:none;">
-    <h2>Escrow</h2>
-    <div id="escrowTable"></div>
-  </section>
+    <aside
+      class="admin-sidebar"
+      id="adminSidebar"
+    >
 
-  <!-- PAYOUTS TAB -->
-  <section id="payouts" class="tab-section" style="display:none;">
-    <h2>Payouts</h2>
-    <div id="payoutsTable"></div>
-  </section>
+      <!-- BRAND -->
+      <div class="admin-brand">
 
-  <!-- REVENUE TAB -->
-  <section id="revenue" class="tab-section" style="display:none;">
-    <h2>Revenue</h2>
-    <div id="revenueTable"></div>
-  </section>
+        <div class="admin-brand-mark">
+          F
+        </div>
 
-  <!-- ANALYTICS TAB -->
-  <section id="analytics" class="tab-section" style="display:none;">
-    <h2>Analytics</h2>
+        <div class="admin-brand-copy">
+          <div class="admin-brand-name">
+            Flexago
+          </div>
 
-    <div class="analytics-filters">
-      <button onclick="loadAnalytics('7d')">Last 7 Days</button>
-      <button onclick="loadAnalytics('30d')">Last 30 Days</button>
-      <button onclick="loadAnalytics()">All Time</button>
-    </div>
+          <div class="admin-brand-label">
+            Admin Console
+          </div>
+        </div>
 
-    <div class="chart-container">
-      <h3>Deliveries Per Day</h3>
-      <canvas id="chartDeliveriesPerDay"></canvas>
-    </div>
+      </div>
 
-    <div class="chart-container">
-      <h3>Revenue Per Day</h3>
-      <canvas id="chartRevenuePerDay"></canvas>
-    </div>
+      <!-- NAVIGATION -->
+      <nav
+        class="admin-sidebar-nav"
+        aria-label="Admin navigation"
+      >
 
-    <div class="chart-container">
-      <h3>Hourly Deliveries</h3>
-      <canvas id="chartHourlyDeliveries"></canvas>
-    </div>
+        <!-- OVERVIEW -->
+        <div class="admin-nav-group">
 
-    <div class="chart-container">
-      <h3>Weekly Deliveries</h3>
-      <canvas id="chartWeeklyDeliveries"></canvas>
-    </div>
+          <div class="admin-nav-label">
+            Overview
+          </div>
 
-    <div id="analyticsTable"></div>
-  </section>
+          <button
+            type="button"
+            class="tab-btn admin-nav-item active"
+            data-tab="dashboard"
+          >
+            <span class="admin-nav-icon">
+              ◆
+            </span>
 
-</div>
+            <span>
+              Dashboard
+            </span>
+          </button>
 
-<!-- DELIVERY DETAILS MODAL -->
-<div id="deliveryModal" class="modal" style="display:none;">
-  <div class="modal-content">
-    <span id="closeModal" class="close">&times;</span>
-    <h2>Delivery Details</h2>
-    <div id="deliveryDetails"></div>
+        </div>
+
+        <!-- OPERATIONS -->
+        <div class="admin-nav-group">
+
+          <div class="admin-nav-label">
+            Operations
+          </div>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="users"
+          >
+            <span class="admin-nav-icon">
+              U
+            </span>
+
+            <span>
+              Users
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="deliveries"
+          >
+            <span class="admin-nav-icon">
+              D
+            </span>
+
+            <span>
+              Deliveries
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="escrow"
+          >
+            <span class="admin-nav-icon">
+              E
+            </span>
+
+            <span>
+              Escrow
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="payouts"
+          >
+            <span class="admin-nav-icon">
+              P
+            </span>
+
+            <span>
+              Payouts
+            </span>
+          </button>
+
+        </div>
+
+        <!-- BUSINESS -->
+        <div class="admin-nav-group">
+
+          <div class="admin-nav-label">
+            Business
+          </div>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="revenue"
+          >
+            <span class="admin-nav-icon">
+              $
+            </span>
+
+            <span>
+              Revenue
+            </span>
+          </button>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="analytics"
+          >
+            <span class="admin-nav-icon">
+              A
+            </span>
+
+            <span>
+              Analytics
+            </span>
+          </button>
+
+        </div>
+
+        <!-- SUPPORT -->
+        <div class="admin-nav-group">
+
+          <div class="admin-nav-label">
+            Customer Care
+          </div>
+
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="support"
+          >
+            <span class="admin-nav-icon">
+              S
+            </span>
+
+            <span>
+              Support
+            </span>
+
+            <span
+              id="adminSupportBadge"
+              class="admin-nav-badge"
+            >
+              00
+            </span>
+          </button>
+
+        </div>
+
+      </nav>
+
+      <!-- SIDEBAR FOOTER -->
+      <div class="admin-sidebar-footer">
+
+        <button
+          type="button"
+          id="logoutBtn"
+          class="admin-logout-btn"
+        >
+          <span class="admin-nav-icon">
+            ↪
+          </span>
+
+          <span>
+            Logout
+          </span>
+        </button>
+
+      </div>
+
+    </aside>
+
+    <!-- ====================================================
+         MAIN WORKSPACE
+    ===================================================== -->
+
+    <main class="admin-main">
+
+      <!-- ==================================================
+           TOP HEADER
+      =================================================== -->
+
+      <header class="admin-header">
+
+        <div>
+
+          <p class="admin-header-eyebrow">
+            FLEXAGO OPERATIONS
+          </p>
+
+          <h1 id="adminPageTitle">
+            Dashboard
+          </h1>
+
+          <p
+            id="adminPageDescription"
+            class="admin-page-description"
+          >
+            Monitor Flexago marketplace operations.
+          </p>
+
+        </div>
+
+        <div class="admin-header-actions">
+
+          <div class="admin-status-indicator">
+            <span
+              class="admin-status-dot"
+              aria-hidden="true"
+            ></span>
+
+            System Online
+          </div>
+
+        </div>
+
+      </header>
+
+      <!-- ==================================================
+           CONTENT
+      =================================================== -->
+
+      <div class="admin-content">
+
+        <!-- =================================================
+             DASHBOARD
+        ================================================== -->
+
+        <section
+          id="dashboard"
+          class="tab-section"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Operations Overview
+              </h2>
+
+              <p>
+                Key Flexago marketplace metrics.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- KPI GRID -->
+          <div
+            id="adminKpiGrid"
+            class="admin-kpi-grid"
+          >
+
+            <!-- USERS KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="users"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Users
+                </span>
+
+                <span class="admin-kpi-icon">
+                  U
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiUsers"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Total registered users
+              </div>
+            </button>
+
+            <!-- DELIVERIES KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="deliveries"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Deliveries
+                </span>
+
+                <span class="admin-kpi-icon">
+                  D
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiDeliveries"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Marketplace deliveries
+              </div>
+            </button>
+
+            <!-- ESCROW KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="escrow"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Escrow
+                </span>
+
+                <span class="admin-kpi-icon">
+                  E
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiEscrow"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Funds currently held
+              </div>
+            </button>
+
+            <!-- PAYOUTS KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="payouts"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Payouts
+                </span>
+
+                <span class="admin-kpi-icon">
+                  P
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiPayouts"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Traveler payouts
+              </div>
+            </button>
+
+            <!-- REVENUE KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="revenue"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Revenue
+                </span>
+
+                <span class="admin-kpi-icon">
+                  $
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiRevenue"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Flexago revenue
+              </div>
+            </button>
+
+            <!-- SUPPORT KPI -->
+            <button
+              type="button"
+              class="admin-kpi-card admin-kpi-link"
+              data-open-tab="support"
+            >
+              <div class="admin-kpi-header">
+
+                <span class="admin-kpi-label">
+                  Support
+                </span>
+
+                <span class="admin-kpi-icon">
+                  S
+                </span>
+
+              </div>
+
+              <div
+                id="adminKpiSupport"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+              <div class="admin-kpi-caption">
+                Open support tickets
+              </div>
+            </button>
+
+          </div>
+
+          <!-- DASHBOARD LOWER GRID -->
+          <div class="admin-dashboard-grid">
+
+            <div class="admin-panel">
+
+              <div class="admin-panel-header">
+                <div>
+                  <h3>
+                    Marketplace Activity
+                  </h3>
+
+                  <p>
+                    Delivery and operational activity.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                id="adminDashboardActivity"
+                class="admin-empty-state"
+              >
+                Operational metrics will appear here.
+              </div>
+
+            </div>
+
+            <div class="admin-panel">
+
+              <div class="admin-panel-header">
+                <div>
+                  <h3>
+                    Attention Required
+                  </h3>
+
+                  <p>
+                    Items requiring Admin review.
+                  </p>
+                </div>
+              </div>
+
+              <div
+                id="adminAttentionRequired"
+                class="admin-empty-state"
+              >
+                No alerts loaded.
+              </div>
+
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             USERS
+        ================================================== -->
+
+        <section
+          id="users"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Users
+              </h2>
+
+              <p>
+                Manage Senders, Travelers, and verification status.
+              </p>
+            </div>
+
+          </div>
+
+          <!-- USER KPI GRID -->
+          <div class="admin-kpi-grid admin-section-kpis">
+
+            <div class="admin-kpi-card">
+
+              <div class="admin-kpi-label">
+                Total Users
+              </div>
+
+              <div
+                id="usersKpiTotal"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+            </div>
+
+            <div class="admin-kpi-card">
+
+              <div class="admin-kpi-label">
+                Senders
+              </div>
+
+              <div
+                id="usersKpiSenders"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+            </div>
+
+            <div class="admin-kpi-card">
+
+              <div class="admin-kpi-label">
+                Travelers
+              </div>
+
+              <div
+                id="usersKpiTravelers"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+            </div>
+
+            <div class="admin-kpi-card">
+
+              <div class="admin-kpi-label">
+                KYC Pending
+              </div>
+
+              <div
+                id="usersKpiKycPending"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+
+            <div id="usersTable">
+              <div class="admin-loading-state">
+                Select Users to load account information.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             DELIVERIES
+        ================================================== -->
+
+        <section
+          id="deliveries"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Deliveries
+              </h2>
+
+              <p>
+                Monitor Flexago delivery activity and status.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="admin-kpi-grid admin-section-kpis">
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Total
+              </div>
+
+              <div
+                id="deliveriesKpiTotal"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Available
+              </div>
+
+              <div
+                id="deliveriesKpiAvailable"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                In Transit
+              </div>
+
+              <div
+                id="deliveriesKpiTransit"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Completed
+              </div>
+
+              <div
+                id="deliveriesKpiCompleted"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+
+            <div id="deliveriesTable">
+              <div class="admin-loading-state">
+                Select Deliveries to load delivery information.
+              </div>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             ESCROW
+        ================================================== -->
+
+        <section
+          id="escrow"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Escrow
+              </h2>
+
+              <p>
+                Monitor funds held for active deliveries.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+            <div id="escrowTable"></div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             PAYOUTS
+        ================================================== -->
+
+        <section
+          id="payouts"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Payouts
+              </h2>
+
+              <p>
+                Monitor Traveler payout activity.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+            <div id="payoutsTable"></div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             REVENUE
+        ================================================== -->
+
+        <section
+          id="revenue"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Revenue
+              </h2>
+
+              <p>
+                Review Flexago marketplace financial performance.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+            <div id="revenueTable"></div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             ANALYTICS
+        ================================================== -->
+
+        <section
+          id="analytics"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Analytics
+              </h2>
+
+              <p>
+                Monitor marketplace growth and operating trends.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="analytics-filters">
+
+            <button
+              type="button"
+              onclick="loadAnalytics('7d')"
+            >
+              Last 7 Days
+            </button>
+
+            <button
+              type="button"
+              onclick="loadAnalytics('30d')"
+            >
+              Last 30 Days
+            </button>
+
+            <button
+              type="button"
+              onclick="loadAnalytics()"
+            >
+              All Time
+            </button>
+
+          </div>
+
+          <div id="analyticsTable"></div>
+
+          <div class="admin-chart-grid">
+
+            <div class="chart-container">
+              <h3>
+                Deliveries Per Day
+              </h3>
+
+              <canvas
+                id="chartDeliveriesPerDay"
+              ></canvas>
+            </div>
+
+            <div class="chart-container">
+              <h3>
+                Revenue Per Day
+              </h3>
+
+              <canvas
+                id="chartRevenuePerDay"
+              ></canvas>
+            </div>
+
+            <div class="chart-container">
+              <h3>
+                Hourly Deliveries
+              </h3>
+
+              <canvas
+                id="chartHourlyDeliveries"
+              ></canvas>
+            </div>
+
+            <div class="chart-container">
+              <h3>
+                Weekly Deliveries
+              </h3>
+
+              <canvas
+                id="chartWeeklyDeliveries"
+              ></canvas>
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             SUPPORT
+        ================================================== -->
+
+        <section
+          id="support"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Support
+              </h2>
+
+              <p>
+                Review and manage Sender and Traveler support requests.
+              </p>
+            </div>
+
+          </div>
+
+          <div class="admin-kpi-grid admin-section-kpis">
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Open
+              </div>
+
+              <div
+                id="supportKpiOpen"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                In Progress
+              </div>
+
+              <div
+                id="supportKpiProgress"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Resolved
+              </div>
+
+              <div
+                id="supportKpiResolved"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+            <div class="admin-kpi-card">
+              <div class="admin-kpi-label">
+                Urgent
+              </div>
+
+              <div
+                id="supportKpiUrgent"
+                class="admin-kpi-value"
+              >
+                --
+              </div>
+            </div>
+
+          </div>
+
+          <div class="admin-panel">
+
+            <div
+              id="supportTable"
+              class="admin-loading-state"
+            >
+              Support tickets will appear here.
+            </div>
+
+          </div>
+
+        </section>
+
+      </div>
+
+    </main>
+
   </div>
-</div>
 
-<script src="admin.js"></script>
+  <!-- ======================================================
+       DELIVERY DETAILS MODAL
+  ======================================================= -->
+
+  <div
+    id="deliveryModal"
+    class="modal"
+    style="display:none;"
+  >
+
+    <div class="modal-content">
+
+      <button
+        type="button"
+        id="closeModal"
+        class="close"
+        aria-label="Close delivery details"
+      >
+        &times;
+      </button>
+
+      <h2>
+        Delivery Details
+      </h2>
+
+      <div id="deliveryDetails"></div>
+
+    </div>
+
+  </div>
+
+  <!-- ======================================================
+       ADMIN SCRIPT
+  ======================================================= -->
+
+  <script src="admin.js"></script>
+
 </body>
 </html>

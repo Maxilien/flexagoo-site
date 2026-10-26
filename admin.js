@@ -1,59 +1,386 @@
-/* ============================================================
-   TAB SWITCHING
+﻿/* ============================================================
+   ADMIN NAVIGATION
 ============================================================ */
 
-const tabs = document.querySelectorAll(".tab-btn");
-const sections = document.querySelectorAll(".tab-section");
+const tabs =
+  document.querySelectorAll(
+    ".tab-btn"
+  );
 
-tabs.forEach(btn => {
-  btn.addEventListener("click", () => {
-    const tab = btn.dataset.tab;
+const sections =
+  document.querySelectorAll(
+    ".tab-section"
+  );
 
-    sections.forEach(sec => {
-      sec.style.display = sec.id === tab ? "block" : "none";
-    });
+const pageTitle =
+  document.getElementById(
+    "adminPageTitle"
+  );
 
-    if (tab === "users") loadUsers();
-    if (tab === "deliveries") loadDeliveries();
-    if (tab === "escrow") loadEscrow();
-    if (tab === "payouts") loadPayouts();
-    if (tab === "revenue") loadRevenue();
-    if (tab === "analytics") loadAnalytics();
+const pageDescription =
+  document.getElementById(
+    "adminPageDescription"
+  );
+
+/* ============================================================
+   PAGE INFORMATION
+============================================================ */
+
+const adminPageInformation = {
+  dashboard: {
+    title: "Dashboard",
+    description:
+      "Monitor Flexago marketplace operations."
+  },
+
+  users: {
+    title: "Users",
+    description:
+      "Manage Senders, Travelers, and verification status."
+  },
+
+  deliveries: {
+    title: "Deliveries",
+    description:
+      "Monitor Flexago delivery activity and status."
+  },
+
+  escrow: {
+    title: "Escrow",
+    description:
+      "Monitor funds held for active deliveries."
+  },
+
+  payouts: {
+    title: "Payouts",
+    description:
+      "Monitor Traveler payout activity."
+  },
+
+  revenue: {
+    title: "Revenue",
+    description:
+      "Review Flexago marketplace financial performance."
+  },
+
+  analytics: {
+    title: "Analytics",
+    description:
+      "Monitor marketplace growth and operating trends."
+  },
+
+  support: {
+    title: "Support",
+    description:
+      "Review and manage Sender and Traveler support requests."
+  }
+};
+
+/* ============================================================
+   UPDATE PAGE HEADER
+============================================================ */
+
+function updateAdminPageHeader(
+  tabName
+) {
+  const pageInformation =
+    adminPageInformation[
+      tabName
+    ] ||
+    adminPageInformation.dashboard;
+
+  if (pageTitle) {
+    pageTitle.textContent =
+      pageInformation.title;
+  }
+
+  if (pageDescription) {
+    pageDescription.textContent =
+      pageInformation.description;
+  }
+}
+
+/* ============================================================
+   UPDATE ACTIVE NAVIGATION
+============================================================ */
+
+function updateAdminActiveNavigation(
+  tabName
+) {
+  tabs.forEach((button) => {
+    const isActive =
+      button.dataset.tab ===
+      tabName;
+
+    button.classList.toggle(
+      "active",
+      isActive
+    );
+
+    if (isActive) {
+      button.setAttribute(
+        "aria-current",
+        "page"
+      );
+    } else {
+      button.removeAttribute(
+        "aria-current"
+      );
+    }
   });
+}
+
+/* ============================================================
+   LOAD TAB DATA
+============================================================ */
+
+function loadAdminTabData(
+  tabName
+) {
+  if (tabName === "users") {
+    loadUsers();
+  }
+
+  if (tabName === "deliveries") {
+    loadDeliveries();
+  }
+
+  if (tabName === "escrow") {
+    loadEscrow();
+  }
+
+  if (tabName === "payouts") {
+    loadPayouts();
+  }
+
+  if (tabName === "revenue") {
+    loadRevenue();
+  }
+
+  if (tabName === "analytics") {
+    loadAnalytics();
+  }
+
+  /*
+   * Dashboard and Support are intentionally
+   * handled separately.
+   *
+   * Dashboard KPI loading will be added after
+   * the existing Admin tabs are verified.
+   *
+   * Support API loading will be connected after
+   * the Admin shell is confirmed stable.
+   */
+}
+
+/* ============================================================
+   OPEN ADMIN TAB
+============================================================ */
+
+function openAdminTab(
+  tabName,
+  loadData = true
+) {
+  const targetSection =
+    document.getElementById(
+      tabName
+    );
+
+  if (!targetSection) {
+    console.warn(
+      "Admin tab was not found:",
+      tabName
+    );
+
+    return;
+  }
+
+  sections.forEach((section) => {
+    section.style.display =
+      section.id === tabName
+        ? "block"
+        : "none";
+  });
+
+  updateAdminActiveNavigation(
+    tabName
+  );
+
+  updateAdminPageHeader(
+    tabName
+  );
+
+  if (loadData) {
+    loadAdminTabData(
+      tabName
+    );
+  }
+
+  try {
+    sessionStorage.setItem(
+      "flexagoAdminActiveTab",
+      tabName
+    );
+  } catch (error) {
+    console.warn(
+      "Unable to save Admin active tab:",
+      error
+    );
+  }
+}
+
+/* ============================================================
+   SIDEBAR TAB EVENTS
+============================================================ */
+
+tabs.forEach((button) => {
+  button.addEventListener(
+    "click",
+    () => {
+      const tabName =
+        button.dataset.tab;
+
+      if (!tabName) {
+        return;
+      }
+
+      openAdminTab(
+        tabName
+      );
+    }
+  );
 });
+
+/* ============================================================
+   DASHBOARD KPI NAVIGATION
+============================================================ */
+
+document
+  .querySelectorAll(
+    "[data-open-tab]"
+  )
+  .forEach((button) => {
+    button.addEventListener(
+      "click",
+      () => {
+        const tabName =
+          button.dataset.openTab;
+
+        if (!tabName) {
+          return;
+        }
+
+        openAdminTab(
+          tabName
+        );
+      }
+    );
+  });
+
+/* ============================================================
+   INITIAL ADMIN TAB
+============================================================ */
+
+let initialAdminTab =
+  "dashboard";
+
+try {
+  const savedAdminTab =
+    sessionStorage.getItem(
+      "flexagoAdminActiveTab"
+    );
+
+  if (
+    savedAdminTab &&
+    document.getElementById(
+      savedAdminTab
+    )
+  ) {
+    initialAdminTab =
+      savedAdminTab;
+  }
+} catch (error) {
+  console.warn(
+    "Unable to restore Admin active tab:",
+    error
+  );
+}
+
+openAdminTab(
+  initialAdminTab
+);
 
 /* ============================================================
    LOGOUT
 ============================================================ */
 
-document.getElementById("logoutBtn").onclick = () => {
-  localStorage.removeItem("adminToken");
-  window.location.href = "admin-login.html";
-};
+const logoutBtn =
+  document.getElementById(
+    "logoutBtn"
+  );
 
+if (logoutBtn) {
+  logoutBtn.addEventListener(
+    "click",
+    () => {
+      localStorage.removeItem(
+        "adminToken"
+      );
+
+      try {
+        sessionStorage.removeItem(
+          "flexagoAdminActiveTab"
+        );
+      } catch (error) {
+        console.warn(
+          "Unable to clear Admin tab state:",
+          error
+        );
+      }
+
+      window.location.href =
+        "admin-login.html";
+    }
+  );
+}
 /* ============================================================
    API CALL HELPER
 ============================================================ */
 
-const API_BASE = "https://flexago-backend.onrender.com";
+const API_BASE =
+  "https" +
+  "://" +
+  "flexago-backend.onrender.com";
 
 function adminFetch(path) {
-  const token = localStorage.getItem("adminToken");
+  const token =
+    localStorage.getItem(
+      "adminToken"
+    );
 
-  return fetch(API_BASE + path, {
-    headers: {
-      Authorization: `Bearer ${token}`
+  return fetch(
+    API_BASE + path,
+    {
+      headers: {
+        Authorization:
+          `Bearer ${token}`
+      }
     }
-  }).then(async res => {
-    const text = await res.text();
+  ).then(async (res) => {
+    const text =
+      await res.text();
+
     try {
-      return JSON.parse(text);
+      return JSON.parse(
+        text
+      );
     } catch {
-      throw new Error("Invalid JSON: " + text);
+      throw new Error(
+        "Invalid JSON: " + text
+      );
     }
   });
 }
-
 /* ============================================================
    DELIVERIES TAB
 ============================================================ */
@@ -119,22 +446,22 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <td>${
             photo
               ? `<img src="${photo}" width="60" height="60" style="border-radius:6px;">`
-              : "—"
+              : "â€”"
           }</td>
           <td>${d._id}</td>
-          <td>${senderName} <br><small>${d.senderId || "—"}</small></td>
-          <td>${travelerName} <br><small>${d.travelerId || "—"}</small></td>
+          <td>${senderName} <br><small>${d.senderId || "â€”"}</small></td>
+          <td>${travelerName} <br><small>${d.travelerId || "â€”"}</small></td>
           <td>${d.status}</td>
           <td>$${d.price}</td>
           <td>$${d.payoutAmount}</td>
-          <td>${d.package?.deliveryType || "—"}</td>
-          <td>${d.pickup?.address || "—"}</td>
-          <td>${d.dropoff?.address || "—"}</td>
-          <td>${d.createdAt || "—"}</td>
-          <td>${d.acceptedAt || "—"}</td>
-          <td>${d.pickedUpAt || "—"}</td>
-          <td>${d.deliveredAt || "—"}</td>
-          <td>${d.payoutCompletedAt || "—"}</td>
+          <td>${d.package?.deliveryType || "â€”"}</td>
+          <td>${d.pickup?.address || "â€”"}</td>
+          <td>${d.dropoff?.address || "â€”"}</td>
+          <td>${d.createdAt || "â€”"}</td>
+          <td>${d.acceptedAt || "â€”"}</td>
+          <td>${d.pickedUpAt || "â€”"}</td>
+          <td>${d.deliveredAt || "â€”"}</td>
+          <td>${d.payoutCompletedAt || "â€”"}</td>
           <td><button onclick="viewDelivery('${d._id}')">View</button></td>
         </tr>
       `;
@@ -175,18 +502,18 @@ function viewDelivery(id) {
 
     document.getElementById("deliveryDetails").innerHTML = `
       <p><strong>ID:</strong> ${d._id}</p>
-      <p><strong>Sender:</strong> ${senderName} (${d.senderId || "—"})</p>
+      <p><strong>Sender:</strong> ${senderName} (${d.senderId || "â€”"})</p>
       <p><strong>Traveler:</strong> ${d.travelerDetails?.firstName || ""} ${
       d.travelerDetails?.lastName || ""
-    } (${d.travelerId || "—"})</p>
+    } (${d.travelerId || "â€”"})</p>
       <p><strong>Status:</strong> ${d.status}</p>
-      <p><strong>Pickup:</strong> ${d.pickup?.address || "—"}</p>
-      <p><strong>Dropoff:</strong> ${d.dropoff?.address || "—"}</p>
+      <p><strong>Pickup:</strong> ${d.pickup?.address || "â€”"}</p>
+      <p><strong>Dropoff:</strong> ${d.dropoff?.address || "â€”"}</p>
       <p><strong>Price:</strong> $${d.price}</p>
       <p><strong>Payout:</strong> $${d.payoutAmount}</p>
-      <p><strong>Delivery Type:</strong> ${d.package?.deliveryType || "—"}</p>
-      <p><strong>Description:</strong> ${d.package?.description || "—"}</p>
-      <p><strong>Created:</strong> ${d.createdAt || "—"}</p>
+      <p><strong>Delivery Type:</strong> ${d.package?.deliveryType || "â€”"}</p>
+      <p><strong>Description:</strong> ${d.package?.description || "â€”"}</p>
+      <p><strong>Created:</strong> ${d.createdAt || "â€”"}</p>
       <p><strong>Accepted:</strong> ${d.acceptedAt || "N/A"}</p>
       <p><strong>Picked Up:</strong> ${d.pickedUpAt || "N/A"}</p>
       <p><strong>Delivered:</strong> ${d.deliveredAt || "N/A"}</p>
@@ -298,20 +625,20 @@ function buildSenderTable(senders) {
   senders.forEach(u => {
     const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "N/A";
     const kycBadge = u.kycVerified
-      ? badge("Verified ✓", "verified")
+      ? badge("Verified âœ“", "verified")
       : badge("Pending", "pending");
 
     html += `
       <tr>
         <td>${name}</td>
-        <td>${u.email || "—"}</td>
-        <td>${u.phone || "—"}</td>
-        <td>${u.dob || "—"}</td>
-        <td>${u.address || "—"}</td>
-        <td>${u.city || "—"}</td>
-        <td>${u.state || "—"}</td>
-        <td>${u.zipcode || "—"}</td>
-        <td>${u.country || "—"}</td>
+        <td>${u.email || "â€”"}</td>
+        <td>${u.phone || "â€”"}</td>
+        <td>${u.dob || "â€”"}</td>
+        <td>${u.address || "â€”"}</td>
+        <td>${u.city || "â€”"}</td>
+        <td>${u.state || "â€”"}</td>
+        <td>${u.zipcode || "â€”"}</td>
+        <td>${u.country || "â€”"}</td>
         <td>${kycBadge}</td>
       </tr>
     `;
@@ -355,7 +682,7 @@ function buildTravelerTable(travelers) {
         : badge("Offline", "rejected");
 
     const verifiedBadge = t.verified
-      ? badge("Verified ✓", "verified")
+      ? badge("Verified âœ“", "verified")
       : badge("Not Verified", "rejected");
 
     const lastLocation =
@@ -368,10 +695,10 @@ function buildTravelerTable(travelers) {
     html += `
       <tr>
         <td>${name}</td>
-        <td>${user.email || "—"}</td>
-        <td>${user.phone || "—"}</td>
+        <td>${user.email || "â€”"}</td>
+        <td>${user.phone || "â€”"}</td>
         <td>${statusBadge}</td>
-        <td>${t.rating != null ? t.rating : "—"}</td>
+        <td>${t.rating != null ? t.rating : "â€”"}</td>
         <td>${verifiedBadge}</td>
         <td>${lastLocation}</td>
       </tr>
@@ -402,7 +729,7 @@ function buildTable(data) {
   data.forEach(row => {
     html += "<tr>";
     headers.forEach(h => {
-      html += `<td>${row[h] ?? "—"}</td>`;
+      html += `<td>${row[h] ?? "â€”"}</td>`;
     });
     html += "</tr>";
   });
@@ -542,7 +869,7 @@ function loadAnalytics(range = "") {
 }
 
 /* ============================================================
-   GOOGLE MAPS — TRAVELER MAP
+   GOOGLE MAPS â€” TRAVELER MAP
 ============================================================ */
 
 function renderTravelerMap(travelers) {
@@ -590,10 +917,3 @@ function renderTravelerMap(travelers) {
     marker.addListener("click", () => info.open(map, marker));
   });
 }
-
-/* ============================================================
-   DEFAULT TAB
-============================================================ */
-
-loadUsers();
-
