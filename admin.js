@@ -309,10 +309,30 @@ try {
 openAdminTab(
   initialAdminTab
 );
-
 /* ============================================================
    LOGOUT
 ============================================================ */
+
+function logoutAdmin() {
+  localStorage.removeItem(
+    "adminToken"
+  );
+
+  try {
+    sessionStorage.removeItem(
+      "flexagoAdminActiveTab"
+    );
+  } catch (error) {
+    console.warn(
+      "Unable to clear Admin tab state:",
+      error
+    );
+  }
+
+  window.location.replace(
+    "admin-login.html"
+  );
+}
 
 const logoutBtn =
   document.getElementById(
@@ -320,27 +340,11 @@ const logoutBtn =
   );
 
 if (logoutBtn) {
-  logoutBtn.addEventListener(
-    "click",
-    () => {
-      localStorage.removeItem(
-        "adminToken"
-      );
-
-      try {
-        sessionStorage.removeItem(
-          "flexagoAdminActiveTab"
-        );
-      } catch (error) {
-        console.warn(
-          "Unable to clear Admin tab state:",
-          error
-        );
-      }
-
-      window.location.href =
-        "admin-login.html";
-    }
+  logoutBtn.onclick =
+    logoutAdmin;
+} else {
+  console.error(
+    "Admin logout button was not found."
   );
 }
 /* ============================================================
