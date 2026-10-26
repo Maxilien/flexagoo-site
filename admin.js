@@ -457,59 +457,22 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
   adminFetch(
     `/api/admin/deliveries?page=${page}&status=${statusFilter}&search=${searchQuery}`
   ).then(data => {
-    const deliveries =
-      Array.isArray(data.deliveries)
-        ? data.deliveries
-        : [];
-
-    updateDeliveryKpis(
-      deliveries
-    );
-
     let html = `
       <div class="search-filter-bar">
-        <input
-          id="deliverySearch"
-          placeholder="Search deliveries..."
-        />
-
+        <input id="deliverySearch" placeholder="Search deliveries..." />
         <select id="deliveryStatusFilter">
-          <option value="">
-            All Status
-          </option>
-
-          <option value="available">
-            Available
-          </option>
-
-          <option value="accepted">
-            Accepted
-          </option>
-
-          <option value="in_transit">
-            In Transit
-          </option>
-
-          <option value="delivered">
-            Delivered
-          </option>
-
-          <option value="payout_pending">
-            Payout Pending
-          </option>
-
-          <option value="payout_completed">
-            Payout Completed
-          </option>
+          <option value="">All Status</option>
+          <option value="available">Available</option>
+          <option value="accepted">Accepted</option>
+          <option value="in_transit">In Transit</option>
+          <option value="delivered">Delivered</option>
+          <option value="payout_pending">Payout Pending</option>
+          <option value="payout_completed">Payout Completed</option>
         </select>
-
-        <button
-          onclick="applyDeliveryFilters()"
-        >
-          Apply
-        </button>
+        <button onclick="applyDeliveryFilters()">Apply</button>
       </div>
     `;
+
     html += `
       <table class="admin-table">
         <thead>
