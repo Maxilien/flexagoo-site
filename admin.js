@@ -75,6 +75,27 @@ const adminPageInformation = {
       "Review and manage Sender and Traveler support requests."
   }
 };
+/* ============================================================
+   FORMAT ADMIN MONEY
+============================================================ */
+
+function formatAdminMoney(value) {
+  const amount = Number(value);
+
+  if (!Number.isFinite(amount)) {
+    return "$0.00";
+  }
+
+  return amount.toLocaleString(
+    "en-US",
+    {
+      style: "currency",
+      currency: "USD",
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 2
+    }
+  );
+}
 
 /* ============================================================
    UPDATE PAGE HEADER
@@ -654,46 +675,106 @@ function loadUsers(page = 1, searchQuery = "") {
   currentUsersPage = page;
   currentUsersSearch = searchQuery;
 
-  adminFetch(`/api/admin/users?page=${page}&search=${searchQuery}`).then(
-    data => {
-      const senders = data.senders || [];
-      const travelers = data.travelers || [];
+  adminFetch(
+    `/api/admin/users?page=${page}&search=${encodeURIComponent(searchQuery)}`
+  ).then(data => {
+    const senders = data.senders || [];
+    const travelers = data.travelers || [];
+    const totals = data.totals || {};
 
-      let html = `
-        <div class="search-filter-bar">
-          <input id="userSearch" placeholder="Search users..." value="${searchQuery}" />
-          <button onclick="applyUserSearch()">Search</button>
-        </div>
-      `;
+    /* ========================================================
+       USERS KPI CARDS
+    ======================================================== */
 
-      html += `
-        <h3>Senders</h3>
-        ${buildSenderTable(senders)}
-        <h3>Traveler Map</h3>
-        <div id="travelerMap"></div>
-        <h3>Travelers</h3>
-        ${buildTravelerTable(travelers)}
-        <div class="pagination">
-          ${page > 1 ? `<button onclick="loadUsers(${page - 1}, '${searchQuery}')">Prev</button>` : ""}
-          <button onclick="loadUsers(${page + 1}, '${searchQuery}')">Next</button>
-        </div>
-      `;
+    const totalUsersElement =
+      document.getElementById("usersKpiTotal");
 
-      document.getElementById("usersTable").innerHTML = html;
+    const totalSendersElement =
+      document.getElementById("usersKpiSenders");
 
-      // Render Google Maps traveler map
-      renderTravelerMap(travelers);
+    const totalTravelersElement =
+      document.getElementById("usersKpiTravelers");
 
-      // Set up auto-refresh every 10 seconds (only once)
-      if (!usersAutoRefreshInterval) {
-        usersAutoRefreshInterval = setInterval(() => {
-          loadUsers(currentUsersPage, currentUsersSearch);
-        }, 10000);
-      }
+    const kycPendingElement =
+      document.getElementById("usersKpiKycPending");
+
+    if (totalUsersElement) {
+      totalUsersElement.textContent =
+        totals.users ?? 0;
     }
-  );
-}
 
+    if (totalSendersElement) {
+      totalSendersElement.textContent =
+        totals.senders ?? 0;
+    }
+
+    if (totalTravelersElement) {
+      totalTravelersElement.textContent =
+        totals.travelers ?? 0;
+    }
+
+    if (kycPendingElement) {
+      kycPendingElement.textContent =
+        totals.kycPending ?? 0;
+    }
+
+    /* ========================================================
+       USERS TABLES
+    ======================================================== */
+
+    let html = `
+      <div class="search-filter-bar">
+        <input
+          id="userSearch"
+          placeholder="Search users..."
+          value="${searchQuery}"
+        />
+        <button onclick="applyUserSearch()">Search</button>
+      </div>
+    `;
+
+    html += `
+      <h3>Senders</h3>
+      ${buildSenderTable(senders)}
+
+      <h3>Traveler Map</h3>
+      <div id="travelerMap"></div>
+
+      <h3>Travelers</h3>
+      ${buildTravelerTable(travelers)}
+
+      <div class="pagination">
+        ${
+          page > 1
+            ? `<button onclick="loadUsers(${page - 1}, '${searchQuery}')">Prev</button>`
+            : ""
+        }
+
+        <button onclick="loadUsers(${page + 1}, '${searchQuery}')">
+          Next
+        </button>
+      </div>
+    `;
+
+    document.getElementById(
+      "usersTable"
+    ).innerHTML = html;
+
+    // Render Google Maps traveler map
+    renderTravelerMap(travelers);
+
+    // Set up auto-refresh every 10 seconds (only once)
+    if (!usersAutoRefreshInterval) {
+      usersAutoRefreshInterval =
+        setInterval(() => {
+          loadUsers(
+            currentUsersPage,
+            currentUsersSearch
+          );
+        }, 10000);
+    }
+  });
+}
 function applyUserSearch() {
   const query = document.getElementById("userSearch").value;
   loadUsers(1, query);
