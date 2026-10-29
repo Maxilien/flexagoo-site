@@ -934,10 +934,77 @@ function buildTable(data) {
 
 function loadEscrow() {
   adminFetch("/api/admin/escrow").then(data => {
-    document.getElementById("escrowTable").innerHTML = buildTable(data);
+    const escrowTable =
+      document.getElementById("escrowTable");
+
+    if (!Array.isArray(data) || data.length === 0) {
+      escrowTable.innerHTML =
+        "<p>No escrow funds are currently pending.</p>";
+      return;
+    }
+
+    let html = `
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Delivery ID</th>
+            <th>Sender</th>
+            <th>Traveler</th>
+            <th>Delivery Price</th>
+            <th>Traveler Payout</th>
+            <th>Flexago Fee</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach(row => {
+      const createdDate =
+        row.createdAt
+          ? new Date(row.createdAt).toLocaleString()
+          : "N/A";
+
+      html += `
+        <tr>
+          <td>${row.deliveryId || "N/A"}</td>
+
+          <td>
+            ${row.senderName || "Unknown Sender"}
+            ${
+              row.senderEmail
+                ? `<br><small>${row.senderEmail}</small>`
+                : ""
+            }
+          </td>
+
+          <td>
+            ${row.travelerName || "Unassigned"}
+            ${
+              row.travelerEmail
+                ? `<br><small>${row.travelerEmail}</small>`
+                : ""
+            }
+          </td>
+
+          <td>${formatAdminMoney(row.deliveryPrice)}</td>
+          <td>${formatAdminMoney(row.travelerPayout)}</td>
+          <td>${formatAdminMoney(row.flexagoFee)}</td>
+          <td>${row.status || "payout_pending"}</td>
+          <td>${createdDate}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+    escrowTable.innerHTML = html;
   });
 }
-
 /* ============================================================
    PAYOUTS TAB
 ============================================================ */
