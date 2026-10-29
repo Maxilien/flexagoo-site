@@ -956,15 +956,16 @@ function loadRevenue() {
   adminFetch("/api/admin/revenue").then(data => {
     document.getElementById("revenueTable").innerHTML = `
       <h3>Total Revenue</h3>
-      <p>$${data.totalRevenue}</p>
+      <p>${formatAdminMoney(data.totalRevenue)}</p>
+
       <h3>Total Payouts</h3>
-      <p>$${data.totalPayouts}</p>
+      <p>${formatAdminMoney(data.totalPayouts)}</p>
+
       <h3>Flexago Fee</h3>
-      <p>$${data.flexagoFee}</p>
+      <p>${formatAdminMoney(data.flexagoFee)}</p>
     `;
   });
 }
-
 /* ============================================================
    ANALYTICS TAB
 ============================================================ */
