@@ -182,22 +182,18 @@ function loadAdminTabData(
     loadAnalytics();
   }
 
+  if (tabName === "support") {
+    loadSupport();
+  }
+
   /*
-   * Dashboard and Support are intentionally
-   * handled separately.
-   *
    * Dashboard KPI loading will be added after
    * the existing Admin tabs are verified.
-   *
-   * Support API loading will be connected after
-   * the Admin shell is confirmed stable.
    */
 }
-
 /* ============================================================
    OPEN ADMIN TAB
 ============================================================ */
-
 function openAdminTab(
   tabName,
   loadData = true
@@ -1190,7 +1186,210 @@ function loadAnalytics(range = "") {
     }
   );
 }
+/* ============================================================
+   SUPPORT TAB
+============================================================ */
 
+function loadSupport() {
+  adminFetch(
+    "/api/support-tickets/admin?limit=100"
+  ).then(data => {
+    const tickets =
+      Array.isArray(data.data)
+        ? data.data
+        : [];
+
+    const openCount =
+      tickets.filter(
+        ticket =>
+          ticket.status === "open"
+      ).length;
+
+    const progressCount =
+      tickets.filter(
+        ticket =>
+          ticket.status === "in_progress"
+      ).length;
+
+    const resolvedCount =
+      tickets.filter(
+        ticket =>
+          ticket.status === "resolved"
+      ).length;
+
+    const urgentCount =
+      tickets.filter(
+        ticket =>
+          ticket.priority === "urgent"
+      ).length;
+
+    const activeCount =
+      tickets.filter(
+        ticket =>
+          ticket.status !== "resolved" &&
+          ticket.status !== "closed"
+      ).length;
+
+    const openElement =
+      document.getElementById(
+        "supportKpiOpen"
+      );
+
+    const progressElement =
+      document.getElementById(
+        "supportKpiProgress"
+      );
+
+    const resolvedElement =
+      document.getElementById(
+        "supportKpiResolved"
+      );
+
+    const urgentElement =
+      document.getElementById(
+        "supportKpiUrgent"
+      );
+
+    const supportBadge =
+      document.getElementById(
+        "adminSupportBadge"
+      );
+
+    const dashboardSupport =
+      document.getElementById(
+        "adminKpiSupport"
+      );
+
+    if (openElement) {
+      openElement.textContent =
+        openCount;
+    }
+
+    if (progressElement) {
+      progressElement.textContent =
+        progressCount;
+    }
+
+    if (resolvedElement) {
+      resolvedElement.textContent =
+        resolvedCount;
+    }
+
+    if (urgentElement) {
+      urgentElement.textContent =
+        urgentCount;
+    }
+
+    if (supportBadge) {
+      supportBadge.textContent =
+        String(activeCount).padStart(
+          2,
+          "0"
+        );
+    }
+
+    if (dashboardSupport) {
+      dashboardSupport.textContent =
+        activeCount;
+    }
+
+    const supportTable =
+      document.getElementById(
+        "supportTable"
+      );
+
+    if (!supportTable) {
+      return;
+    }
+
+    if (tickets.length === 0) {
+      supportTable.innerHTML =
+        "<p>No support tickets found.</p>";
+      return;
+    }
+
+    let html = `
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Ticket</th>
+            <th>Requester</th>
+            <th>Role</th>
+            <th>Category</th>
+            <th>Subject</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th>Created</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    tickets.forEach(ticket => {
+      const createdDate =
+        ticket.createdAt
+          ? new Date(
+              ticket.createdAt
+            ).toLocaleString()
+          : "N/A";
+
+      const requester =
+        ticket.requesterName ||
+        ticket.requesterEmail ||
+        "Unknown User";
+
+      html += `
+        <tr>
+          <td>
+            ${ticket.ticketNumber || "N/A"}
+          </td>
+
+          <td>
+            ${requester}
+
+            ${
+              ticket.requesterEmail &&
+              ticket.requesterName
+                ? `<br><small>${ticket.requesterEmail}</small>`
+                : ""
+            }
+          </td>
+
+          <td>
+            ${ticket.userRole || "N/A"}
+          </td>
+
+          <td>
+            ${ticket.category || "N/A"}
+          </td>
+
+          <td>
+            ${ticket.subject || "N/A"}
+          </td>
+
+          <td>
+            ${ticket.priority || "normal"}
+          </td>
+
+          <td>
+            ${ticket.status || "open"}
+          </td>
+
+          <td>
+            ${createdDate}
+          </td>
+        </tr>
+      `;
+    });
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+    supportTable.innerHTML = html;
+  });
+}
 /* ============================================================
    GOOGLE MAPS â€” TRAVELER MAP
 ============================================================ */
