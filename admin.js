@@ -1011,10 +1011,75 @@ function loadEscrow() {
 
 function loadPayouts() {
   adminFetch("/api/admin/payouts").then(data => {
-    document.getElementById("payoutsTable").innerHTML = buildTable(data);
+    const payoutsTable =
+      document.getElementById("payoutsTable");
+
+    if (!Array.isArray(data) || data.length === 0) {
+      payoutsTable.innerHTML =
+        "<p>No completed payouts available.</p>";
+      return;
+    }
+
+    let html = `
+      <table class="admin-table">
+        <thead>
+          <tr>
+            <th>Delivery ID</th>
+            <th>Sender</th>
+            <th>Traveler</th>
+            <th>Payout Amount</th>
+            <th>Status</th>
+            <th>Completed</th>
+          </tr>
+        </thead>
+        <tbody>
+    `;
+
+    data.forEach(row => {
+      const completedDate =
+        row.completedAt
+          ? new Date(row.completedAt).toLocaleString()
+          : "N/A";
+
+      html += `
+        <tr>
+          <td>${row.deliveryId || "N/A"}</td>
+
+          <td>
+            ${row.senderName || "Unknown Sender"}
+            ${
+              row.senderEmail
+                ? `<br><small>${row.senderEmail}</small>`
+                : ""
+            }
+          </td>
+
+          <td>
+            ${row.travelerName || "Unknown Traveler"}
+            ${
+              row.travelerEmail
+                ? `<br><small>${row.travelerEmail}</small>`
+                : ""
+            }
+          </td>
+
+          <td>${formatAdminMoney(row.payoutAmount)}</td>
+
+          <td>${row.status || "completed"}</td>
+
+          <td>${completedDate}</td>
+        </tr>
+      `;
+    });
+
+    html += `
+        </tbody>
+      </table>
+    `;
+
+    payoutsTable.innerHTML = html;
   });
 }
-
 /* ============================================================
    REVENUE TAB
 ============================================================ */
