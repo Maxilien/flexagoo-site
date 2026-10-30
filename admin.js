@@ -485,10 +485,6 @@ try {
     error
   );
 }
-
-openAdminTab(
-  initialAdminTab
-);
 /* ============================================================
    LOGOUT
 ============================================================ */
@@ -1602,3 +1598,10 @@ function renderTravelerMap(travelers) {
     marker.addListener("click", () => info.open(map, marker));
   });
 }
+/* ============================================================
+   INITIALIZE ADMIN CONSOLE
+============================================================ */
+
+openAdminTab(
+  initialAdminTab
+);
