@@ -218,7 +218,10 @@ function loadDashboard() {
     document.getElementById(
       "adminKpiRevenue"
     );
-
+  const flexagoFeeElement =
+    document.getElementById(
+      "adminKpiFlexagoFee"
+    );
   const supportElement =
     document.getElementById(
       "adminKpiSupport"
@@ -274,13 +277,18 @@ function loadDashboard() {
             : 0;
 
         const totalPayouts =
-          Array.isArray(payoutsData)
-            ? payoutsData.length
-            : 0;
+          Number(
+            revenueData?.totalPayouts
+          ) || 0;
 
         const totalRevenue =
           Number(
             revenueData?.totalRevenue
+          ) || 0;
+
+        const flexagoFee =
+          Number(
+            revenueData?.flexagoFee
           ) || 0;
 
         const supportTickets =
@@ -316,13 +324,22 @@ function loadDashboard() {
 
         if (payoutsElement) {
           payoutsElement.textContent =
-            totalPayouts;
+            formatAdminMoney(
+              totalPayouts
+            );
         }
 
         if (revenueElement) {
           revenueElement.textContent =
             formatAdminMoney(
               totalRevenue
+            );
+        }
+
+        if (flexagoFeeElement) {
+          flexagoFeeElement.textContent =
+            formatAdminMoney(
+              flexagoFee
             );
         }
 

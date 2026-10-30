@@ -332,195 +332,210 @@
 
           </div>
 
-          <!-- KPI GRID -->
-          <div
-            id="adminKpiGrid"
-            class="admin-kpi-grid"
-          >
+     <!-- KPI GRID -->
+<div
+  id="adminKpiGrid"
+  class="admin-kpi-grid"
+>
 
-            <!-- USERS KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="users"
-            >
-              <div class="admin-kpi-header">
+  <!-- USERS KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="users"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Users
+      </span>
 
-                <span class="admin-kpi-label">
-                  Users
-                </span>
+      <span class="admin-kpi-icon">
+        U
+      </span>
+    </div>
 
-                <span class="admin-kpi-icon">
-                  U
-                </span>
+    <div
+      id="adminKpiUsers"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-              </div>
+    <div class="admin-kpi-caption">
+      Total registered users
+    </div>
+  </button>
 
-              <div
-                id="adminKpiUsers"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
+  <!-- DELIVERIES KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="deliveries"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Deliveries
+      </span>
 
-              <div class="admin-kpi-caption">
-                Total registered users
-              </div>
-            </button>
+      <span class="admin-kpi-icon">
+        D
+      </span>
+    </div>
 
-            <!-- DELIVERIES KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="deliveries"
-            >
-              <div class="admin-kpi-header">
+    <div
+      id="adminKpiDeliveries"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-                <span class="admin-kpi-label">
-                  Deliveries
-                </span>
+    <div class="admin-kpi-caption">
+      Marketplace deliveries
+    </div>
+  </button>
 
-                <span class="admin-kpi-icon">
-                  D
-                </span>
+  <!-- ESCROW KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="escrow"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Escrow
+      </span>
 
-              </div>
+      <span class="admin-kpi-icon">
+        E
+      </span>
+    </div>
 
-              <div
-                id="adminKpiDeliveries"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
+    <div
+      id="adminKpiEscrow"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-              <div class="admin-kpi-caption">
-                Marketplace deliveries
-              </div>
-            </button>
+    <div class="admin-kpi-caption">
+      Funds currently held
+    </div>
+  </button>
 
-            <!-- ESCROW KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="escrow"
-            >
-              <div class="admin-kpi-header">
+  <!-- TOTAL PAYOUTS KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="payouts"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Total Payouts
+      </span>
 
-                <span class="admin-kpi-label">
-                  Escrow
-                </span>
+      <span class="admin-kpi-icon">
+        P
+      </span>
+    </div>
 
-                <span class="admin-kpi-icon">
-                  E
-                </span>
+    <div
+      id="adminKpiPayouts"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-              </div>
+    <div class="admin-kpi-caption">
+      Traveler payout value
+    </div>
+  </button>
 
-              <div
-                id="adminKpiEscrow"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
+  <!-- REVENUE KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="revenue"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Revenue
+      </span>
 
-              <div class="admin-kpi-caption">
-                Funds currently held
-              </div>
-            </button>
+      <span class="admin-kpi-icon">
+        $
+      </span>
+    </div>
 
-            <!-- PAYOUTS KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="payouts"
-            >
-              <div class="admin-kpi-header">
+    <div
+      id="adminKpiRevenue"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-                <span class="admin-kpi-label">
-                  Payouts
-                </span>
+    <div class="admin-kpi-caption">
+      Total marketplace revenue
+    </div>
+  </button>
 
-                <span class="admin-kpi-icon">
-                  P
-                </span>
+  <!-- FLEXAGO FEE KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="revenue"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Flexago Fee
+      </span>
 
-              </div>
+      <span class="admin-kpi-icon">
+        $
+      </span>
+    </div>
 
-              <div
-                id="adminKpiPayouts"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
+    <div
+      id="adminKpiFlexagoFee"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-              <div class="admin-kpi-caption">
-                Traveler payouts
-              </div>
-            </button>
+    <div class="admin-kpi-caption">
+      Flexago marketplace fee
+    </div>
+  </button>
 
-            <!-- REVENUE KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="revenue"
-            >
-              <div class="admin-kpi-header">
+  <!-- SUPPORT KPI -->
+  <button
+    type="button"
+    class="admin-kpi-card admin-kpi-link"
+    data-open-tab="support"
+  >
+    <div class="admin-kpi-header">
+      <span class="admin-kpi-label">
+        Support
+      </span>
 
-                <span class="admin-kpi-label">
-                  Revenue
-                </span>
+      <span class="admin-kpi-icon">
+        S
+      </span>
+    </div>
 
-                <span class="admin-kpi-icon">
-                  $
-                </span>
+    <div
+      id="adminKpiSupport"
+      class="admin-kpi-value"
+    >
+      --
+    </div>
 
-              </div>
+    <div class="admin-kpi-caption">
+      Open support tickets
+    </div>
+  </button>
 
-              <div
-                id="adminKpiRevenue"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
-
-              <div class="admin-kpi-caption">
-                Flexago revenue
-              </div>
-            </button>
-
-            <!-- SUPPORT KPI -->
-            <button
-              type="button"
-              class="admin-kpi-card admin-kpi-link"
-              data-open-tab="support"
-            >
-              <div class="admin-kpi-header">
-
-                <span class="admin-kpi-label">
-                  Support
-                </span>
-
-                <span class="admin-kpi-icon">
-                  S
-                </span>
-
-              </div>
-
-              <div
-                id="adminKpiSupport"
-                class="admin-kpi-value"
-              >
-                --
-              </div>
-
-              <div class="admin-kpi-caption">
-                Open support tickets
-              </div>
-            </button>
-
-          </div>
-
-          <!-- DASHBOARD LOWER GRID -->
+</div>
+<!-- DASHBOARD LOWER GRID -->
           <div class="admin-dashboard-grid">
 
             <div class="admin-panel">
