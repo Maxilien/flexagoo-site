@@ -1371,3 +1371,83 @@ button.admin-kpi-card {
     padding: 20px 16px;
   }
 }
+/* ============================================================
+   DASHBOARD KPI CARD COLORS
+============================================================ */
+
+#adminKpiGrid .admin-kpi-card {
+  position: relative;
+  overflow: hidden;
+  border: 1px solid #e5e7eb;
+  border-top-width: 4px;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease,
+    border-color 0.18s ease;
+}
+
+#adminKpiGrid .admin-kpi-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.10);
+}
+
+/* USERS - BLUE */
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiUsers) {
+  background: #eff6ff;
+  border-top-color: #2563eb;
+}
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiUsers)
+.admin-kpi-icon {
+  background: #dbeafe;
+  color: #1d4ed8;
+}
+
+/* DELIVERIES - VIOLET */
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiDeliveries) {
+  background: #f5f3ff;
+  border-top-color: #7c3aed;
+}
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiDeliveries)
+.admin-kpi-icon {
+  background: #ede9fe;
+  color: #6d28d9;
+}
+
+/* ESCROW - AMBER */
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiEscrow) {
+  background: #fffbeb;
+  border-top-color: #d97706;
+}
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiEscrow)
+.admin-kpi-icon {
+  background: #fef3c7;
+  color: #b45309;
+}
+
+/* TOTAL PAYOUTS - TEAL */
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiPayouts) {
+  background: #f0fdfa;
+  border-top-color: #0d9488;
+}
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiPayouts)
+.admin-kpi-icon {
+  background: #ccfbf1;
+  color: #0f766e;
+}
+
+/* REVENUE - GREEN */
+
+#adminKpiGrid .admin-kpi-card:has(#adminKpiRevenue) {
+  background: #f0fdf4;
+  border-top-color: #16a34a;
+}
+
+#adminKpiGrid .admin-kpi-
