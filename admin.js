@@ -158,6 +158,9 @@ function updateAdminActiveNavigation(
 function loadAdminTabData(
   tabName
 ) {
+  if (tabName === "dashboard") {
+    loadDashboard();
+  }
   if (tabName === "users") {
     loadUsers();
   }
@@ -182,14 +185,174 @@ function loadAdminTabData(
     loadAnalytics();
   }
 
-  if (tabName === "support") {
+   if (tabName === "support") {
     loadSupport();
   }
+}
+/* ============================================================
+   DASHBOARD DATA
+============================================================ */
 
-  /*
-   * Dashboard KPI loading will be added after
-   * the existing Admin tabs are verified.
-   */
+function loadDashboard() {
+  const usersElement =
+    document.getElementById(
+      "adminKpiUsers"
+    );
+
+  const deliveriesElement =
+    document.getElementById(
+      "adminKpiDeliveries"
+    );
+
+  const escrowElement =
+    document.getElementById(
+      "adminKpiEscrow"
+    );
+
+  const payoutsElement =
+    document.getElementById(
+      "adminKpiPayouts"
+    );
+
+  const revenueElement =
+    document.getElementById(
+      "adminKpiRevenue"
+    );
+
+  const supportElement =
+    document.getElementById(
+      "adminKpiSupport"
+    );
+
+  Promise.all([
+    adminFetch(
+      "/api/admin/users?page=1&search="
+    ),
+
+    adminFetch(
+      "/api/admin/deliveries?page=1&status=&search="
+    ),
+
+    adminFetch(
+      "/api/admin/escrow"
+    ),
+
+    adminFetch(
+      "/api/admin/payouts"
+    ),
+
+    adminFetch(
+      "/api/admin/revenue"
+    ),
+
+    adminFetch(
+      "/api/support-tickets/admin?limit=100"
+    )
+  ])
+    .then(
+      ([
+        usersData,
+        deliveriesData,
+        escrowData,
+        payoutsData,
+        revenueData,
+        supportData
+      ]) => {
+        const totalUsers =
+          Number(
+            usersData?.totals?.users
+          ) || 0;
+
+        const totalDeliveries =
+          Number(
+            deliveriesData?.total
+          ) || 0;
+
+        const totalEscrow =
+          Array.isArray(escrowData)
+            ? escrowData.length
+            : 0;
+
+        const totalPayouts =
+          Array.isArray(payoutsData)
+            ? payoutsData.length
+            : 0;
+
+        const totalRevenue =
+          Number(
+            revenueData?.totalRevenue
+          ) || 0;
+
+        const supportTickets =
+          Array.isArray(
+            supportData?.data
+          )
+            ? supportData.data
+            : [];
+
+        const activeSupport =
+          supportTickets.filter(
+            ticket =>
+              ticket.status !==
+                "resolved" &&
+              ticket.status !==
+                "closed"
+          ).length;
+
+        if (usersElement) {
+          usersElement.textContent =
+            totalUsers;
+        }
+
+        if (deliveriesElement) {
+          deliveriesElement.textContent =
+            totalDeliveries;
+        }
+
+        if (escrowElement) {
+          escrowElement.textContent =
+            totalEscrow;
+        }
+
+        if (payoutsElement) {
+          payoutsElement.textContent =
+            totalPayouts;
+        }
+
+        if (revenueElement) {
+          revenueElement.textContent =
+            formatAdminMoney(
+              totalRevenue
+            );
+        }
+
+        if (supportElement) {
+          supportElement.textContent =
+            activeSupport;
+        }
+
+        const supportBadge =
+          document.getElementById(
+            "adminSupportBadge"
+          );
+
+        if (supportBadge) {
+          supportBadge.textContent =
+            String(
+              activeSupport
+            ).padStart(
+              2,
+              "0"
+            );
+        }
+      }
+    )
+    .catch(error => {
+      console.error(
+        "Admin Dashboard load error:",
+        error
+      );
+    });
 }
 /* ============================================================
    OPEN ADMIN TAB
