@@ -1,4 +1,7 @@
 /* Hero photos, phone layout and Alice on small screens. */
+.flexago-logo { display: inline-flex; flex: none; flex-direction: column; align-items: center; gap: 1px; line-height: 1; }
+.flexago-logo-img { height: 34px !important; width: auto; display: block; }
+.flexago-wordmark { color: #fff; font-size: 12px; font-weight: 700; letter-spacing: .02em; }
 .hero-slides { position: absolute; inset: 0; z-index: 1; background: #0f1115; }
 .hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; opacity: 0; animation: heroFade 24s infinite; }
 .hero-slides img:nth-child(1) { animation-delay: 0s; }
@@ -11,6 +14,8 @@
   .hero-slides img { animation: none; }
   .hero-slides img:first-child { opacity: 1; }
 }
+
+.contact-email { display: inline-flex; align-items: center; min-height: 44px; color: #0a4dff; font-weight: 700; }
 
 .section-photo { display: block; width: 100%; max-width: 900px; height: 340px; margin: 0 auto 32px; border-radius: 16px; object-fit: cover; object-position: center 30%; }
 
@@ -32,12 +37,23 @@
   .hero-buttons { flex-direction: column; align-items: stretch; }
   .hero-buttons a, .btn-primary, .btn-secondary { min-height: 48px; }
 
+  .about-section { min-height: 0; height: auto; padding-bottom: 8px; }
+  .about-section .hero-content { padding: 40px 0; }
+
+  .uber-footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
+  .uber-footer-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; }
+  .cta-section .btn-secondary, .cta-section a + a { border-color: #fff; }
+
   .section-photo { height: 220px; margin-bottom: 20px; }
   .step-img { height: 230px; }
   .uber-footer-row { flex-wrap: wrap; gap: 8px 16px; }
 }
 
 @media (max-width: 480px) {
+  /* A round button covers far less of the page on a phone. */
+  #alice-bubble { width: 56px; height: 56px; padding: 0 !important; justify-content: center; border-radius: 50%; }
+  #alice-bubble-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+
   #alice-widget { right: 12px !important; bottom: calc(12px + env(safe-area-inset-bottom)) !important; }
   #alice-window { width: calc(100vw - 24px) !important; max-height: 78dvh !important; }
   #alice-input { font-size: 16px !important; }
