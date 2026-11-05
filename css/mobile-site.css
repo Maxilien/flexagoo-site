@@ -1,0 +1,44 @@
+/* Hero photos, phone layout and Alice on small screens. */
+.hero-slides { position: absolute; inset: 0; z-index: 1; background: #0f1115; }
+.hero-slides img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center 25%; opacity: 0; animation: heroFade 24s infinite; }
+.hero-slides img:nth-child(1) { animation-delay: 0s; }
+.hero-slides img:nth-child(2) { animation-delay: 6s; }
+.hero-slides img:nth-child(3) { animation-delay: 12s; }
+.hero-slides img:nth-child(4) { animation-delay: 18s; }
+.hero-slides::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.6)); }
+@keyframes heroFade { 0% { opacity: 0; } 4% { opacity: 1; } 25% { opacity: 1; } 29% { opacity: 0; } 100% { opacity: 0; } }
+@media (prefers-reduced-motion: reduce) {
+  .hero-slides img { animation: none; }
+  .hero-slides img:first-child { opacity: 1; }
+}
+
+.section-photo { display: block; width: 100%; max-width: 900px; height: 340px; margin: 0 auto 32px; border-radius: 16px; object-fit: cover; object-position: center 30%; }
+
+@media (max-width: 768px) {
+  html, body { overflow-x: clip; }
+
+  .top-nav { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+  .top-nav-title-sub { display: none; }
+  .top-nav-right { flex-wrap: wrap; justify-content: center; gap: 4px 12px; width: 100%; }
+  .top-nav-right::after { content: ""; flex-basis: 100%; order: 2; }
+  .lang-select, .login-btn, .signup-btn { order: 1; }
+  .top-nav-link { order: 3; font-size: .8rem; }
+  .top-nav-link, .login-btn, .signup-btn { display: inline-flex; align-items: center; min-height: 44px; }
+  .lang-select { min-height: 40px; font-size: 16px; }
+
+  .hero { height: auto; min-height: 78vh; padding: 0 20px; }
+  .hero-content { padding: 22vh 0 48px; }
+  .hero h1 { font-size: 2rem; line-height: 1.15; }
+  .hero-buttons { flex-direction: column; align-items: stretch; }
+  .hero-buttons a, .btn-primary, .btn-secondary { min-height: 48px; }
+
+  .section-photo { height: 220px; margin-bottom: 20px; }
+  .step-img { height: 230px; }
+  .uber-footer-row { flex-wrap: wrap; gap: 8px 16px; }
+}
+
+@media (max-width: 480px) {
+  #alice-widget { right: 12px !important; bottom: calc(12px + env(safe-area-inset-bottom)) !important; }
+  #alice-window { width: calc(100vw - 24px) !important; max-height: 78dvh !important; }
+  #alice-input { font-size: 16px !important; }
+}

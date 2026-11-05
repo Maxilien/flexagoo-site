@@ -17,215 +17,205 @@
   let hasOpened  = false;
   let stateStack = [];
 
+  const SIGNUP = `<a href="https://app.flexagoo.com/signup">Create your account →</a>`;
+  const SUPPORT = `📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>`;
+
   const flow = {
 
     greeting: {
-      message: `👋 Hi! I'm <strong>Alice</strong>, your FlexaGo assistant.<br><br>Which best describes you?`,
+      message: `👋 Hi! I'm <strong>Alice</strong>, your FlexaGo assistant.<br><br>Which best describes you? You can also just type your question.`,
       options: [
         { label: "📦 I'm a Sender",       next: "sender_l1"   },
-        { label: "✈️ I'm a Traveler",      next: "traveler_l1" },
+        { label: "🧳 I'm a Traveler",      next: "traveler_l1" },
         { label: "🆕 I'm New to FlexaGo", next: "new_user"    },
       ]
     },
 
+    /* ── NEW USERS ───────────────────────────────────────── */
     new_user: {
-      message: `Welcome to FlexaGo! 🎉<br><br>FlexaGo connects people who need to <strong>ship something</strong> with <strong>travelers already heading that way</strong> — same-day delivery at a fraction of courier costs.<br><br>What are you interested in?`,
+      message: `Welcome to FlexaGo! 🎉 We connect people who need something delivered with verified travelers already going that way. What would you like to know?`,
       options: [
+        { label: "How does FlexaGo work?", k: "what is flexago explain about",
+          answer: `1️⃣ A <strong>sender</strong> posts a delivery and pays<br>2️⃣ A <strong>traveler</strong> going that way accepts it<br>3️⃣ The traveler confirms pickup with a code<br>4️⃣ The traveler delivers it with photos and a signature, then gets paid ✅<br><br>${SIGNUP}` },
+        { label: "How do I create an account?", k: "sign up signup register join start",
+          answer: `Signup takes 5 steps, and every step is checked:<br><br>1️⃣ Your legal name, and whether you'll send or carry<br>2️⃣ Email code<br>3️⃣ Text message code<br>4️⃣ ID photo and selfie<br>5️⃣ Date of birth and password<br><br>You must be 18 or older, and your name must match your ID.<br><br>${SIGNUP}` },
+        { label: "Why do you check my ID?", k: "identity verify verification selfie why stripe",
+          answer: `So everyone knows who they're dealing with. 🔒 Your ID and selfie are checked by Stripe Identity, a trusted verification service. Your verified name, email and phone can't be changed afterward, which helps prevent fraud.` },
+        { label: "Is there a mobile app?", k: "iphone ios android download phone app store",
+          answer: `Our iPhone app is coming soon! 📱 For now, FlexaGo works in your phone's browser.` },
+        { label: "What languages do you support?", k: "language spanish french creole haitian chinese portuguese",
+          answer: `FlexaGo is available in English, Spanish, French, Haitian Creole, Chinese and Portuguese. Use the language menu at the top of the page. 🌍` },
         { label: "📦 I want to send something", next: "sender_l1"   },
-        { label: "✈️ I want to earn on trips",  next: "traveler_l1" },
-        { label: "❓ How does FlexaGo work?",
-          answer: `Here's how FlexaGo works in 4 steps:<br><br>
-1️⃣ <strong>Sender posts</strong> a delivery with pickup & drop-off<br>
-2️⃣ <strong>Traveler accepts</strong> — already heading that way<br>
-3️⃣ <strong>Package picked up</strong> — sender tracks live 📍<br>
-4️⃣ <strong>Delivered & confirmed</strong> — traveler gets paid ✅<br><br>
-<a href="https://app.flexagoo.com/signup.html">Create your free account →</a>` }
+        { label: "🧳 I want to earn on trips",  next: "traveler_l1" },
       ]
     },
 
-    traveler_l1: {
-      message: `Great! Traveler details are coming soon.<br><br>For now reach us at:<br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>`,
-      options: []
-    },
-
-    /* ── SENDER LEVEL 1 ──────────────────────────────────── */
+    /* ── SENDERS ─────────────────────────────────────────── */
     sender_l1: {
       message: `Great! As a <strong>Sender</strong>, what can I help you with? 📦`,
       options: [
-        { label: "📦 How do I send a package?",    next: "sender_how"     },
-        { label: "💰 How much does it cost?",      next: "sender_cost"    },
-        { label: "⚡ How fast is delivery?",        next: "sender_speed"   },
-        { label: "📋 What can I send?",            next: "sender_items"   },
-        { label: "📍 Track my delivery",           next: "sender_track"   },
-        { label: "🔒 Is my package safe?",         next: "sender_safety"  },
-        { label: "💳 Payment & billing",           next: "sender_payment" },
-        { label: "🆘 Help with an existing order", next: "sender_help"    },
+        { label: "📦 How do I send a package?",  next: "sender_how"     },
+        { label: "💰 How much does it cost?",    next: "sender_cost"    },
+        { label: "📋 What can I send?",          next: "sender_items"   },
+        { label: "📍 Tracking my delivery",      next: "sender_track"   },
+        { label: "🔒 Safety and protection",     next: "sender_safety"  },
+        { label: "🆘 Help with a delivery",      next: "sender_help"    },
       ]
     },
 
-    /* ── SENDER L2: HOW TO SEND ──────────────────────────── */
     sender_how: {
-      message: `What would you like to know about sending a package?`,
+      message: `What would you like to know about sending?`,
       options: [
-        { label: "How do I post a delivery?",
-          answer: `Posting is simple! 📦<br><br>1️⃣ Log in → click <strong>"Send a Package"</strong><br>2️⃣ Describe your item (name, size, weight)<br>3️⃣ Set pickup & drop-off location<br>4️⃣ Set your budget & urgency<br>5️⃣ Click <strong>"Post Delivery"</strong> ✅<br><br><a href="https://app.flexagoo.com/signup.html">Create an account →</a>` },
-        { label: "How do I describe my item?",
-          answer: `📝 <strong>Item name</strong> — e.g. "Laptop in a sleeve"<br>📏 <strong>Size</strong> — small / medium / large / oversized<br>⚖️ <strong>Weight</strong> — approximate lbs or kg<br>📸 <strong>Optional photo</strong><br>⚠️ <strong>Special notes</strong> — fragile, keep upright, etc.` },
-        { label: "How do I set pickup & drop-off?",
-          answer: `📍 <strong>Pickup address</strong> — where traveler collects the package<br>🏁 <strong>Drop-off address</strong> — final destination<br><br>Type an address or drop a pin on the map. FlexaGo finds travelers whose route covers both points automatically.` },
-        { label: "How do I get matched with a traveler?",
-          answer: `After you post, FlexaGo finds travelers:<br><br>🔍 Whose route passes your pickup AND drop-off<br>✅ Who are identity-verified and available<br>⭐ Ranked by rating, ETA, and price<br><br>You get a match notification within minutes.` },
-        { label: "Can I schedule a delivery in advance?",
-          answer: `Yes! Schedule up to <strong>7 days ahead</strong>. 📅<br><br>Set your preferred pickup date and time window when posting.` },
-        { label: "What happens after I post?",
-          answer: `1️⃣ FlexaGo matches you with a verified traveler<br>2️⃣ You confirm the match<br>3️⃣ Payment held in escrow 🔒<br>4️⃣ Traveler picks up your package<br>5️⃣ You track live 📍<br>6️⃣ Delivered → confirm → traveler gets paid ✅` },
-        { label: "Can I edit my post after submitting?",
-          answer: `✅ <strong>Before a traveler accepts</strong> — My Deliveries → Edit<br><br>⚠️ <strong>After acceptance</strong> — contact support:<br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>` },
+        { label: "How do I post a delivery?", k: "create request new send package ship post",
+          answer: `1️⃣ Log in and open <strong>Create Delivery</strong><br>2️⃣ Enter pickup and drop-off addresses<br>3️⃣ Add the item type, size, weight and value<br>4️⃣ Add up to 5 photos<br>5️⃣ Enter the receiver's details<br>6️⃣ Pay to publish it ✅<br><br>${SIGNUP}` },
+        { label: "How do I get matched with a traveler?", k: "match find traveler who carries",
+          answer: `Once you've paid, your delivery appears for verified travelers whose trip passes near both your pickup and drop-off, going the right direction. A traveler then accepts it, and you'll see them on your delivery. 🚗` },
+        { label: "What happens after I post?", k: "next after steps process",
+          answer: `1️⃣ A traveler accepts your delivery<br>2️⃣ You give them your pickup code at handoff<br>3️⃣ You follow the delivery in the app<br>4️⃣ They deliver it with photos and a signature<br>5️⃣ You can rate your traveler ⭐` },
+        { label: "What's the pickup code?", k: "code handoff verify pickup",
+          answer: `It's a code only you can see in your delivery details. Give it to your traveler in person at pickup. It proves the right person collected your package. 🔑 Don't share it before then.` },
+        { label: "How many photos can I add?", k: "photo picture image upload",
+          answer: `Up to 5 photos per delivery. 📸 Clear photos help your traveler recognize the package.` },
       ]
     },
 
-    /* ── SENDER L2: COST ─────────────────────────────────── */
     sender_cost: {
-      message: `Let me break down pricing for you! What do you want to know?`,
+      message: `Here's how pricing works. What would you like to know?`,
       options: [
-        { label: "How is the price calculated?",
-          answer: `📏 <strong>Distance</strong> — how far the package travels<br>⚖️ <strong>Size & weight</strong><br>⚡ <strong>Urgency</strong> — express costs a bit more<br>📦 <strong>Item type</strong> — fragile items may carry a small premium<br><br>You set your budget; travelers accept or counter-offer.` },
-        { label: "Is there a minimum charge?",
-          answer: `Yes — FlexaGo has a <strong>minimum of $8</strong> for local deliveries. 💰` },
-        { label: "Are there any hidden fees?",
-          answer: `No hidden fees — ever. ✅<br><br>FlexaGo charges a transparent <strong>service fee of 5–8%</strong> shown before you confirm. Zero surprises.` },
-        { label: "How do I get a price estimate?",
-          answer: `You'll see an <strong>estimated price range</strong> as soon as you enter pickup and drop-off — before submitting your post. 💡` },
-        { label: "Is FlexaGo cheaper than FedEx / UPS?",
-          answer: `In most cases — significantly cheaper! 💰<br><br>Average savings: <strong>40–60% less</strong> than FedEx or UPS for same-day delivery.` },
-        { label: "Do I pay upfront or after delivery?",
-          answer: `You pay <strong>upfront when confirming your traveler</strong>, held in secure <strong>escrow</strong> — released only after you confirm delivery. ✅` },
-        { label: "Are there discounts or promo codes?",
-          answer: `Yes! 🎉 Enter your promo code at checkout. First-time sender? Check your <strong>signup confirmation email</strong> for a welcome discount!` },
+        { label: "How is the price calculated?", k: "price cost fee how much rate estimate quote",
+          answer: `FlexaGo calculates your price automatically. It's based on:<br><br>📏 Distance and delivery type (local, nationwide or international)<br>⚖️ Weight and size<br>📦 Item type<br>💎 Declared value<br>🛡️ Any protection you add<br><br>You'll see the full price before you pay. ✅` },
+        { label: "When do I pay?", k: "charge pay when upfront billing",
+          answer: `You pay when you post, and your delivery is published once payment goes through. 💳 It only reaches travelers after that.` },
+        { label: "How do I pay?", k: "card credit debit payment method cash stripe",
+          answer: `By card, securely through Stripe. 🔒 Your card details are handled by Stripe, and cash isn't accepted.` },
       ]
     },
 
-    /* ── SENDER L2: SPEED ────────────────────────────────── */
-    sender_speed: {
-      message: `Let's talk delivery speed! What do you need to know?`,
-      options: [
-        { label: "Is same-day delivery guaranteed?",
-          answer: `Same-day delivery is available and depends on <strong>traveler availability</strong> in your area. FlexaGo shows the earliest pickup time before you confirm. 📍` },
-        { label: "What are typical delivery times?",
-          answer: `🏙️ <strong>Local (same city)</strong>: 1–4 hours<br>🚗 <strong>Interstate</strong>: Same-day to next day<br>✈️ <strong>International</strong>: 1–3 days` },
-        { label: "Can I get urgent / express delivery?",
-          answer: `Yes! Select <strong>"Express"</strong> when posting. ⚡ This boosts your listing and attracts travelers who can move immediately.` },
-        { label: "Does time of day affect speed?",
-          answer: `Yes. Peak hours — <strong>7–10am</strong> and <strong>4–7pm</strong> — have the most active travelers. Posting then gets the fastest match. 🕐` },
-        { label: "What if no traveler is available right now?",
-          answer: `Your post stays <strong>active and visible</strong> to all nearby travelers. You can also:<br><br>💰 Increase your offer<br>📢 Mark as <strong>"Urgent"</strong><br>📅 Schedule for later` },
-        { label: "Does FlexaGo work on weekends & holidays?",
-          answer: `Yes — <strong>7 days a week, 365 days a year!</strong> 🎉 Weekends often have MORE travelers available.` },
-      ]
-    },
-
-    /* ── SENDER L2: ITEMS ────────────────────────────────── */
     sender_items: {
-      message: `What do you want to know about allowed items?`,
+      message: `What would you like to know about what you can send?`,
       options: [
-        { label: "What items are allowed?",
-          answer: `✅ Documents & envelopes<br>✅ Clothing & accessories<br>✅ Electronics (phones, laptops)<br>✅ Books & stationery<br>✅ Non-perishable food & gifts<br>✅ Small appliances<br>✅ Packaged personal care items` },
-        { label: "What items are NOT allowed?",
-          answer: `❌ Weapons or ammunition<br>❌ Illegal substances<br>❌ Hazardous materials<br>❌ Live animals<br>❌ Unregistered currency<br>❌ Counterfeit goods<br><br>Violations = immediate account suspension.` },
-        { label: "Can I send food or perishables?",
-          answer: `✅ <strong>Non-perishable packaged food</strong> allowed.<br>🌡️ <strong>Fresh food</strong> — same-day local only, properly packaged.<br>❌ Frozen / temperature-sensitive items not currently supported.` },
-        { label: "What are the size & weight limits?",
-          answer: `📦 <strong>Small</strong>: Up to 5 lbs<br>📦 <strong>Medium</strong>: 5–25 lbs<br>📦 <strong>Large</strong>: 25–70 lbs<br>📦 <strong>Oversized</strong>: 70+ lbs — requires special arrangement` },
-        { label: "Can I send fragile or valuable items?",
-          answer: `Yes! Mark as <strong>"Fragile"</strong>, add photos, pack properly, and add <strong>Premium Insurance (up to $1,000)</strong> for high-value items. ✅` },
-        { label: "Can I send internationally?",
-          answer: `Yes! ✈️ Declare item type & value, comply with destination customs, include required documentation. Delivery: <strong>1–3 days</strong>.` },
-        { label: "Can I send documents or legal papers?",
-          answer: `Absolutely! 📄 Contracts, legal papers, passports — all welcome. Use a tamper-evident sealed envelope and photo before handoff.` },
+        { label: "What types of items can I send?", k: "allowed item send types box envelope",
+          answer: `Delivery types include envelopes, documents, small to large boxes, bags, electronics and fragile items. 📦 Choose the closest type when you post.` },
+        { label: "What items are NOT allowed?", k: "prohibited banned illegal weapon weapons gun guns firearm knife ammo ammunition drugs marijuana alcohol animal animals pet pets dog dogs cat cats dangerous restricted",
+          answer: `❌ Weapons or ammunition<br>❌ Illegal substances<br>❌ Hazardous materials<br>❌ Live animals<br>❌ Counterfeit goods<br><br>Please see our <a href="terms.html">Terms</a> or ask support if you're unsure.` },
+        { label: "Can I send internationally?", k: "international abroad country overseas customs",
+          answer: `Yes, choose <strong>International</strong> when you post. ✈️ You're responsible for following customs rules for what you send. ${SUPPORT}` },
       ]
     },
 
-    /* ── SENDER L2: TRACKING ─────────────────────────────── */
     sender_track: {
-      message: `Let's find your package! What do you need help with?`,
+      message: `Let's find your package. What do you need?`,
       options: [
-        { label: "How do I see my package's live location?",
-          answer: `📱 Log in → <strong>My Deliveries</strong> → tap your active delivery<br><br>See the traveler's <strong>live GPS on the map</strong> 🗺️. Refreshes every 30 seconds.` },
-        { label: "Will I get notifications along the way?",
-          answer: `Yes! Notifications at every milestone:<br><br>🔔 Traveler accepted<br>🔔 Heading to pickup<br>🔔 Package picked up ✅<br>🔔 In transit 🚗<br>🔔 Arriving at drop-off<br>🔔 Delivered ✅` },
-        { label: "How do I know my package was delivered?",
-          answer: `📸 <strong>Delivery photo</strong> taken at drop-off<br>✍️ Optional recipient signature<br>🔔 Delivery confirmation notification<br><br>Confirm receipt in the app → traveler gets paid.` },
-        { label: "My package hasn't moved — what do I do?",
-          answer: `1️⃣ Check the live map in <strong>My Deliveries</strong><br>2️⃣ Message the traveler via in-app chat<br>3️⃣ No response in 10 mins? Tap <strong>"Report an Issue"</strong><br><br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>` },
-        { label: "Can I contact my traveler directly?",
-          answer: `Yes — message via <strong>FlexaGo in-app chat</strong> once delivery is active. 💬 Phone numbers are not shared for privacy.` },
-        { label: "Where do I find my tracking info?",
-          answer: `📱 Log in → <strong>My Deliveries</strong> → tap your active delivery.<br><br>Tracking link also sent to your confirmation email. 📧` },
+        { label: "How do I track my delivery?", k: "track tracking where status location map live package",
+          answer: `Log in and open <strong>Delivery Status</strong> or <strong>My Deliveries</strong>, then select your delivery. 📍 You'll see its status and route.` },
+        { label: "Will I get updates?", k: "notification text email update alert sms",
+          answer: `Yes. We send updates by text and email at key moments, such as when a traveler accepts and when your package is delivered. 🔔` },
+        { label: "How do I know it was delivered?", k: "delivered proof confirm signature",
+          answer: `Your traveler adds delivery photos and the recipient's signature. ✍️ You can see this proof on your delivery.` },
+        { label: "Can I message my traveler?", k: "chat contact message talk call",
+          answer: `Yes. Once a traveler accepts, use the chat on your delivery. 💬` },
       ]
     },
 
-    /* ── SENDER L2: SAFETY ───────────────────────────────── */
     sender_safety: {
-      message: `Safety is our #1 priority. What would you like to know?`,
+      message: `Safety comes first. What would you like to know?`,
       options: [
-        { label: "How are travelers verified?",
-          answer: `🪪 <strong>Government ID verification</strong> via Stripe Identity<br>🤳 <strong>Live selfie check</strong><br>📋 <strong>Background screening</strong><br>⭐ <strong>Ongoing ratings</strong> — below 4.0 = suspended` },
-        { label: "Is there delivery insurance?",
-          answer: `✅ All deliveries include <strong>basic coverage up to $100</strong> at no extra cost. 🛡️<br><br>Add <strong>Premium Insurance (up to $1,000)</strong> for high-value items. Claims filed within 48 hours.` },
-        { label: "What if my package is lost?",
-          answer: `1️⃣ File a report: <strong>My Deliveries → Report Issue</strong><br>2️⃣ Team investigates within 24 hours<br>3️⃣ Confirmed lost → <strong>full refund + insurance payout</strong> ✅` },
-        { label: "What if my package is damaged?",
-          answer: `1️⃣ Take photos immediately<br>2️⃣ Do NOT confirm delivery if damage is visible<br>3️⃣ File a claim within 48 hours: <strong>My Deliveries → Report Issue</strong><br><br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>` },
-        { label: "What if the traveler doesn't show up?",
-          answer: `1️⃣ Try in-app chat first<br>2️⃣ No response in 15 mins → tap <strong>"Traveler No-Show"</strong><br>3️⃣ FlexaGo immediately re-matches you<br>4️⃣ You are <strong>never charged</strong> for a no-show ✅` },
-        { label: "How is my payment protected?",
-          answer: `Payment held in <strong>secure escrow</strong> — never released until you confirm delivery. 🔒 Bank-level encryption on all transactions.` },
-        { label: "What is FlexaGo's delivery guarantee?",
-          answer: `✅ Package lost → <strong>full refund</strong><br>✅ No-show → <strong>free re-match + discount</strong><br>✅ Major delay → <strong>partial refund</strong><br>✅ 24/7 support on every active delivery` },
+        { label: "How are travelers checked?", k: "safe trust verified background check who",
+          answer: `Every traveler verifies their email, phone and government ID with a selfie. 🪪 They must also pass a background check before accepting their first job.` },
+        { label: "Is my package protected?", k: "insurance protection coverage covered lost damaged",
+          answer: `You can choose a protection option when you post. 🛡️ For coverage details or a claim, please contact our team: ${SUPPORT}` },
+        { label: "Is my payment secure?", k: "secure payment safe card data",
+          answer: `Yes. Payments are handled by Stripe. 🔒 Your card number is entered directly with Stripe, not stored by FlexaGo.` },
       ]
     },
 
-    /* ── SENDER L2: PAYMENT ──────────────────────────────── */
-    sender_payment: {
-      message: `Happy to help with payment! What do you need to know?`,
-      options: [
-        { label: "What payment methods are accepted?",
-          answer: `💳 Credit & Debit Cards (Visa, Mastercard, Amex)<br>📱 Apple Pay & Google Pay<br>🏦 Bank transfer (ACH)<br>💰 FlexaGo Wallet<br><br>All processed securely via <strong>Stripe</strong>.` },
-        { label: "When am I charged?",
-          answer: `When you <strong>confirm your matched traveler</strong>. Held in escrow and released only after you confirm delivery. ✅ Never charged for unmatched posts.` },
-        { label: "How do I get a receipt or invoice?",
-          answer: `Receipt emailed automatically after every delivery. 📧<br><br>Download: My Deliveries → select delivery → <strong>"Download Invoice"</strong>` },
-        { label: "I was charged incorrectly",
-          answer: `1️⃣ My Deliveries → select the delivery<br>2️⃣ Tap <strong>"Dispute Charge"</strong><br>3️⃣ Or email: <a href="mailto:support@flexagoo.com">support@flexagoo.com</a><br><br>Reviewed within <strong>48 hours</strong>. ✅` },
-        { label: "How do I request a refund?",
-          answer: `1️⃣ My Deliveries → <strong>"Request Refund"</strong><br>2️⃣ Select a reason<br>3️⃣ Processed within <strong>3–5 business days</strong> ✅` },
-        { label: "Is my payment information secure?",
-          answer: `Yes — completely. 🔒 <strong>Stripe</strong> handles all payments. Your card details are never stored on our servers.` },
-        { label: "Can I pay cash on delivery?",
-          answer: `Cash is <strong>not currently supported</strong> — all transactions go through the app for security and insurance coverage. 💳` },
-      ]
-    },
-
-    /* ── SENDER L2: HELP ─────────────────────────────────── */
     sender_help: {
-      message: `I'm here to help resolve your issue. What's going on?`,
+      message: `I'm sorry you need help. What's going on?`,
       options: [
-        { label: "My traveler is late",
-          answer: `1️⃣ Check the live map in <strong>My Deliveries</strong><br>2️⃣ Message via in-app chat<br>3️⃣ Still no response? Tap <strong>"Report Late Delivery"</strong><br><br>Our team contacts the traveler immediately. ✅` },
-        { label: "I want to cancel my delivery",
-          answer: `✅ <strong>Before pickup</strong>: My Deliveries → <strong>"Cancel Delivery"</strong> → full refund in 3–5 business days<br><br>⚠️ <strong>After pickup</strong>: Contact support immediately.<br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>` },
-        { label: "I need to change the drop-off address",
-          answer: `Contact support <strong>before the traveler reaches drop-off</strong>:<br><br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a><br><br>Include your delivery ID and the new address.` },
-        { label: "My package was delivered to the wrong place",
-          answer: `1️⃣ Tap <strong>"Report Issue"</strong> in My Deliveries<br>2️⃣ Select <strong>"Wrong delivery location"</strong><br>3️⃣ Our team contacts the traveler and coordinates recovery 📧` },
-        { label: "The traveler never picked up my package",
-          answer: `1️⃣ Tap <strong>"Traveler No-Show"</strong> in My Deliveries<br>2️⃣ FlexaGo immediately re-matches you<br>3️⃣ You are <strong>NOT charged</strong> for the failed pickup ✅` },
-        { label: "I want to report a traveler",
-          answer: `1️⃣ My Deliveries → select the delivery<br>2️⃣ Tap <strong>"Report Traveler"</strong><br>3️⃣ Choose a reason and provide details<br><br>Investigated within 24 hours. Violations = immediate suspension. 🔒` },
-        { label: "I need a refund for a failed delivery",
-          answer: `1️⃣ My Deliveries → <strong>"Request Refund"</strong><br>2️⃣ Select <strong>"Failed Delivery"</strong><br>3️⃣ Full refund within <strong>3–5 business days</strong> ✅` },
-        { label: "I have a dispute with a traveler",
-          answer: `1️⃣ Try resolving via <strong>in-app chat</strong> first<br>2️⃣ My Deliveries → <strong>"Open Dispute"</strong><br>3️⃣ FlexaGo mediates and decides within <strong>72 hours</strong><br><br>📧 <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>` },
+        { label: "How do I report or block someone?", k: "report block abuse harassment scam",
+          answer: `Open your delivery chat and tap <strong>Report</strong>. 🚩 Choose a reason, add details, and tick <strong>Also block this person</strong> if you'd like. Our team reviews every report.` },
+        { label: "I need a refund or to cancel", k: "refund cancel money back dispute charged wrong",
+          answer: `Please contact our team and include your delivery details, and they'll review it for you: ${SUPPORT}` },
+        { label: "My package is late, lost or damaged", k: "late lost damaged missing broken wrong address no show",
+          answer: `First message your traveler in the delivery chat. If that doesn't solve it, open <strong>Support</strong> in your account, or email us with your delivery details: ${SUPPORT}` },
+        { label: "How do I delete my account?", k: "delete close remove account",
+          answer: `Go to <strong>Account & Identity</strong>, scroll to <strong>Delete account</strong> and confirm your password. You'll need to finish any active deliveries first.` },
+      ]
+    },
+
+    /* ── TRAVELERS ───────────────────────────────────────── */
+    traveler_l1: {
+      message: `Great! As a <strong>Traveler</strong>, what can I help you with? 🧳`,
+      options: [
+        { label: "🚀 Getting started",        next: "traveler_start" },
+        { label: "🗺️ Finding jobs",           next: "traveler_jobs"  },
+        { label: "💵 Earnings and payouts",   next: "traveler_money" },
+        { label: "📦 Doing a delivery",       next: "traveler_job"   },
+        { label: "🆘 Help and safety",        next: "traveler_help"  },
+      ]
+    },
+
+    traveler_start: {
+      message: `Here's how to get going. What would you like to know?`,
+      options: [
+        { label: "What do I need to start?", k: "become traveler requirements start begin earn join",
+          answer: `1️⃣ Create an account and verify your email, phone and ID<br>2️⃣ Add your address<br>3️⃣ Complete a background check<br>4️⃣ Connect Stripe to get paid<br><br>Then you're ready to take jobs. 🎉<br><br>${SIGNUP}` },
+        { label: "Why is a background check required?", k: "background check checkr criminal",
+          answer: `People trust travelers with their packages, so every traveler needs a clear background check before accepting a first job. 🛡️ Start it from the <strong>Verification</strong> tab. Our partner Checkr handles your consent and details securely.` },
+        { label: "My background check needs review", k: "consider review pending suspended result",
+          answer: `Some results need a person to review them, and you can't accept jobs until that's done. Please contact our team: ${SUPPORT}` },
+      ]
+    },
+
+    traveler_jobs: {
+      message: `Here's how jobs work. What would you like to know?`,
+      options: [
+        { label: "How do I find jobs?", k: "find search jobs route trip available",
+          answer: `Open <strong>Jobs / Requests</strong>, enter your start and destination, and tap <strong>Search Jobs</strong>. 🗺️ You'll see deliveries that fit your route, closest first.` },
+        { label: "Which deliveries will I see?", k: "miles near distance corridor off route how far detour",
+          answer: `Only deliveries that fit your trip:<br><br>📍 Pickup and drop-off within <strong>6 miles</strong> of your route, or within <strong>20 miles</strong> of your start or destination<br>➡️ Going the same direction you are<br><br>Each job shows how far off your route it is.` },
+        { label: "Can I decline a job?", k: "decline reject skip",
+          answer: `Yes. 👍 You choose which jobs to accept, and declined jobs disappear from your results.` },
+        { label: "Do I have to work set hours?", k: "schedule hours shift when flexible",
+          answer: `No. There are no shifts or quotas. Accept only the jobs that fit your trip. 🗓️` },
+      ]
+    },
+
+    traveler_money: {
+      message: `Let's talk money. What would you like to know?`,
+      options: [
+        { label: "How much do I earn?", k: "earn earns earning earnings make money pay percent commission cut payout amount income salary travelers",
+          answer: `You keep <strong>80%</strong> of each delivery's price. 💵 You'll see the payout on every job before you accept it.` },
+        { label: "How do I get paid?", k: "get paid stripe connect bank account",
+          answer: `Connect your Stripe account in <strong>Payouts</strong>. 🏦 Your payment is sent after you complete a delivery.` },
+        { label: "Can I withdraw instantly?", k: "instant withdraw cash out fast",
+          answer: `If it's available on your account, you'll see <strong>Instant Withdraw</strong> in Payouts, along with your balance. ⚡ Stripe decides eligibility.` },
+      ]
+    },
+
+    traveler_job: {
+      message: `What part of a delivery can I help with?`,
+      options: [
+        { label: "How does pickup work?", k: "pickup collect code",
+          answer: `Meet the sender and ask for their <strong>pickup code</strong>. Enter it in the app to confirm you've got the package. 🔑` },
+        { label: "How do I complete a delivery?", k: "complete deliver drop proof signature photo finish",
+          answer: `At drop-off, open the job and add up to 5 delivery photos, the recipient's name and their signature, then submit. ✍️ That completes the job and starts your payment.` },
+        { label: "Can I message the sender?", k: "chat contact message sender",
+          answer: `Yes. Use the chat on your job once you've accepted it. 💬` },
+      ]
+    },
+
+    traveler_help: {
+      message: `I'm here to help. What's going on?`,
+      options: [
+        { label: "How do I report or block someone?", k: "report block abuse harassment unsafe",
+          answer: `Open the delivery chat and tap <strong>Report</strong>. 🚩 Choose a reason, add details, and tick <strong>Also block this person</strong> if you'd like. If you're ever in danger, call emergency services first.` },
+        { label: "What if I suspect a prohibited item?", k: "suspicious illegal refuse package drugs",
+          answer: `Don't accept the package. 🚫 Report it in the delivery chat, then contact our team: ${SUPPORT}` },
+        { label: "I have a problem with a job or payout", k: "problem issue missing payment payout late support",
+          answer: `Open <strong>Support</strong> in your account, or email us with your delivery details: ${SUPPORT}` },
+        { label: "How do I delete my account?", k: "delete close remove account",
+          answer: `Go to <strong>Account & Identity</strong>, scroll to <strong>Delete account</strong> and confirm your password. You'll need to finish any active deliveries first.` },
       ]
     },
 
@@ -346,33 +336,90 @@
   sendBtn.addEventListener("click", function() { handleFreeText(inputEl.value); });
   inputEl.addEventListener("keydown", function(e) { if (e.key === "Enter") handleFreeText(inputEl.value); });
 
+  // Finds the best answer to a typed question across every topic.
+  const STOP = new Set("a an and are at be can could do does for from get got has have how i im in is it its me my of on or our so that the this to was what when where which who why will with would you your need needs want much many please tell about".split(" "));
+
+  function words(text) {
+    return text.toLowerCase().replace(/[^a-z0-9\s]/g, " ").split(/\s+/).filter(function(word) {
+      return word.length > 1 && !STOP.has(word);
+    });
+  }
+
+  const answers = [];
+
+  Object.keys(flow).forEach(function(key) {
+    (flow[key].options || []).forEach(function(option) {
+      if (option.answer) {
+        answers.push({
+          answer: option.answer,
+          stateKey: key,
+          terms: new Set(words(option.label + " " + (option.k || "")))
+        });
+      }
+    });
+  });
+
+  function matches(word, term) {
+    return word === term || (word.length > 3 && term.length > 3 && (word.startsWith(term) || term.startsWith(word)));
+  }
+
+  // Rare words count for more, so "gun" outweighs a common word like "package".
+  function termWeight(term) {
+    const count = answers.filter(function(entry) { return entry.terms.has(term); }).length;
+    return 1 / Math.max(count, 1);
+  }
+
+  function findAnswer(text) {
+    const asked = words(text);
+    let best = null;
+    let bestScore = 0;
+
+    answers.forEach(function(entry) {
+      let score = 0;
+
+      asked.forEach(function(word) {
+        let wordScore = 0;
+
+        entry.terms.forEach(function(term) {
+          if (matches(word, term)) wordScore = Math.max(wordScore, termWeight(term));
+        });
+
+        score += wordScore;
+      });
+
+      if (score > bestScore) {
+        bestScore = score;
+        best = entry;
+      }
+    });
+
+    return bestScore >= 0.3 ? best : null;
+  }
+
   function handleFreeText(text) {
     text = text.trim();
     if (!text) return;
+
     addUserMessage(text);
     inputEl.value = "";
-    var lower = text.toLowerCase();
-    var fallbacks = [
-      { kw: ["send","package","ship"],          state: "sender_how"     },
-      { kw: ["cost","price","cheap","fee"],      state: "sender_cost"    },
-      { kw: ["fast","quick","speed","today"],    state: "sender_speed"   },
-      { kw: ["what can","allowed","item"],       state: "sender_items"   },
-      { kw: ["track","where","locate","status"], state: "sender_track"   },
-      { kw: ["safe","trust","verif","insur"],    state: "sender_safety"  },
-      { kw: ["pay","bill","charge","refund"],    state: "sender_payment" },
-      { kw: ["cancel","dispute","late","help"],  state: "sender_help"    },
-      { kw: ["traveler","earn","trip","income"], state: "traveler_l1"    },
-      { kw: ["hi","hello","hey","start"],        state: "greeting"       },
-    ];
-    for (var i = 0; i < fallbacks.length; i++) {
-      if (fallbacks[i].kw.some(function(k) { return lower.includes(k); })) {
-        var matched = fallbacks[i].state;
-        showTypingThen(function() { stateStack = []; renderState(matched); });
+
+    if (/^(hi|hello|hey|hola|bonjour|start|menu)\b/i.test(text)) {
+      showTypingThen(function() { stateStack = []; renderState("greeting"); });
+      return;
+    }
+
+    const found = findAnswer(text);
+
+    showTypingThen(function() {
+      if (found) {
+        stateStack = [found.stateKey];
+        addBotMessage(found.answer);
+        renderNavButtons(found.stateKey);
         return;
       }
-    }
-    showTypingThen(function() {
-      addBotMessage("I'm not sure about that yet, but our team can help! 😊<br><br>📧 <a href='mailto:support@flexagoo.com'>support@flexagoo.com</a>");
+
+      addBotMessage("I'm not sure about that one, but our team can help! 😊<br><br>" + SUPPORT);
+      stateStack = [];
       renderNavButtons("greeting");
     });
   }
