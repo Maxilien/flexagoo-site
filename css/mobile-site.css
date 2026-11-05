@@ -21,6 +21,11 @@
 .hero-steps li:nth-child(3)::after { animation-delay: 12s; }
 .hero-steps li:nth-child(4)::after { animation-delay: 18s; }
 
+/* The About story has several short paragraphs, so the section grows to fit. */
+.hero.about-section { height: auto; min-height: 430px; padding-bottom: 48px; background-color: #0f1115; }
+.about-section .hero-content p { max-width: 720px; margin-left: auto; margin-right: auto; }
+.about-section .hero-content p + p { margin-top: 14px; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slides img { animation: none; }
   .hero-slides img:first-child { opacity: 1; }
@@ -68,8 +73,8 @@
   .hero.hero-flow { min-height: 78vh; padding: 0 20px 24px; }
   .hero-flow .hero-content { padding-bottom: 0; }
 
-  .about-section { min-height: 0; height: auto; padding-bottom: 8px; }
-  .about-section .hero-content { padding: 40px 0; }
+  .hero.about-section { min-height: 0; height: auto; padding-bottom: 8px; }
+  .about-section .hero-content { height: auto; padding: 40px 0; }
 
   .uber-footer { padding-bottom: calc(88px + env(safe-area-inset-bottom)); }
   .uber-footer-links a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; }
