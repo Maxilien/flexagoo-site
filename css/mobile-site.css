@@ -17,6 +17,21 @@
 
 .contact-email { display: inline-flex; align-items: center; min-height: 44px; color: #0a4dff; font-weight: 700; }
 
+/* Always readable: a solid button that doesn't depend on the photo behind it. */
+.hero-buttons .btn-secondary,
+.hero-buttons .btn-secondary:link,
+.hero-buttons .btn-secondary:visited,
+.hero-buttons .btn-secondary:hover,
+.hero-buttons .btn-secondary:focus,
+.hero-buttons .btn-secondary:active {
+  background: rgba(0, 0, 0, .6);
+  color: #fff;
+  border: 2px solid #fff;
+  opacity: 1;
+  visibility: visible;
+}
+.hero-buttons .btn-secondary:hover { background: rgba(0, 0, 0, .8); }
+
 .section-photo { display: block; width: 100%; max-width: 900px; height: 340px; margin: 0 auto 32px; border-radius: 16px; object-fit: cover; object-position: center 30%; }
 
 @media (max-width: 768px) {
