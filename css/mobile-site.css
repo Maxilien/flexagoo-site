@@ -10,9 +10,21 @@
 .hero-slides img:nth-child(4) { animation-delay: 18s; }
 .hero-slides::after { content: ""; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.6)); }
 @keyframes heroFade { 0% { opacity: 0; } 4% { opacity: 1; } 25% { opacity: 1; } 29% { opacity: 0; } 100% { opacity: 0; } }
+
+/* Delivery steps under the hero buttons. Each lights up with its photo. */
+.hero.hero-flow { height: auto; min-height: 70vh; padding-bottom: 28px; }
+.hero-steps { counter-reset: hero-step; display: flex; justify-content: center; gap: 10px; max-width: 900px; margin: 28px auto 0; padding: 0 16px; list-style: none; }
+.hero-steps li { counter-increment: hero-step; position: relative; isolation: isolate; flex: 1 1 0; display: flex; align-items: center; gap: 8px; min-width: 0; padding: 8px 12px; overflow: hidden; border-radius: 8px; background: rgba(0, 0, 0, .6); color: #fff; font-size: .9rem; font-weight: 600; line-height: 1.25; text-align: left; }
+.hero-steps li::before { content: counter(hero-step); flex: none; position: relative; z-index: 1; width: 22px; height: 22px; border-radius: 50%; background: #fff; color: #0a4dff; font-size: .8rem; font-weight: 700; line-height: 22px; text-align: center; }
+.hero-steps li::after { content: ""; position: absolute; inset: 0; z-index: -1; background: #0a4dff; opacity: 0; animation: heroFade 24s infinite; }
+.hero-steps li:nth-child(2)::after { animation-delay: 6s; }
+.hero-steps li:nth-child(3)::after { animation-delay: 12s; }
+.hero-steps li:nth-child(4)::after { animation-delay: 18s; }
+
 @media (prefers-reduced-motion: reduce) {
   .hero-slides img { animation: none; }
   .hero-slides img:first-child { opacity: 1; }
+  .hero-steps li::after { animation: none; }
 }
 
 .contact-email { display: inline-flex; align-items: center; min-height: 44px; color: #0a4dff; font-weight: 700; }
@@ -51,6 +63,10 @@
   .hero h1 { font-size: 2rem; line-height: 1.15; }
   .hero-buttons { flex-direction: column; align-items: stretch; }
   .hero-buttons a, .btn-primary, .btn-secondary { min-height: 48px; }
+  .hero-steps { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 20px; padding: 0; }
+  .hero-steps li { font-size: .85rem; }
+  .hero.hero-flow { min-height: 78vh; padding: 0 20px 24px; }
+  .hero-flow .hero-content { padding-bottom: 0; }
 
   .about-section { min-height: 0; height: auto; padding-bottom: 8px; }
   .about-section .hero-content { padding: 40px 0; }
