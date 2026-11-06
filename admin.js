@@ -240,6 +240,12 @@ function renderAttentionList(items) {
   refreshAdminIcons();
 }
 
+function loadFailedRefunds() {
+  return adminFetch("/api/admin/deliveries?page=1&status=&search=&refund=failed")
+    .then((data) => Number(data?.total) || 0)
+    .catch(() => 0);
+}
+
 function loadDashboardChart() {
   adminFetch("/api/admin/analytics?range=30d").then((data) => {
     drawAdminChart("adminDashboardActivity", {
@@ -310,7 +316,8 @@ function loadDashboard() {
 
     adminFetch(
       "/api/support-tickets/admin?limit=100"
-    )
+    ),
+    loadFailedRefunds()
   ])
     .then(
       ([
@@ -319,7 +326,8 @@ function loadDashboard() {
         escrowData,
         payoutsData,
         revenueData,
-        supportData
+        supportData,
+        failedRefunds
       ]) => {
         const totalUsers =
           Number(
@@ -426,7 +434,8 @@ function loadDashboard() {
         renderAttentionList([
           { label: "Open support tickets", count: activeSupport, tab: "support" },
           { label: "Identity checks pending", count: Number(usersData?.totals?.kycPending) || 0, tab: "users" },
-          { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" }
+          { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" },
+          { label: "Refunds that failed", count: failedRefunds, tab: "deliveries" }
         ]);
       }
     )
@@ -817,6 +826,7 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <td>${formatAdminDate(d.createdAt)}</td>
           <td>
             <button onclick="viewDelivery('${d._id}')">View</button>
+            ${d.refundStatus === "failed" ? `<span class="admin-status bad">Refund failed</span> <button onclick="resolveDelivery('${d._id}', 'retry_refund')">Retry refund</button>` : ""}
             ${d.status === "under_review" ? `<button onclick="resolveDelivery('${d._id}', 'item_problem')">Uphold problem</button>` : ""}
             ${["under_review", "accepted", "in_transit", "delivered"].includes(d.status) ? `<button onclick="resolveDelivery('${d._id}', 'full_refund')">Full refund</button>` : ""}
           </td>
@@ -849,7 +859,8 @@ function applyDeliveryFilters() {
 
 const RESOLVE_MESSAGES = {
   item_problem: "Uphold this item problem? The sender gets 50% back and the traveler gets 40%.",
-  full_refund: "Give the sender a full refund? This cancels the delivery."
+  full_refund: "Give the sender a full refund? This cancels the delivery.",
+  retry_refund: "Try this refund again?"
 };
 
 async function resolveDelivery(id, decision) {
