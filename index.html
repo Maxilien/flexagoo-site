@@ -56,11 +56,14 @@
 <!-- ========================================================= -->
 <section class="hero hero-flow fade-in-up">
   <div class="hero-slides" aria-hidden="true">
-    <img src="img/people/hero-shop.jpg" alt="" fetchpriority="high">
-    <img src="img/people/hero-loading.jpg" alt="" loading="lazy">
-    <img src="img/people/hero-airport.jpg" alt="" loading="lazy">
-    <img src="img/people/section-sender.jpg" alt="" loading="lazy">
+    <video src="video/hero-sender.mp4" poster="video/hero-sender.jpg" data-step="0" style="object-position: 30% 30%" muted playsinline preload="auto"></video>
+    <video src="video/hero-shop.mp4" poster="video/hero-shop.jpg" data-step="0" style="object-position: 55% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-pickup.mp4" poster="video/hero-pickup.jpg" data-step="1" style="object-position: 20% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-drive.mp4" poster="video/hero-drive.jpg" data-step="2" style="object-position: 28% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-airport.mp4" poster="video/hero-airport.jpg" data-step="2" style="object-position: 62% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-door.mp4" poster="video/hero-door.jpg" data-step="3" style="object-position: 50% 30%" muted playsinline preload="none"></video>
   </div>
+  <p class="hero-credit">Created with Grok</p>
   <div class="hero-content">
     <h1>Someone's already going there.</h1>
     <p>Send with verified travelers already on that route, or get paid for a trip you're already taking.</p>
@@ -70,7 +73,7 @@
       <a href="#features" class="btn-secondary">Learn More</a>
     </div>
 
-    <!-- One step per photo above, in the same order -->
+    <!-- Each clip above names its step with data-step -->
     <ol class="hero-steps">
       <li>Post your delivery</li>
       <li>A traveler picks it up</li>
@@ -693,6 +696,7 @@
 <!-- ========================================================= -->
 <!-- ALICE JS                                                  -->
 <!-- ========================================================= -->
+<script src="js/hero-clips.js"></script>
 <script src="js/alice.js"></script>
 <script src="js/site-i18n.js"></script>
 <script src="js/site-location.js"></script>
