@@ -9,15 +9,19 @@
     content="width=device-width, initial-scale=1.0"
   >
 
-  <title>Flexago Admin Dashboard</title>
+  <title>FlexaGo Admin</title>
 
+  <link rel="icon" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/admin-theme.css">
 
 
   <!-- Chart.js for Analytics -->
-  <script
-    src="https://cdn.jsdelivr.net/npm/chart.js"
-  ></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.js"></script>
+  <script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.js"></script>
+  <script src="admin-ui.js"></script>
 </head>
 
 <body>
@@ -44,6 +48,8 @@
 
   <div class="admin-app">
 
+    <div id="adminBackdrop" class="admin-backdrop"></div>
+
     <!-- ====================================================
          SIDEBAR
     ===================================================== -->
@@ -56,20 +62,8 @@
       <!-- BRAND -->
       <div class="admin-brand">
 
-        <div class="admin-brand-mark">
-          F
-        </div>
-
-        <div class="admin-brand-copy">
-          <div class="admin-brand-name">
-            Flexago
-          </div>
-
-          <div class="admin-brand-label">
-            Admin Console
-          </div>
-        </div>
-
+        <img class="admin-brand-logo" src="img/flexago-logo-new.png" alt="FlexaGo">
+        <div class="admin-brand-label">Admin Console</div>
       </div>
 
       <!-- NAVIGATION -->
@@ -90,9 +84,7 @@
             class="tab-btn admin-nav-item active"
             data-tab="dashboard"
           >
-            <span class="admin-nav-icon">
-              ◆
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="layout-dashboard"></i></span>
 
             <span>
               Dashboard
@@ -113,9 +105,7 @@
             class="tab-btn admin-nav-item"
             data-tab="users"
           >
-            <span class="admin-nav-icon">
-              U
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="users"></i></span>
 
             <span>
               Users
@@ -127,9 +117,7 @@
             class="tab-btn admin-nav-item"
             data-tab="deliveries"
           >
-            <span class="admin-nav-icon">
-              D
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="package"></i></span>
 
             <span>
               Deliveries
@@ -141,9 +129,7 @@
             class="tab-btn admin-nav-item"
             data-tab="escrow"
           >
-            <span class="admin-nav-icon">
-              E
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="shield-check"></i></span>
 
             <span>
               Escrow
@@ -155,9 +141,7 @@
             class="tab-btn admin-nav-item"
             data-tab="payouts"
           >
-            <span class="admin-nav-icon">
-              P
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="banknote"></i></span>
 
             <span>
               Payouts
@@ -178,9 +162,7 @@
             class="tab-btn admin-nav-item"
             data-tab="revenue"
           >
-            <span class="admin-nav-icon">
-              $
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="circle-dollar-sign"></i></span>
 
             <span>
               Revenue
@@ -192,9 +174,7 @@
             class="tab-btn admin-nav-item"
             data-tab="analytics"
           >
-            <span class="admin-nav-icon">
-              A
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="chart-line"></i></span>
 
             <span>
               Analytics
@@ -215,9 +195,7 @@
             class="tab-btn admin-nav-item"
             data-tab="support"
           >
-            <span class="admin-nav-icon">
-              S
-            </span>
+            <span class="admin-nav-icon"><i data-lucide="life-buoy"></i></span>
 
             <span>
               Support
@@ -244,9 +222,7 @@
   class="admin-logout-btn"
   onclick="logoutAdmin()"
 >
-          <span class="admin-nav-icon">
-            ↪
-          </span>
+          <span class="admin-nav-icon"><i data-lucide="log-out"></i></span>
 
           <span>
             Logout
@@ -269,37 +245,20 @@
 
       <header class="admin-header">
 
-        <div>
+        <div class="admin-header-title">
+          <button type="button" id="adminMenuBtn" class="admin-menu-btn" aria-label="Open menu">
+            <i data-lucide="menu"></i>
+          </button>
 
-          <p class="admin-header-eyebrow">
-            FLEXAGO OPERATIONS
-          </p>
-
-          <h1 id="adminPageTitle">
-            Dashboard
-          </h1>
-
-          <p
-            id="adminPageDescription"
-            class="admin-page-description"
-          >
-            Monitor Flexago marketplace operations.
-          </p>
-
-        </div>
-
-        <div class="admin-header-actions">
-
-          <div class="admin-status-indicator">
-            <span
-              class="admin-status-dot"
-              aria-hidden="true"
-            ></span>
-
-            System Online
+          <div>
+            <h1 id="adminPageTitle">Dashboard</h1>
+            <p id="adminPageDescription" class="admin-page-description">
+              Monitor FlexaGo marketplace operations.
+            </p>
           </div>
-
         </div>
+
+        <div id="adminToday" class="admin-today"></div>
 
       </header>
 
@@ -326,7 +285,7 @@
               </h2>
 
               <p>
-                Key Flexago marketplace metrics.
+                Key FlexaGo marketplace metrics.
               </p>
             </div>
 
@@ -349,9 +308,7 @@
         Users
       </span>
 
-      <span class="admin-kpi-icon">
-        U
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="users"></i></span>
     </div>
 
     <div
@@ -377,9 +334,7 @@
         Deliveries
       </span>
 
-      <span class="admin-kpi-icon">
-        D
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="package"></i></span>
     </div>
 
     <div
@@ -405,9 +360,7 @@
         Escrow
       </span>
 
-      <span class="admin-kpi-icon">
-        E
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="shield-check"></i></span>
     </div>
 
     <div
@@ -433,9 +386,7 @@
         Total Payouts
       </span>
 
-      <span class="admin-kpi-icon">
-        P
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="banknote"></i></span>
     </div>
 
     <div
@@ -461,9 +412,7 @@
         Revenue
       </span>
 
-      <span class="admin-kpi-icon">
-        $
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="circle-dollar-sign"></i></span>
     </div>
 
     <div
@@ -486,23 +435,21 @@
   >
     <div class="admin-kpi-header">
       <span class="admin-kpi-label">
-        Flexago Fee
+        FlexaGo Fee
       </span>
 
-      <span class="admin-kpi-icon">
-        $
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="percent"></i></span>
     </div>
 
     <div
-      id="adminKpiFlexagoFee"
+      id="adminKpiFlexaGoFee"
       class="admin-kpi-value"
     >
       --
     </div>
 
     <div class="admin-kpi-caption">
-      Flexago marketplace fee
+      FlexaGo marketplace fee
     </div>
   </button>
 
@@ -517,9 +464,7 @@
         Support
       </span>
 
-      <span class="admin-kpi-icon">
-        S
-      </span>
+      <span class="admin-kpi-icon"><i data-lucide="life-buoy"></i></span>
     </div>
 
     <div
@@ -543,20 +488,17 @@
               <div class="admin-panel-header">
                 <div>
                   <h3>
-                    Marketplace Activity
+                    Deliveries per day
                   </h3>
 
                   <p>
-                    Delivery and operational activity.
+                    How many deliveries were created each day.
                   </p>
                 </div>
               </div>
 
-              <div
-                id="adminDashboardActivity"
-                class="admin-empty-state"
-              >
-                Operational metrics will appear here.
+              <div class="admin-chart-box">
+                <canvas id="adminDashboardActivity" aria-label="Deliveries per day"></canvas>
               </div>
 
             </div>
@@ -570,16 +512,16 @@
                   </h3>
 
                   <p>
-                    Items requiring Admin review.
+                    Items waiting for review.
                   </p>
                 </div>
               </div>
 
               <div
                 id="adminAttentionRequired"
-                class="admin-empty-state"
+                class="admin-attention"
               >
-                No alerts loaded.
+                
               </div>
 
             </div>
@@ -707,7 +649,7 @@
               </h2>
 
               <p>
-                Monitor Flexago delivery activity and status.
+                Monitor FlexaGo delivery activity and status.
               </p>
             </div>
 
@@ -859,7 +801,7 @@
               </h2>
 
               <p>
-                Review Flexago marketplace financial performance.
+                Review FlexaGo marketplace financial performance.
               </p>
             </div>
 
@@ -897,21 +839,21 @@
 
           <div class="analytics-filters">
 
-            <button
+            <button data-range="7d"
               type="button"
               onclick="loadAnalytics('7d')"
             >
               Last 7 Days
             </button>
 
-            <button
+            <button data-range="30d"
               type="button"
               onclick="loadAnalytics('30d')"
             >
               Last 30 Days
             </button>
 
-            <button
+            <button data-range=""
               type="button"
               onclick="loadAnalytics()"
             >

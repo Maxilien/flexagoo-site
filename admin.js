@@ -30,7 +30,7 @@ const adminPageInformation = {
   dashboard: {
     title: "Dashboard",
     description:
-      "Monitor Flexago marketplace operations."
+      "Monitor FlexaGo marketplace operations."
   },
 
   users: {
@@ -42,7 +42,7 @@ const adminPageInformation = {
   deliveries: {
     title: "Deliveries",
     description:
-      "Monitor Flexago delivery activity and status."
+      "Monitor FlexaGo delivery activity and status."
   },
 
   escrow: {
@@ -60,7 +60,7 @@ const adminPageInformation = {
   revenue: {
     title: "Revenue",
     description:
-      "Review Flexago marketplace financial performance."
+      "Review FlexaGo marketplace financial performance."
   },
 
   analytics: {
@@ -78,6 +78,37 @@ const adminPageInformation = {
 /* ============================================================
    FORMAT ADMIN MONEY
 ============================================================ */
+
+// User-entered text is shown as text, never run as page code.
+function esc(value) {
+  const box = document.createElement("span");
+  box.textContent = value ?? "";
+  return box.innerHTML.replace(/"/g, "&quot;");
+}
+
+function formatAdminDate(value) {
+  if (!value) return "—";
+
+  const date = new Date(value);
+
+  return Number.isNaN(date.getTime())
+    ? "—"
+    : date.toLocaleDateString(undefined, { month: "short", day: "numeric", year: "numeric" });
+}
+
+const STATUS_TONES = {
+  delivered: "good", completed: "good", payout_completed: "good", resolved: "good", paid: "good",
+  available: "info", accepted: "info", picked_up: "info", in_transit: "info", in_progress: "info",
+  pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn",
+  cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle"
+};
+
+function statusPill(status) {
+  const label = String(status || "unknown").replace(/_/g, " ");
+  const text = label.charAt(0).toUpperCase() + label.slice(1);
+
+  return `<span class="admin-status ${STATUS_TONES[status] || "idle"}">${esc(text)}</span>`;
+}
 
 function formatAdminMoney(value) {
   const amount = Number(value);
@@ -193,7 +224,35 @@ function loadAdminTabData(
    DASHBOARD DATA
 ============================================================ */
 
+function renderAttentionList(items) {
+  const list = document.getElementById("adminAttentionRequired");
+  if (!list) return;
+
+  list.innerHTML = items.map((item) => `
+    <button type="button" class="admin-attention-row" data-open-tab="${item.tab}">
+      <span class="admin-attention-count ${item.count ? "" : "clear"}">${item.count}</span>
+      <span>${item.label}</span>
+      <i data-lucide="chevron-right"></i>
+    </button>
+  `).join("");
+
+  refreshAdminIcons();
+}
+
+function loadDashboardChart() {
+  adminFetch("/api/admin/analytics?range=30d").then((data) => {
+    drawAdminChart("adminDashboardActivity", {
+      type: "line",
+      labels: data.chartDailyOrders.labels,
+      values: data.chartDailyOrders.datasets[0].data,
+      name: "Deliveries"
+    });
+  });
+}
+
 function loadDashboard() {
+  loadDashboardChart();
+
   const usersElement =
     document.getElementById(
       "adminKpiUsers"
@@ -220,7 +279,7 @@ function loadDashboard() {
     );
   const flexagoFeeElement =
     document.getElementById(
-      "adminKpiFlexagoFee"
+      "adminKpiFlexaGoFee"
     );
   const supportElement =
     document.getElementById(
@@ -362,6 +421,12 @@ function loadDashboard() {
               "0"
             );
         }
+
+        renderAttentionList([
+          { label: "Open support tickets", count: activeSupport, tab: "support" },
+          { label: "Identity checks pending", count: Number(usersData?.totals?.kycPending) || 0, tab: "users" },
+          { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" }
+        ]);
       }
     )
     .catch(error => {
@@ -452,27 +517,14 @@ tabs.forEach((button) => {
    DASHBOARD KPI NAVIGATION
 ============================================================ */
 
-document
-  .querySelectorAll(
-    "[data-open-tab]"
-  )
-  .forEach((button) => {
-    button.addEventListener(
-      "click",
-      () => {
-        const tabName =
-          button.dataset.openTab;
+// Also covers rows added later, such as the Attention list.
+document.addEventListener("click", (event) => {
+  const button = event.target.closest("[data-open-tab]");
 
-        if (!tabName) {
-          return;
-        }
-
-        openAdminTab(
-          tabName
-        );
-      }
-    );
-  });
+  if (button?.dataset.openTab) {
+    openAdminTab(button.dataset.openTab);
+  }
+});
 
 /* ============================================================
    INITIAL ADMIN TAB
@@ -719,13 +771,8 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
             <th>Price</th>
             <th>Payout</th>
             <th>Type</th>
-            <th>Pickup</th>
-            <th>Dropoff</th>
+            <th>Route</th>
             <th>Created</th>
-            <th>Accepted</th>
-            <th>Picked Up</th>
-            <th>Delivered</th>
-            <th>Payout Completed</th>
             <th>View</th>
           </tr>
         </thead>
@@ -747,23 +794,18 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
         <tr>
           <td>${
             photo
-              ? `<img src="${photo}" width="60" height="60" style="border-radius:6px;">`
-              : "â€”"
+              ? `<img src="${esc(photo)}" width="44" height="44" alt="">`
+              : "—"
           }</td>
-          <td>${d._id}</td>
-          <td>${senderName} <br><small>${d.senderId || "â€”"}</small></td>
-          <td>${travelerName} <br><small>${d.travelerId || "â€”"}</small></td>
-          <td>${d.status}</td>
-          <td>$${d.price}</td>
-          <td>$${d.payoutAmount}</td>
-          <td>${d.package?.deliveryType || "â€”"}</td>
-          <td>${d.pickup?.address || "â€”"}</td>
-          <td>${d.dropoff?.address || "â€”"}</td>
-          <td>${d.createdAt || "â€”"}</td>
-          <td>${d.acceptedAt || "â€”"}</td>
-          <td>${d.pickedUpAt || "â€”"}</td>
-          <td>${d.deliveredAt || "â€”"}</td>
-          <td>${d.payoutCompletedAt || "â€”"}</td>
+          <td class="admin-id">${esc(String(d._id).slice(-6))}</td>
+          <td>${esc(senderName)}</td>
+          <td>${esc(travelerName)}</td>
+          <td>${statusPill(d.status)}</td>
+          <td>${formatAdminMoney(d.price)}</td>
+          <td>${formatAdminMoney(d.payoutAmount)}</td>
+          <td>${esc(d.package?.deliveryType || "—")}</td>
+          <td><span class="admin-route">${esc(d.pickup?.address || "—")}<small>to ${esc(d.dropoff?.address || "—")}</small></span></td>
+          <td>${formatAdminDate(d.createdAt)}</td>
           <td><button onclick="viewDelivery('${d._id}')">View</button></td>
         </tr>
       `;
@@ -804,18 +846,18 @@ function viewDelivery(id) {
 
     document.getElementById("deliveryDetails").innerHTML = `
       <p><strong>ID:</strong> ${d._id}</p>
-      <p><strong>Sender:</strong> ${senderName} (${d.senderId || "â€”"})</p>
+      <p><strong>Sender:</strong> ${senderName} (${d.senderId || "—"})</p>
       <p><strong>Traveler:</strong> ${d.travelerDetails?.firstName || ""} ${
       d.travelerDetails?.lastName || ""
-    } (${d.travelerId || "â€”"})</p>
+    } (${d.travelerId || "—"})</p>
       <p><strong>Status:</strong> ${d.status}</p>
-      <p><strong>Pickup:</strong> ${d.pickup?.address || "â€”"}</p>
-      <p><strong>Dropoff:</strong> ${d.dropoff?.address || "â€”"}</p>
+      <p><strong>Pickup:</strong> ${esc(d.pickup?.address || "—")}</p>
+      <p><strong>Dropoff:</strong> ${esc(d.dropoff?.address || "—")}</p>
       <p><strong>Price:</strong> $${d.price}</p>
       <p><strong>Payout:</strong> $${d.payoutAmount}</p>
-      <p><strong>Delivery Type:</strong> ${d.package?.deliveryType || "â€”"}</p>
-      <p><strong>Description:</strong> ${d.package?.description || "â€”"}</p>
-      <p><strong>Created:</strong> ${d.createdAt || "â€”"}</p>
+      <p><strong>Delivery Type:</strong> ${d.package?.deliveryType || "—"}</p>
+      <p><strong>Description:</strong> ${esc(d.package?.description || "—")}</p>
+      <p><strong>Created:</strong> ${d.createdAt || "—"}</p>
       <p><strong>Accepted:</strong> ${d.acceptedAt || "N/A"}</p>
       <p><strong>Picked Up:</strong> ${d.pickedUpAt || "N/A"}</p>
       <p><strong>Delivered:</strong> ${d.deliveredAt || "N/A"}</p>
@@ -992,15 +1034,15 @@ function buildSenderTable(senders) {
 
     html += `
       <tr>
-        <td>${name}</td>
-        <td>${u.email || "â€”"}</td>
-        <td>${u.phone || "â€”"}</td>
-        <td>${u.dob || "â€”"}</td>
-        <td>${u.address || "â€”"}</td>
-        <td>${u.city || "â€”"}</td>
-        <td>${u.state || "â€”"}</td>
-        <td>${u.zipcode || "â€”"}</td>
-        <td>${u.country || "â€”"}</td>
+        <td>${esc(name)}</td>
+        <td>${esc(u.email || "—")}</td>
+        <td>${esc(u.phone || "—")}</td>
+        <td>${esc(u.dob || "—")}</td>
+        <td>${esc(u.address || "—")}</td>
+        <td>${esc(u.city || "—")}</td>
+        <td>${esc(u.state || "—")}</td>
+        <td>${esc(u.zipcode || "—")}</td>
+        <td>${esc(u.country || "—")}</td>
         <td>${kycBadge}</td>
       </tr>
     `;
@@ -1056,11 +1098,11 @@ function buildTravelerTable(travelers) {
 
     html += `
       <tr>
-        <td>${name}</td>
-        <td>${user.email || "â€”"}</td>
-        <td>${user.phone || "â€”"}</td>
+        <td>${esc(name)}</td>
+        <td>${esc(user.email || "—")}</td>
+        <td>${esc(user.phone || "—")}</td>
         <td>${statusBadge}</td>
-        <td>${t.rating != null ? t.rating : "â€”"}</td>
+        <td>${t.rating != null ? t.rating : "—"}</td>
         <td>${verifiedBadge}</td>
         <td>${lastLocation}</td>
       </tr>
@@ -1091,7 +1133,7 @@ function buildTable(data) {
   data.forEach(row => {
     html += "<tr>";
     headers.forEach(h => {
-      html += `<td>${row[h] ?? "â€”"}</td>`;
+      html += `<td>${row[h] ?? "—"}</td>`;
     });
     html += "</tr>";
   });
@@ -1124,7 +1166,7 @@ function loadEscrow() {
             <th>Traveler</th>
             <th>Delivery Price</th>
             <th>Traveler Payout</th>
-            <th>Flexago Fee</th>
+            <th>FlexaGo Fee</th>
             <th>Status</th>
             <th>Created</th>
           </tr>
@@ -1143,19 +1185,19 @@ function loadEscrow() {
           <td>${row.deliveryId || "N/A"}</td>
 
           <td>
-            ${row.senderName || "Unknown Sender"}
+            ${esc(row.senderName || "Unknown Sender")}
             ${
               row.senderEmail
-                ? `<br><small>${row.senderEmail}</small>`
+                ? `<br><small>${esc(row.senderEmail)}</small>`
                 : ""
             }
           </td>
 
           <td>
-            ${row.travelerName || "Unassigned"}
+            ${esc(row.travelerName || "Unassigned")}
             ${
               row.travelerEmail
-                ? `<br><small>${row.travelerEmail}</small>`
+                ? `<br><small>${esc(row.travelerEmail)}</small>`
                 : ""
             }
           </td>
@@ -1163,7 +1205,7 @@ function loadEscrow() {
           <td>${formatAdminMoney(row.deliveryPrice)}</td>
           <td>${formatAdminMoney(row.travelerPayout)}</td>
           <td>${formatAdminMoney(row.flexagoFee)}</td>
-          <td>${row.status || "payout_pending"}</td>
+          <td>${statusPill(row.status || "payout_pending")}</td>
           <td>${createdDate}</td>
         </tr>
       `;
@@ -1218,26 +1260,26 @@ function loadPayouts() {
           <td>${row.deliveryId || "N/A"}</td>
 
           <td>
-            ${row.senderName || "Unknown Sender"}
+            ${esc(row.senderName || "Unknown Sender")}
             ${
               row.senderEmail
-                ? `<br><small>${row.senderEmail}</small>`
+                ? `<br><small>${esc(row.senderEmail)}</small>`
                 : ""
             }
           </td>
 
           <td>
-            ${row.travelerName || "Unknown Traveler"}
+            ${esc(row.travelerName || "Unknown Traveler")}
             ${
               row.travelerEmail
-                ? `<br><small>${row.travelerEmail}</small>`
+                ? `<br><small>${esc(row.travelerEmail)}</small>`
                 : ""
             }
           </td>
 
           <td>${formatAdminMoney(row.payoutAmount)}</td>
 
-          <td>${row.status || "completed"}</td>
+          <td>${statusPill(row.status || "completed")}</td>
 
           <td>${completedDate}</td>
         </tr>
@@ -1259,14 +1301,11 @@ function loadPayouts() {
 function loadRevenue() {
   adminFetch("/api/admin/revenue").then(data => {
     document.getElementById("revenueTable").innerHTML = `
-      <h3>Total Revenue</h3>
-      <p>${formatAdminMoney(data.totalRevenue)}</p>
-
-      <h3>Total Payouts</h3>
-      <p>${formatAdminMoney(data.totalPayouts)}</p>
-
-      <h3>Flexago Fee</h3>
-      <p>${formatAdminMoney(data.flexagoFee)}</p>
+      <div class="admin-stat-grid">
+        <div class="admin-stat"><span>Total revenue</span><strong>${formatAdminMoney(data.totalRevenue)}</strong></div>
+        <div class="admin-stat"><span>Traveler payouts</span><strong>${formatAdminMoney(data.totalPayouts)}</strong></div>
+        <div class="admin-stat"><span>FlexaGo fee</span><strong>${formatAdminMoney(data.flexagoFee)}</strong></div>
+      </div>
     `;
   });
 }
@@ -1274,94 +1313,53 @@ function loadRevenue() {
    ANALYTICS TAB
 ============================================================ */
 
-let deliveriesChartInstance = null;
-let revenueChartInstance = null;
-let hourlyChartInstance = null;
-let weeklyChartInstance = null;
-
 function loadAnalytics(range = "") {
+  document.querySelectorAll(".analytics-filters button").forEach((button) => {
+    button.classList.toggle("active", button.dataset.range === range);
+  });
+
   adminFetch(`/api/admin/analytics${range ? `?range=${range}` : ""}`).then(
     data => {
       document.getElementById("analyticsTable").innerHTML = `
-        <p><strong>Total Senders:</strong> ${data.senderCount}</p>
-        <p><strong>Total Travelers:</strong> ${data.travelerCount}</p>
-        <p><strong>Total Deliveries:</strong> ${data.orderCount}</p>
+        <div class="admin-stat-grid">
+          <div class="admin-stat"><span>Senders</span><strong>${data.senderCount}</strong></div>
+          <div class="admin-stat"><span>Travelers</span><strong>${data.travelerCount}</strong></div>
+          <div class="admin-stat"><span>Deliveries</span><strong>${data.orderCount}</strong></div>
+        </div>
       `;
 
-      const ctx1 =
-        document.getElementById("chartDeliveriesPerDay").getContext("2d");
-      if (deliveriesChartInstance) deliveriesChartInstance.destroy();
-      deliveriesChartInstance = new Chart(ctx1, {
+      drawAdminChart("chartDeliveriesPerDay", {
         type: "line",
-        data: {
-          labels: data.chartDailyOrders.labels,
-          datasets: [
-            {
-              label: "Deliveries",
-              data: data.chartDailyOrders.datasets[0].data,
-              borderColor: "#007bff",
-              backgroundColor: "rgba(0, 123, 255, 0.2)",
-              tension: 0.3
-            }
-          ]
-        }
+        labels: data.chartDailyOrders.labels,
+        values: data.chartDailyOrders.datasets[0].data,
+        name: "Deliveries"
       });
 
-      const ctx2 =
-        document.getElementById("chartRevenuePerDay").getContext("2d");
-      if (revenueChartInstance) revenueChartInstance.destroy();
-      revenueChartInstance = new Chart(ctx2, {
+      drawAdminChart("chartRevenuePerDay", {
         type: "line",
-        data: {
-          labels: data.chartDailyRevenue.labels,
-          datasets: [
-            {
-              label: "Revenue ($)",
-              data: data.chartDailyRevenue.datasets[0].data,
-              borderColor: "#28a745",
-              backgroundColor: "rgba(40, 167, 69, 0.2)",
-              tension: 0.3
-            }
-          ]
-        }
+        labels: data.chartDailyRevenue.labels,
+        values: data.chartDailyRevenue.datasets[0].data,
+        name: "Revenue",
+        money: true
       });
 
-      const ctx3 =
-        document.getElementById("chartHourlyDeliveries").getContext("2d");
-      if (hourlyChartInstance) hourlyChartInstance.destroy();
-      hourlyChartInstance = new Chart(ctx3, {
+      drawAdminChart("chartHourlyDeliveries", {
         type: "bar",
-        data: {
-          labels: data.chartHourlyOrders.labels,
-          datasets: [
-            {
-              label: "Deliveries",
-              data: data.chartHourlyOrders.datasets[0].data,
-              backgroundColor: "#ffc107"
-            }
-          ]
-        }
+        labels: data.chartHourlyOrders.labels,
+        values: data.chartHourlyOrders.datasets[0].data,
+        name: "Deliveries"
       });
 
-      const ctx4 =
-        document.getElementById("chartWeeklyDeliveries").getContext("2d");
-      if (weeklyChartInstance) weeklyChartInstance.destroy();
-      weeklyChartInstance = new Chart(ctx4, {
+      drawAdminChart("chartWeeklyDeliveries", {
         type: "bar",
-        data: {
-          labels: data.ordersPerWeek.map(w => `Week ${w._id}`),
-          datasets: [
-            {
-              label: "Deliveries",
-              data: data.ordersPerWeek.map(w => w.count),
-              backgroundColor: "#6610f2"
-            }
-          ]
-        }
+        labels: data.ordersPerWeek.map(w => `Week ${w._id}`),
+        values: data.ordersPerWeek.map(w => w.count),
+        name: "Deliveries"
       });
     }
   );
 }
+
 /* ============================================================
    SUPPORT TAB
 ============================================================ */
@@ -1517,38 +1515,38 @@ function loadSupport() {
       html += `
         <tr>
           <td>
-            ${ticket.ticketNumber || "N/A"}
+            ${esc(ticket.ticketNumber || "N/A")}
           </td>
 
           <td>
-            ${requester}
+            ${esc(requester)}
 
             ${
               ticket.requesterEmail &&
               ticket.requesterName
-                ? `<br><small>${ticket.requesterEmail}</small>`
+                ? `<br><small>${esc(ticket.requesterEmail)}</small>`
                 : ""
             }
           </td>
 
           <td>
-            ${ticket.userRole || "N/A"}
+            ${esc(ticket.userRole || "N/A")}
           </td>
 
           <td>
-            ${ticket.category || "N/A"}
+            ${esc(ticket.category || "N/A")}
           </td>
 
           <td>
-            ${ticket.subject || "N/A"}
+            ${esc(ticket.subject || "N/A")}
           </td>
 
           <td>
-            ${ticket.priority || "normal"}
+            ${statusPill(ticket.priority || "normal")}
           </td>
 
           <td>
-            ${ticket.status || "open"}
+            ${statusPill(ticket.status || "open")}
           </td>
 
           <td>
@@ -1567,7 +1565,7 @@ function loadSupport() {
   });
 }
 /* ============================================================
-   GOOGLE MAPS â€” TRAVELER MAP
+   GOOGLE MAPS — TRAVELER MAP
 ============================================================ */
 
 function renderTravelerMap(travelers) {
