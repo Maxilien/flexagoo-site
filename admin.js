@@ -99,7 +99,8 @@ function formatAdminDate(value) {
 const STATUS_TONES = {
   delivered: "good", completed: "good", payout_completed: "good", resolved: "good", paid: "good",
   available: "info", accepted: "info", picked_up: "info", in_transit: "info", in_progress: "info",
-  pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn",
+  pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn", under_review: "warn",
+  clear: "good", invited: "info", consider: "warn", suspended: "bad", not_started: "idle",
   cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle"
 };
 
@@ -750,6 +751,14 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <option value="payout_completed">
             Payout Completed
           </option>
+
+          <option value="under_review">
+            Under Review
+          </option>
+
+          <option value="cancelled">
+            Cancelled
+          </option>
         </select>
 
         <button
@@ -806,7 +815,11 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <td>${esc(d.package?.deliveryType || "—")}</td>
           <td><span class="admin-route">${esc(d.pickup?.address || "—")}<small>to ${esc(d.dropoff?.address || "—")}</small></span></td>
           <td>${formatAdminDate(d.createdAt)}</td>
-          <td><button onclick="viewDelivery('${d._id}')">View</button></td>
+          <td>
+            <button onclick="viewDelivery('${d._id}')">View</button>
+            ${d.status === "under_review" ? `<button onclick="resolveDelivery('${d._id}', 'item_problem')">Uphold problem</button>` : ""}
+            ${["under_review", "accepted", "in_transit", "delivered"].includes(d.status) ? `<button onclick="resolveDelivery('${d._id}', 'full_refund')">Full refund</button>` : ""}
+          </td>
         </tr>
       `;
     });
@@ -833,6 +846,29 @@ function applyDeliveryFilters() {
 /* ============================================================
    VIEW DELIVERY DETAILS MODAL
 ============================================================ */
+
+const RESOLVE_MESSAGES = {
+  item_problem: "Uphold this item problem? The sender gets 50% back and the traveler gets 40%.",
+  full_refund: "Give the sender a full refund? This cancels the delivery."
+};
+
+async function resolveDelivery(id, decision) {
+  if (!confirm(RESOLVE_MESSAGES[decision])) return;
+
+  const res = await fetch(`${API_BASE}/api/admin/deliveries/${id}/resolve`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("adminToken")}`
+    },
+    body: JSON.stringify({ decision })
+  });
+  const data = await res.json();
+
+  if (!data.success) alert(data.error || "Unable to complete this.");
+
+  loadDeliveries();
+}
 
 function viewDelivery(id) {
   adminFetch(`/api/admin/deliveries?id=${id}`).then(d => {
@@ -1021,6 +1057,7 @@ function buildSenderTable(senders) {
           <th>Zip</th>
           <th>Country</th>
           <th>KYC</th>
+          <th>Background</th>
         </tr>
       </thead>
       <tbody>
@@ -1044,6 +1081,7 @@ function buildSenderTable(senders) {
         <td>${esc(u.zipcode || "—")}</td>
         <td>${esc(u.country || "—")}</td>
         <td>${kycBadge}</td>
+        <td>${statusPill(u.background_status || "not_started")}</td>
       </tr>
     `;
   });
@@ -1067,6 +1105,7 @@ function buildTravelerTable(travelers) {
           <th>Status</th>
           <th>Rating</th>
           <th>Verified</th>
+          <th>Background</th>
           <th>Last Location</th>
         </tr>
       </thead>
@@ -1104,6 +1143,7 @@ function buildTravelerTable(travelers) {
         <td>${statusBadge}</td>
         <td>${t.rating != null ? t.rating : "—"}</td>
         <td>${verifiedBadge}</td>
+        <td>${statusPill(user.background_status || "not_started")}</td>
         <td>${lastLocation}</td>
       </tr>
     `;
