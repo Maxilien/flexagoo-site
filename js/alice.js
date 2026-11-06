@@ -99,7 +99,7 @@
         { label: "What items are NOT allowed?", k: "prohibited banned illegal weapon weapons gun guns firearm knife ammo ammunition drugs marijuana alcohol animal animals pet pets dog dogs cat cats dangerous restricted",
           answer: `❌ Weapons or ammunition<br>❌ Illegal substances<br>❌ Hazardous materials<br>❌ Live animals<br>❌ Counterfeit goods<br><br>Please see our <a href="terms.html">Terms</a> or ask support if you're unsure.` },
         { label: "Can I send internationally?", k: "international abroad country overseas customs",
-          answer: `Yes, choose <strong>International</strong> when you post. ✈️ You're responsible for following customs rules for what you send. ${SUPPORT}` },
+          answer: `Yes. ✈️ International handoffs happen at airports, for both pickup and drop-off. Enter a city or address and we'll show the closest airports to choose from. You're responsible for following customs rules for what you send. ${SUPPORT}` },
       ]
     },
 
