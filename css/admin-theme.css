@@ -161,3 +161,17 @@ body { background: var(--canvas); color: var(--ink); font-family: Inter, system-
 @media (prefers-reduced-motion: reduce) {
   .admin-sidebar, .admin-nav-item, .admin-kpi-card { transition: none; }
 }
+
+/* Promos & rewards */
+.promo-admin-title { margin: 0 0 12px; font-size: 16px; }
+.promo-admin-form { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 12px; align-items: end; }
+.promo-admin-form label { display: grid; gap: 6px; font-size: 13px; font-weight: 500; }
+.promo-admin-form input:not([type="checkbox"]) { min-height: 40px; padding: 0 10px; border: 1px solid var(--line); border-radius: 9px; background: var(--surface); color: var(--ink); font: inherit; }
+.promo-admin-wide { grid-column: span 2; }
+.promo-admin-check { display: flex !important; align-items: center; gap: 8px; min-height: 40px; }
+.promo-admin-form button[type="submit"] { min-height: 40px; }
+.promo-admin-message { grid-column: 1 / -1; min-height: 1.2em; margin: 0; font-size: 13px; }
+.promo-admin-message.ok { color: #13a06a; }
+.promo-admin-message.bad { color: #e25555; }
+.promo-admin-help { margin: 12px 0 0; font-size: 13px; opacity: .75; }
+@media (max-width: 600px) { .promo-admin-wide { grid-column: auto; } }

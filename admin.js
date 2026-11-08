@@ -63,6 +63,12 @@ const adminPageInformation = {
       "Review FlexaGo marketplace financial performance."
   },
 
+  promos: {
+    title: "Promos & rewards",
+    description:
+      "Create promo codes and track referral rewards."
+  },
+
   analytics: {
     title: "Analytics",
     description:
@@ -101,7 +107,8 @@ const STATUS_TONES = {
   available: "info", accepted: "info", picked_up: "info", in_transit: "info", in_progress: "info",
   pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn", under_review: "warn",
   clear: "good", invited: "info", consider: "warn", suspended: "bad", not_started: "idle",
-  cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle"
+  cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle",
+  active: "good", off: "idle", credited: "good", owed: "warn"
 };
 
 function statusPill(status) {
@@ -215,6 +222,10 @@ function loadAdminTabData(
 
   if (tabName === "analytics") {
     loadAnalytics();
+  }
+
+  if (tabName === "promos") {
+    loadPromos();
   }
 
    if (tabName === "support") {

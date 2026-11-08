@@ -181,6 +181,18 @@
             </span>
           </button>
 
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="promos"
+          >
+            <span class="admin-nav-icon"><i data-lucide="gift"></i></span>
+
+            <span>
+              Promos &amp; rewards
+            </span>
+          </button>
+
         </div>
 
         <!-- SUPPORT -->
@@ -814,6 +826,64 @@
         </section>
 
         <!-- =================================================
+             PROMOS & REWARDS
+        ================================================== -->
+
+        <section
+          id="promos"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+            <div>
+              <h2>Promos &amp; rewards</h2>
+              <p>Create promo codes and see referral and first-trip rewards.</p>
+            </div>
+          </div>
+
+          <div class="admin-panel">
+            <h3 class="promo-admin-title">New promo code</h3>
+            <form id="promoCreateForm" class="promo-admin-form">
+              <label>Code
+                <input id="promoCode" required maxlength="20" pattern="[A-Za-z0-9]{3,20}" placeholder="UTAUSTIN" autocomplete="off" />
+              </label>
+              <label>Dollars off
+                <input id="promoAmount" type="number" min="1" max="100" step="0.01" required placeholder="10" />
+              </label>
+              <label>Max uses
+                <input id="promoMaxUses" type="number" min="1" step="1" placeholder="No limit" />
+              </label>
+              <label>Last day
+                <input id="promoExpires" type="date" />
+              </label>
+              <label class="promo-admin-wide">Note (only admins see it)
+                <input id="promoDescription" maxlength="200" placeholder="UT Austin launch week flyers" />
+              </label>
+              <label class="promo-admin-check">
+                <input id="promoFirstOnly" type="checkbox" checked />
+                First delivery only
+              </label>
+              <button type="submit">Create code</button>
+              <p id="promoCreateMessage" class="promo-admin-message" role="status"></p>
+            </form>
+            <p class="promo-admin-help">The discount comes out of FlexaGo's 20% share and is capped there, so travelers are always paid in full.</p>
+          </div>
+
+          <div class="admin-panel">
+            <h3 class="promo-admin-title">Promo codes</h3>
+            <div id="promosTable"></div>
+          </div>
+
+          <div class="admin-panel">
+            <h3 class="promo-admin-title">Rewards</h3>
+            <p class="promo-admin-help">Referrals: $10 to each person after the new user's first completed delivery. Travelers: $15 after their first trip.</p>
+            <div id="rewardsTable"></div>
+          </div>
+
+        </section>
+
+        <!-- =================================================
              ANALYTICS
         ================================================== -->
 
@@ -1045,6 +1115,7 @@
   ======================================================= -->
 
   <script src="admin.js"></script>
+  <script src="admin-promos.js"></script>
 
 </body>
 </html>
