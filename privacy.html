@@ -3,132 +3,296 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Flexago Privacy Policy</title>
-  <style>
-    body { margin: 0; background: #fff; }
-    main { font-family: Arial, sans-serif; max-width: 900px; margin: 40px auto; line-height: 1.7; }
-    h1 { color: #2563eb; }
-    h2 { margin-top: 32px; }
-    main { padding: 0 16px; overflow-wrap: anywhere; }
-    .back-link { display: inline-block; min-height: 44px; line-height: 44px; color: #2563eb; }
-  </style>
+  <title>FlexaGo Privacy Policy</title>
+  <meta name="description" content="How FlexaGo collects, uses, shares and protects information about senders, travelers, receivers and website visitors.">
+  <link rel="icon" type="image/png" sizes="512x512" href="img/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/legal.css" />
   <link rel="stylesheet" href="css/site-footer.css" />
 </head>
 <body>
-<main>
+<main class="legal">
 
 <a class="back-link" href="/">← Back to FlexaGo</a>
 
-<h1>Flexago Privacy Policy</h1>
-<p><strong>Last updated:</strong> July 2026</p>
+<h1>Privacy Policy</h1>
+<p class="updated"><strong>Effective date:</strong> November 8, 2026</p>
 
 <p>
-Flexago (“we”, “our”, “us”) it's a logistics marketplace that connects Senders and Travelers for delivery services. 
-This Privacy Policy explains how we collect, use, disclose, and protect your information, including mobile phone numbers used for SMS communication. 
-By using Flexago, you agree to the practices described in this policy.
+FlexaGo is a peer-to-peer delivery marketplace run by Flexago LLC (“FlexaGo”, “we”, “us”, “our”).
+We connect people who need something delivered (“Senders”) with verified people who are already
+traveling that way (“Travelers”). This policy explains what information we collect, why we collect it,
+who we share it with, and the choices you have. It applies to the FlexaGo app, flexagoo.com,
+app.flexagoo.com and our text messages, emails and support (together, the “Services”).
 </p>
 
-<h2>1. Information We Collect</h2>
-<p>We collect the following categories of information:</p>
+<section class="summary" aria-labelledby="summary-title">
+  <h2 id="summary-title">The short version</h2>
+  <ul>
+    <li>We collect what a safe delivery marketplace needs: your account details, identity and background check results, delivery details, payments and messages.</li>
+    <li>Senders and Travelers see only what they need to complete a delivery, such as name, photo, rating, and pickup and drop-off details. Phone numbers are shared only after a Traveler accepts.</li>
+    <li>We use trusted service providers for payments, identity checks, background checks, text messages and hosting.</li>
+    <li><strong>We do not sell your personal information</strong>, and we never share your phone number or text-message consent for anyone's marketing.</li>
+    <li>You can see, correct or delete your information. Some records must be kept for legal, tax and safety reasons.</li>
+  </ul>
+</section>
+
+<nav class="toc" aria-labelledby="toc-title">
+  <h2 id="toc-title">Contents</h2>
+  <ol>
+    <li><a href="#collect">Information we collect</a></li>
+    <li><a href="#use">How we use information</a></li>
+    <li><a href="#members">What other members see</a></li>
+    <li><a href="#share">How we share information</a></li>
+    <li><a href="#sms">Phone numbers and text messages</a></li>
+    <li><a href="#identity">Identity, biometrics and background checks</a></li>
+    <li><a href="#location">Location information</a></li>
+    <li><a href="#website">Website, cookies and similar tools</a></li>
+    <li><a href="#retention">How long we keep information</a></li>
+    <li><a href="#rights">Your choices and rights</a></li>
+    <li><a href="#security">Security</a></li>
+    <li><a href="#children">Children</a></li>
+    <li><a href="#international">International deliveries and data transfers</a></li>
+    <li><a href="#changes">Changes to this policy</a></li>
+    <li><a href="#contact">Contact us</a></li>
+  </ol>
+</nav>
+
+<h2 id="collect">1. Information we collect</h2>
+
+<h3>Information you give us</h3>
 <ul>
-  <li><strong>Identifiers:</strong> Name, email address, phone number, date of birth.</li>
-  <li><strong>Verification Information:</strong> Photos, government ID details, identity verification results.</li>
-  <li><strong>Delivery & Travel Details:</strong> Pickup and drop-off locations, travel routes, package descriptions.</li>
-  <li><strong>Payment Information:</strong> Card details processed by Stripe (we do not store full card numbers).</li>
-  <li><strong>Device Information:</strong> IP address, browser type, operating system, device identifiers.</li>
-  <li><strong>Usage Data:</strong> Pages viewed, interactions, timestamps, logs.</li>
-  <li><strong>Location Data:</strong> Approximate or precise location when using Flexago features.</li>
+  <li><strong>Account details:</strong> name, email address, mobile phone number, date of birth, password (stored only in scrambled, hashed form), role (Sender or Traveler), profile photo and language preference.</li>
+  <li><strong>Identity verification:</strong> a photo of your government ID and a selfie, used to confirm you are who you say you are (see <a href="#identity">section 6</a>).</li>
+  <li><strong>Background check information:</strong> the details our background check provider needs, which you give directly to that provider, and the result it returns to us.</li>
+  <li><strong>Delivery details (Senders):</strong> pickup and drop-off addresses, item description, category, size, weight, declared value, photos of the item, receiver's name and phone number, delivery instructions and any protection option you choose.</li>
+  <li><strong>Trip details (Travelers):</strong> your route, travel dates, vehicle or travel mode and the deliveries you accept.</li>
+  <li><strong>Proof of delivery:</strong> pickup codes, photos taken at pickup and drop-off, and confirmation times.</li>
+  <li><strong>Messages and support:</strong> in-app chat between a Sender and a Traveler, support tickets, safety reports, ratings and reviews.</li>
+  <li><strong>Payments and payouts:</strong> Senders' payment cards and Travelers' payout accounts are entered directly with our payment processor, Stripe. We never see or store full card or bank account numbers; we receive a token, the card brand, the last four digits and payment status.</li>
+  <li><strong>Rewards:</strong> referral codes you use or share, promo codes you apply, and credits or bonuses you earn.</li>
+  <li><strong>Waitlist:</strong> if you join our waitlist on flexagoo.com, your email address and city.</li>
 </ul>
 
-<h2>2. How We Use Your Information</h2>
-<p>We use your information to:</p>
+<h3>Information about receivers and other people</h3>
+<p>
+When a Sender enters a receiver's name, phone number and address, we use them only to complete that delivery,
+for example to let the Traveler find the receiver and to send delivery updates. Senders must have the
+receiver's permission to share these details with us.
+</p>
+
+<h3>Information collected automatically</h3>
 <ul>
-  <li>Create and manage your Flexago account.</li>
-  <li>Verify your identity and prevent fraud.</li>
-  <li>Facilitate deliveries between Senders and Travelers.</li>
-  <li>Process payments and payouts.</li>
-  <li>Send SMS notifications for verification, security, and delivery updates.</li>
-  <li>Improve platform functionality and user experience.</li>
-  <li>Comply with legal, regulatory, and safety requirements.</li>
+  <li><strong>Device and usage data:</strong> IP address, device type, operating system, app version, browser type, pages and screens viewed, actions taken, dates and times, and crash and error logs.</li>
+  <li><strong>Location:</strong> see <a href="#location">section 7</a>.</li>
 </ul>
 
-<h2>3. How We Use Your Phone Number</h2>
-<p>No phone information will be shared with third party/affiliate for marketing or promotional purpose.
-   Your mobile number is used for:</p>
+<h3>Information from others</h3>
 <ul>
-  <li>Account creation and verification</li>
-  <li>Two-factor authentication</li>
+  <li>Identity verification results from Stripe Identity.</li>
+  <li>Background check results from Checkr.</li>
+  <li>Payment, payout and fraud signals from Stripe.</li>
+  <li>Ratings, reviews and reports other members submit about you.</li>
+  <li>The referral code of the member who invited you, if any.</li>
+</ul>
+
+<h2 id="use">2. How we use information</h2>
+<ul>
+  <li><strong>Run the marketplace:</strong> create your account, match deliveries with Travelers on the same route, calculate prices, show pickup and drop-off details, and track delivery status.</li>
+  <li><strong>Keep members safe:</strong> verify identity and age, run background checks, check pickup codes, prevent fraud and misuse, investigate reports, and block or remove accounts that break our rules.</li>
+  <li><strong>Handle money:</strong> charge Senders, pay Travelers, issue refunds and cancellation payments, apply promo codes and credits, and pay rewards.</li>
+  <li><strong>Communicate with you:</strong> send verification codes, delivery updates, security alerts, receipts and support replies.</li>
+  <li><strong>Support and disputes:</strong> answer questions, review protection requests and resolve disagreements between members.</li>
+  <li><strong>Improve the Services:</strong> understand how the Services are used, fix problems and build new features.</li>
+  <li><strong>Legal duties:</strong> keep tax and financial records, respond to lawful requests, and enforce our <a href="/terms.html">Terms of Service</a>.</li>
+</ul>
+<p>
+We do not use automated decisions alone to permanently remove an account. A person at FlexaGo reviews background check results that are not “clear” and serious safety reports before final action is taken.
+</p>
+
+<h2 id="members">3. What other members see</h2>
+<p>Because FlexaGo is peer-to-peer, some information is shown to the other person on a delivery:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Shown to</th><th>What they see</th></tr></thead>
+  <tbody>
+    <tr><td>Verified Travelers whose route matches your delivery</td><td>Item description and photos, size and weight, pickup and drop-off addresses, Sender's and receiver's names, dates and price. Not phone numbers.</td></tr>
+    <tr><td>The Traveler who accepts your delivery</td><td>Everything above, plus the pickup and receiver phone numbers, delivery instructions and in-app chat.</td></tr>
+    <tr><td>The Sender whose delivery you accepted</td><td>Traveler's name, photo, rating, verification status, delivery progress and in-app chat.</td></tr>
+    <tr><td>The receiver</td><td>The Traveler's first name and, where we send them, delivery updates.</td></tr>
+  </tbody>
+</table>
+</div>
+<p>Please share only what a delivery needs in chat. Do not share passwords, payment details or your ID with other members.</p>
+
+<h2 id="share">4. How we share information</h2>
+<p><strong>We do not sell personal information and we do not share it for targeted advertising.</strong> We share information only:</p>
+<ul>
+  <li><strong>With other members</strong>, as described in <a href="#members">section 3</a>.</li>
+  <li><strong>With service providers</strong> who work for us under contract and may use the information only to provide their service:
+    <ul>
+      <li>Stripe: payments, payouts, fraud prevention and identity verification (Stripe Identity)</li>
+      <li>Checkr: background checks</li>
+      <li>Twilio and mobile carriers: text messages and phone verification</li>
+      <li>Cloudinary: storing item, profile and proof-of-delivery photos</li>
+      <li>MongoDB Atlas: our database</li>
+      <li>Render: hosting our servers</li>
+      <li>Google Cloud Translation: translating text when you choose to translate it</li>
+      <li>Our email provider: sending account and delivery emails</li>
+    </ul>
+  </li>
+  <li><strong>For safety and the law:</strong> when we believe in good faith it is needed to comply with law or legal process, protect someone's safety, investigate fraud, or enforce our Terms. This may include sharing with law enforcement or with a member involved in a reported incident.</li>
+  <li><strong>For protection requests and disputes:</strong> with the other member on the delivery, and with any insurer or claims administrator that helps us review a request.</li>
+  <li><strong>Business changes:</strong> if FlexaGo is involved in a merger, financing, acquisition or sale of assets, information may transfer as part of that deal, under this policy.</li>
+  <li><strong>With your permission</strong>, for any other purpose you agree to.</li>
+</ul>
+<p>We may share information that is combined or de-identified so that it no longer identifies you, for example total deliveries by city.</p>
+
+<h2 id="sms">5. Phone numbers and text messages</h2>
+<p>Your mobile number is used for:</p>
+<ul>
+  <li>Account creation and phone verification</li>
+  <li>Login security and verification codes</li>
   <li>Security alerts</li>
   <li>Delivery updates and confirmations</li>
   <li>Support and troubleshooting</li>
 </ul>
 
-<h2>4. Required A2P 10DLC Mobile Information Disclosure</h2>
-<p><strong>
-Mobile information will not be shared with third parties or affiliates for marketing or promotional purposes. 
-This includes phone numbers, SMS opt-in data, message content, and delivery information.
-</strong></p>
-
+<h3>Mobile information disclosure</h3>
 <p>
-Mobile information may be shared with our SMS providers (such as Twilio and carrier networks) 
-solely for the purpose of sending messages as part of Flexago’s service.
+<strong>No mobile information will be shared with third parties or affiliates for marketing or promotional purposes.</strong>
+This includes phone numbers, text-message opt-in data and consent, message content and delivery information.
+Mobile information may be shared only with our text-message providers (such as Twilio) and mobile carriers,
+solely to deliver messages that are part of the FlexaGo service.
 </p>
 
-<h2>5. SMS Consent & Messaging Terms</h2>
-<p>By clicking SEND SMS CODE to verify your phone number, you are agreeing to receive SMS messages verification code from Flexago for account verification and login security. By submitting your phone number to create your account, you are agreeing to receive SMS messages from Flexago for account verification, login security, delivery notifications, and important account updates. Message and data rates may apply.Reply STOP to opt out and HELP for HELp.:</p>
+<h3>Consent and opting out</h3>
+<p>
+By entering your mobile number and tapping “Send code” during signup, you agree to receive text messages from FlexaGo
+for account verification, login security, delivery notifications and important account updates.
+Message frequency varies with your account activity. Message and data rates may apply.
+Reply <strong>STOP</strong> at any time to opt out, or <strong>HELP</strong> for help.
+Opting out of non-essential texts will not close your account, but we may still need to send one-time verification codes when you sign in.
+More details are in the <a href="/terms.html#sms">Text Message Terms</a>.
+</p>
+
+<h2 id="identity">6. Identity, biometrics and background checks</h2>
+
+<h3>Identity verification</h3>
+<p>
+Every member verifies their identity before sending or carrying deliveries. Verification is done by Stripe Identity:
+you photograph your government ID and take a selfie, and Stripe compares the two to confirm they match.
+This comparison may use facial geometry, which some laws (including Texas law) treat as a biometric identifier.
+</p>
 <ul>
-  <li>Verification codes</li>
-  <li>Login security alerts</li>
-  <li>Delivery updates</li>
-  <li>Support messages</li>
+  <li><strong>By starting verification, you consent</strong> to Stripe capturing and comparing these images for identity verification and fraud prevention.</li>
+  <li><strong>FlexaGo does not receive or store your facial geometry.</strong> We receive the verification result and the verified name and date of birth, which we compare with your account.</li>
+  <li>Stripe keeps verification data under its own privacy policy and retention rules. We do not sell, lease or disclose biometric identifiers.</li>
 </ul>
 
-<p><strong>Message frequency varies based on account activity.</strong></p>
-<p><strong>Message and data rates may apply.</strong></p>
-
-<p>You may opt out at any time by texting <strong>STOP</strong>. For help, text <strong>HELP</strong>.</p>
-
-<h2>6. Location Information</h2>
+<h3>Background checks</h3>
 <p>
-We may collect approximate or precise location data to support delivery logistics, fraud prevention, and safety. 
-You may disable location access through your device settings, but certain features may not function properly.
+Members must pass a background check before using the marketplace. Checks are run by Checkr, a consumer reporting agency,
+only after you give your authorization on Checkr's own form. You give sensitive details (such as your Social Security number)
+directly to Checkr; FlexaGo does not collect or store them. We receive the result status (for example “clear” or “consider”)
+and only the report details needed to make a decision.
+</p>
+<p>
+If we may decide not to allow you on FlexaGo because of something in your report, we follow the federal Fair Credit Reporting Act:
+we send you a copy of the report and a summary of your rights first, give you time to dispute anything inaccurate with Checkr,
+and only then make a final decision.
 </p>
 
-<h2>7. Children’s Privacy</h2>
-<p>
-Flexago does not knowingly collect information from individuals under the age of 16. 
-Users must be at least 18 years old to use the platform.
-</p>
-
-<h2>8. Data Retention</h2>
-<p>
-We retain information as long as necessary to provide services, comply with legal obligations, resolve disputes, and enforce agreements.
-</p>
-
-<h2>9. Your Privacy Rights</h2>
-<p>Depending on your location, you may have rights to:</p>
+<h2 id="location">7. Location information</h2>
 <ul>
-  <li>Access your data</li>
-  <li>Request deletion</li>
-  <li>Correct inaccurate information</li>
-  <li>Opt out of certain data uses</li>
+  <li><strong>Addresses you enter</strong> are used to match routes, calculate distance and price, and guide pickup and drop-off.</li>
+  <li><strong>Device location</strong> (if you allow it) is used to fill in your location and show deliveries near you. If we offer live delivery tracking, a Traveler's location will be shared with the Sender only while that Traveler is carrying the Sender's delivery, never at other times.</li>
+  <li><strong>Approximate location from your IP address</strong> may be used for security, fraud prevention and to show your city on our website.</li>
+</ul>
+<p>You can turn off location access in your device settings. Some features may not work as well without it.</p>
+
+<h2 id="website">8. Website, cookies and similar tools</h2>
+<ul>
+  <li>Our website and app use your browser's local storage to keep you signed in and remember choices such as language. These are needed for the Services to work.</li>
+  <li>To show your city in our website footer, your browser asks a location lookup service (ipapi.co or ipwho.is) for an approximate location based on your IP address. We do not store this.</li>
+  <li>Our website loads fonts from Google Fonts, which receives your IP address when the font is downloaded.</li>
+  <li>We do not use advertising cookies or sell data to advertisers. If we add analytics tools in the future, we will update this policy first.</li>
 </ul>
 
-<p>To submit a request, contact us at the email below.</p>
-
-<h2>10. Data Security</h2>
+<h2 id="retention">9. How long we keep information</h2>
+<p>We keep information only as long as we need it for the purposes above:</p>
+<div class="table-wrap">
+<table>
+  <thead><tr><th>Information</th><th>How long</th></tr></thead>
+  <tbody>
+    <tr><td>Account and profile</td><td>While your account is open. Deleted or anonymized when you delete your account.</td></tr>
+    <tr><td>Delivery records, chat and photos</td><td>While your account is open, then anonymized, unless needed for an open dispute, protection request, safety report or legal matter.</td></tr>
+    <tr><td>Payment, payout and tax records</td><td>As long as tax and financial laws require, generally up to 7 years.</td></tr>
+    <tr><td>Background check results</td><td>As long as needed to decide on and maintain your access, and as the law requires.</td></tr>
+    <tr><td>Safety reports and blocks</td><td>As long as needed to protect members, even after an account is deleted, so a removed person cannot simply sign up again.</td></tr>
+    <tr><td>Waitlist emails</td><td>Until we launch in your area and contact you, or you ask us to remove you.</td></tr>
+  </tbody>
+</table>
+</div>
 <p>
-We use industry-standard security measures to protect your information, including encryption, secure storage, and access controls.
+When you delete your account in the app, we delete your profile and replace your name and contact details on past deliveries with “Deleted user”, so the other member's records stay accurate without identifying you.
 </p>
 
-<h2>11. Changes to This Policy</h2>
+<h2 id="rights">10. Your choices and rights</h2>
+<p>Wherever you live, you can ask us to:</p>
+<ul>
+  <li><strong>Access</strong> the personal information we have about you, and get a copy in a portable format.</li>
+  <li><strong>Correct</strong> information that is wrong.</li>
+  <li><strong>Delete</strong> your information. You can delete your account in the app under Profile, or email us.</li>
+  <li><strong>Opt out</strong> of text messages (reply STOP) and of non-essential emails (use the link in the email).</li>
+</ul>
 <p>
-We may update this Privacy Policy from time to time. 
-Continued use of Flexago after changes means you accept the updated policy.
+<strong>Texas residents</strong> have these rights under the Texas Data Privacy and Security Act, and residents of other states
+(such as California, Colorado, Virginia and Connecticut) may have similar rights. We do not sell personal information,
+use it for targeted advertising or use it for profiling that produces legal or similarly significant effects, so there is nothing to opt out of there.
+</p>
+<p>
+To make a request, email <a href="mailto:support@flexagoo.com">support@flexagoo.com</a> from the email on your account.
+We will confirm your identity before acting, and reply within 45 days (we may extend this once by another 45 days when reasonably necessary, and will tell you if we do).
+If we deny your request, you may appeal by replying to our decision with “Appeal” in the subject line; we will respond within 60 days.
+If your appeal is denied, you may contact the Texas Attorney General at <a href="https://www.texasattorneygeneral.gov/consumer-protection/file-consumer-complaint" rel="noopener">texasattorneygeneral.gov</a>.
+You may use an authorized agent, and we will never treat you differently for using your rights.
 </p>
 
-<h2>12. Contact Us</h2>
-<p>Email: support@flexagoo.com</p>
+<h2 id="security">11. Security</h2>
+<p>
+We protect information with encryption in transit (HTTPS), hashed passwords, access controls that limit staff access to what their job needs,
+rate limits against guessing attacks, and providers that hold recognized security certifications. No system is perfectly secure.
+If we learn of a breach that affects your personal information, we will notify you and regulators as the law requires.
+</p>
+
+<h2 id="children">12. Children</h2>
+<p>
+You must be at least 18 years old to use FlexaGo. We do not knowingly collect personal information from anyone under 18.
+If you believe a minor has given us information, contact us and we will delete it.
+</p>
+
+<h2 id="international">13. International deliveries and data transfers</h2>
+<p>
+FlexaGo is based in the United States and our providers store information in the United States.
+For deliveries that cross borders, some delivery details may need to be shared with customs or other authorities, and with the Traveler in the destination country.
+If you use the Services from outside the United States, you understand your information will be processed in the United States.
+</p>
+
+<h2 id="changes">14. Changes to this policy</h2>
+<p>
+We may update this policy as the Services change. We will change the effective date above and, for important changes,
+tell you in the app or by email before they take effect.
+</p>
+
+<h2 id="contact">15. Contact us</h2>
+<p>
+Flexago LLC<br>
+<span class="fill-in">[Mailing address]</span><br>
+Email: <a href="mailto:support@flexagoo.com">support@flexagoo.com</a>
+</p>
 
 </main>
 
