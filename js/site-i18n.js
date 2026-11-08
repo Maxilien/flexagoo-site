@@ -85,7 +85,31 @@
     "FlexaGo Assistant · Online": ["Asistente de FlexaGo · En línea", "Assistante FlexaGo · En ligne", "Asistan FlexaGo · Anliy", "FlexaGo 助手 · 在线", "Assistente FlexaGo · Online"],
     "Close": ["Cerrar", "Fermer", "Fèmen", "关闭", "Fechar"],
     "Ask Alice": ["Pregúntale a Alice", "Demander à Alice", "Mande Alice", "询问 Alice", "Pergunte à Alice"],
-    "Ask Alice anything…": ["Pregúntale lo que sea a Alice…", "Posez votre question à Alice…", "Mande Alice nenpòt bagay…", "向 Alice 提问…", "Pergunte qualquer coisa à Alice…"]
+    "Ask Alice anything…": ["Pregúntale lo que sea a Alice…", "Posez votre question à Alice…", "Mande Alice nenpòt bagay…", "向 Alice 提问…", "Pergunte qualquer coisa à Alice…"],
+    "Launching first in Texas": ["Lanzamiento primero en Texas", "Lancement d'abord au Texas", "N ap lanse an premye nan Texas", "首先在德克萨斯州上线", "Lançamento primeiro no Texas"],
+    "Not in Texas yet?": ["¿Aún no estás en Texas?", "Pas encore au Texas ?", "Ou poko nan Texas?", "还不在德克萨斯州？", "Ainda não está no Texas?"],
+    "Leave your email and we'll tell you when FlexaGo reaches your city.": ["Déjanos tu correo y te avisaremos cuando FlexaGo llegue a tu ciudad.", "Laissez votre e-mail et nous vous préviendrons quand FlexaGo arrivera dans votre ville.", "Kite imèl ou epi n ap fè w konnen lè FlexaGo rive nan vil ou.", "留下您的邮箱，FlexaGo 进入您的城市时我们会通知您。", "Deixe seu e-mail e avisaremos quando a FlexaGo chegar à sua cidade."],
+    "Email address": ["Correo electrónico", "Adresse e-mail", "Adrès imèl", "电子邮箱", "Endereço de e-mail"],
+    "Your city": ["Tu ciudad", "Votre ville", "Vil ou", "您所在的城市", "Sua cidade"],
+    "Join the waitlist": ["Unirme a la lista", "Rejoindre la liste", "Antre nan lis la", "加入候补名单", "Entrar na lista"],
+    "You're on the list. We'll email you when FlexaGo reaches your city.": ["Ya estás en la lista. Te escribiremos cuando FlexaGo llegue a tu ciudad.", "Vous êtes sur la liste. Nous vous écrirons quand FlexaGo arrivera dans votre ville.", "Ou nan lis la. N ap ekri w lè FlexaGo rive nan vil ou.", "您已加入名单。FlexaGo 进入您的城市时我们会发邮件通知您。", "Você está na lista. Enviaremos um e-mail quando a FlexaGo chegar à sua cidade."],
+    "Please enter a valid email address.": ["Introduce un correo electrónico válido.", "Veuillez saisir une adresse e-mail valide.", "Tanpri antre yon adrès imèl ki valab.", "请输入有效的电子邮箱。", "Digite um e-mail válido."],
+    "Couldn't save that. Please try again.": ["No se pudo guardar. Inténtalo de nuevo.", "Enregistrement impossible. Veuillez réessayer.", "Nou pa t ka anrejistre sa. Tanpri eseye ankò.", "保存失败，请重试。", "Não foi possível salvar. Tente novamente."],
+    "Too many sign-ups from this connection. Please try again later.": ["Demasiados registros desde esta conexión. Inténtalo más tarde.", "Trop d'inscriptions depuis cette connexion. Réessayez plus tard.", "Twòp enskripsyon sou koneksyon sa a. Eseye ankò pita.", "此网络的注册次数过多，请稍后再试。", "Muitos cadastros desta conexão. Tente mais tarde."],
+    "Send a package": ["Enviar un paquete", "Envoyer un colis", "Voye yon koli", "寄送包裹", "Enviar um pacote"],
+    "How it works": ["Cómo funciona", "Comment ça marche", "Kijan sa mache", "使用方式", "Como funciona"],
+    "Why FlexaGo": ["Por qué FlexaGo", "Pourquoi FlexaGo", "Poukisa FlexaGo", "为什么选择 FlexaGo", "Por que a FlexaGo"],
+    "For senders": ["Para remitentes", "Pour les expéditeurs", "Pou moun k ap voye", "寄件人专区", "Para remetentes"],
+    "Create a delivery": ["Crear un envío", "Créer une livraison", "Kreye yon livrezon", "创建配送", "Criar uma entrega"],
+    "Drive and earn": ["Maneja y gana", "Conduisez et gagnez", "Kondi epi fè lajan", "顺路赚钱", "Dirija e ganhe"],
+    "For travelers": ["Para viajeros", "Pour les voyageurs", "Pou vwayajè", "旅行者专区", "Para viajantes"],
+    "Become a traveler": ["Hazte viajero", "Devenir voyageur", "Vin yon vwayajè", "成为旅行者", "Seja um viajante"],
+    "Log in": ["Iniciar sesión", "Connexion", "Konekte", "登录", "Entrar"],
+    "Company": ["Empresa", "Entreprise", "Konpayi", "公司", "Empresa"],
+    "Contact": ["Contacto", "Contact", "Kontak", "联系我们", "Contato"],
+    "Every member verifies their identity": ["Cada miembro verifica su identidad", "Chaque membre vérifie son identité", "Chak manm verifye idantite yo", "每位会员都验证身份", "Todo membro verifica sua identidade"],
+    "Travelers pass a background check": ["Los viajeros pasan una verificación de antecedentes", "Les voyageurs passent une vérification des antécédents", "Vwayajè yo pase yon verifikasyon dosye", "旅行者须通过背景调查", "Os viajantes passam por verificação de antecedentes"],
+    "Travelers are paid after delivery is confirmed": ["Los viajeros cobran cuando se confirma la entrega", "Les voyageurs sont payés une fois la livraison confirmée", "Vwayajè yo touche apre livrezon an konfime", "配送确认后旅行者才会收到报酬", "Os viajantes recebem após a entrega ser confirmada"]
   };
 
   // Curly quotes and non-breaking hyphens vary in the page source.
@@ -138,15 +162,14 @@
 
     document.documentElement.lang = language;
 
-    const selector = document.getElementById("languageSelector");
-    const footer = document.getElementById("footerLanguage");
-
-    if (selector) selector.value = language;
+    document.querySelectorAll("#languageSelector, #footerLanguage").forEach((selector) => {
+      selector.value = language;
+    });
 
     applyAll();
-
-    if (footer) footer.textContent = NAMES[language];
   }
+
+  window.FlexagoSiteI18n = { translate };
 
   let saved = null;
   try { saved = localStorage.getItem("preferredLanguage"); } catch (e) {}
@@ -155,8 +178,9 @@
 
   setLanguage(saved || (NAMES[browser] ? browser : "en"));
 
-  document.getElementById("languageSelector")
-    ?.addEventListener("change", (event) => setLanguage(event.target.value));
+  document.querySelectorAll("#languageSelector, #footerLanguage").forEach((selector) => {
+    selector.addEventListener("change", (event) => setLanguage(event.target.value));
+  });
 
   // The Alice button changes its own label when opened and closed.
   const bubbleLabel = document.getElementById("alice-bubble-label");

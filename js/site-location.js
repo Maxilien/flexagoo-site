@@ -40,5 +40,6 @@
 
   locate().then((place) => {
     label.textContent = place;
+    label.hidden = !place;
   });
 })();
