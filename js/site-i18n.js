@@ -109,6 +109,7 @@
     "Contact": ["Contacto", "Contact", "Kontak", "联系我们", "Contato"],
     "Every member verifies their identity": ["Cada miembro verifica su identidad", "Chaque membre vérifie son identité", "Chak manm verifye idantite yo", "每位会员都验证身份", "Todo membro verifica sua identidade"],
     "Travelers pass a background check": ["Los viajeros pasan una verificación de antecedentes", "Les voyageurs passent une vérification des antécédents", "Vwayajè yo pase yon verifikasyon dosye", "旅行者须通过背景调查", "Os viajantes passam por verificação de antecedentes"],
+    "Homepage videos created with Grok": ["Videos de la página principal creados con Grok", "Vidéos de la page d'accueil créées avec Grok", "Videyo paj dakèy la fèt ak Grok", "首页视频由 Grok 生成", "Vídeos da página inicial criados com Grok"],
     "Travelers are paid after delivery is confirmed": ["Los viajeros cobran cuando se confirma la entrega", "Les voyageurs sont payés une fois la livraison confirmée", "Vwayajè yo touche apre livrezon an konfime", "配送确认后旅行者才会收到报酬", "Os viajantes recebem após a entrega ser confirmada"]
   };
 

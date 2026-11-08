@@ -120,6 +120,7 @@
 .site-footer-location { color: var(--footer-muted); font-size: .9rem; }
 .site-footer-location::before { content: "📍 "; }
 .site-footer-copy { margin: 0; color: var(--footer-muted); font-size: .85rem; }
+.site-footer-credit { display: block; margin-top: 4px; font-size: .78rem; opacity: .8; }
 
 @media (max-width: 900px) {
   .site-footer-waitlist { grid-template-columns: 1fr; }

@@ -89,7 +89,7 @@
           </label>
           <span id="footerLocation" class="site-footer-location" hidden></span>
         </div>
-        <p class="site-footer-copy">© ${new Date().getFullYear()} Flexago LLC. All rights reserved.</p>
+        <p class="site-footer-copy">© ${new Date().getFullYear()} Flexago LLC. All rights reserved.${onHome ? '<span class="site-footer-credit">Homepage videos created with Grok</span>' : ""}</p>
       </div>
     </div>`;
 
