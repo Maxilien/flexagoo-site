@@ -88,10 +88,27 @@
             </select>
           </label>
           <span id="footerLocation" class="site-footer-location" hidden></span>
+          <button type="button" id="privacyChoicesOpen" class="site-footer-choices">Your privacy choices</button>
         </div>
         <p class="site-footer-copy">© ${new Date().getFullYear()} Flexago LLC. All rights reserved.${onHome ? '<span class="site-footer-credit">Homepage videos created with Grok</span>' : ""}</p>
       </div>
-    </div>`;
+    </div>
+
+    <dialog id="privacyChoices" class="privacy-choices" aria-labelledby="privacyChoicesTitle">
+      <h2 id="privacyChoicesTitle">Your privacy choices</h2>
+      <p>Our website uses the Meta Pixel and Google's advertising tags to measure our ads and to show FlexaGo ads to people who visited. They never receive your name, email, phone number, ID or delivery details.</p>
+      <label class="privacy-choices-toggle">
+        <input type="checkbox" id="adToolsAllowed" />
+        <span>Allow advertising tools in this browser</span>
+      </label>
+      <p id="privacyChoicesGpc" class="privacy-choices-note" hidden>Your browser sends a Global Privacy Control signal, so advertising tools stay off.</p>
+      <p id="privacyChoicesSaved" class="privacy-choices-note" role="status" aria-live="polite"></p>
+      <p><a href="/privacy.html#website">Read section 8 of our Privacy Policy</a></p>
+      <div class="privacy-choices-actions">
+        <button type="button" id="privacyChoicesClose" class="secondary">Close</button>
+        <button type="button" id="privacyChoicesSave">Save</button>
+      </div>
+    </dialog>`;
 
   // Pages without the translation script still get a working selector:
   // it remembers the choice for the homepage.
@@ -102,6 +119,28 @@
       try { localStorage.setItem("preferredLanguage", select.value); } catch (e) {}
     });
   }
+
+  // "Your privacy choices": turn the website's advertising tools (js/ad-tags.js) on or off.
+  const choices = footer.querySelector("#privacyChoices");
+  const allowed = footer.querySelector("#adToolsAllowed");
+  const gpcNote = footer.querySelector("#privacyChoicesGpc");
+  const saved = footer.querySelector("#privacyChoicesSaved");
+  const ads = () => window.FlexagoAds;
+
+  footer.querySelector("#privacyChoicesOpen").addEventListener("click", () => {
+    const gpc = Boolean(ads() && ads().gpc);
+    allowed.checked = Boolean(ads() && ads().allowed);
+    allowed.disabled = gpc;
+    gpcNote.hidden = !gpc;
+    saved.textContent = "";
+    if (choices.showModal) choices.showModal(); else choices.setAttribute("open", "");
+  });
+  const closeChoices = () => (choices.close ? choices.close() : choices.removeAttribute("open"));
+  footer.querySelector("#privacyChoicesClose").addEventListener("click", closeChoices);
+  footer.querySelector("#privacyChoicesSave").addEventListener("click", () => {
+    if (ads() && !ads().gpc) ads().setAllowed(allowed.checked);
+    saved.textContent = window.FlexagoSiteI18n ? window.FlexagoSiteI18n.translate("Saved.") : "Saved.";
+  });
 
   const form = footer.querySelector("#waitlistForm");
   const email = footer.querySelector("#waitlistEmail");
@@ -141,6 +180,7 @@
 
       form.reset();
       say("You're on the list. We'll email you when FlexaGo reaches your city.", "ok");
+      if (window.FlexagoAds) window.FlexagoAds.track("waitlist");
     } catch (error) {
       say("Couldn't save that. Please try again.", "bad");
     } finally {

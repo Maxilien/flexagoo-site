@@ -119,6 +119,40 @@
 }
 .site-footer-location { color: var(--footer-muted); font-size: .9rem; }
 .site-footer-location::before { content: "📍 "; }
+.site-footer-choices {
+  padding: 8px 0; border: 0; background: none;
+  color: var(--footer-muted); font: inherit; font-size: .9rem;
+  text-decoration: underline; cursor: pointer;
+}
+.site-footer-choices:hover { color: var(--footer-ink); }
+
+/* "Your privacy choices" panel */
+.privacy-choices {
+  width: min(480px, calc(100vw - 32px));
+  padding: 24px; border: 1px solid var(--footer-line); border-radius: 16px;
+  background: #0d0d0d; color: var(--footer-ink);
+}
+.privacy-choices::backdrop { background: rgba(0, 0, 0, .6); }
+.privacy-choices h2 { margin: 0 0 12px; font-size: 1.25rem; }
+.privacy-choices p { margin: 0 0 14px; color: var(--footer-muted); font-size: .95rem; }
+.privacy-choices a { text-decoration: underline; }
+.privacy-choices-toggle {
+  display: flex; align-items: center; gap: 12px;
+  margin: 4px 0 14px; padding: 12px 14px;
+  border: 1px solid var(--footer-line); border-radius: 12px;
+  cursor: pointer;
+}
+.privacy-choices-toggle input { width: 20px; height: 20px; accent-color: var(--footer-accent); }
+.privacy-choices-note { color: var(--footer-ok) !important; }
+.privacy-choices-note:empty { display: none; }
+.privacy-choices-actions { display: flex; justify-content: flex-end; gap: 10px; }
+.privacy-choices-actions button {
+  min-height: 44px; padding: 0 18px; border-radius: 10px;
+  border: 1px solid var(--footer-accent); background: var(--footer-accent);
+  color: #fff; font: inherit; font-weight: 600; cursor: pointer;
+}
+.privacy-choices-actions button.secondary { background: transparent; border-color: var(--footer-line); }
+
 .site-footer-copy { margin: 0; color: var(--footer-muted); font-size: .85rem; }
 .site-footer-credit { display: block; margin-top: 4px; font-size: .78rem; opacity: .8; }
 
