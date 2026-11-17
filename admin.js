@@ -1056,7 +1056,7 @@ function loadUsers(page = 1, searchQuery = "") {
 // Every user's Checkr status, with a link to the full report in Checkr,
 // where "consider" results are reviewed and adverse action is sent.
 function loadBackgroundChecks() {
-  adminFetch("/api/admin/background").then((users) => {
+  adminFetch("/api/admin/background/background").then((users) => {
     const box = document.getElementById("backgroundChecks");
     if (!box) return;
 
