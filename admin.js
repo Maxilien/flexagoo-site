@@ -107,6 +107,7 @@ const STATUS_TONES = {
   available: "info", accepted: "info", picked_up: "info", in_transit: "info", in_progress: "info",
   pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn", under_review: "warn",
   clear: "good", invited: "info", consider: "warn", suspended: "bad", not_started: "idle",
+  canceled: "idle", disputed: "warn", pre_adverse_action: "bad", post_adverse_action: "bad",
   cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle",
   active: "good", off: "idle", credited: "good", owed: "warn"
 };
@@ -1015,6 +1016,9 @@ function loadUsers(page = 1, searchQuery = "") {
       <h3>Travelers</h3>
       ${buildTravelerTable(travelers)}
 
+      <h3>Background checks</h3>
+      <div id="backgroundChecks"><p>Loading…</p></div>
+
       <div class="pagination">
         ${
           page > 1
@@ -1035,6 +1039,8 @@ function loadUsers(page = 1, searchQuery = "") {
     // Render Google Maps traveler map
     renderTravelerMap(travelers);
 
+    loadBackgroundChecks();
+
     // Set up auto-refresh every 10 seconds (only once)
     if (!usersAutoRefreshInterval) {
       usersAutoRefreshInterval =
@@ -1047,6 +1053,54 @@ function loadUsers(page = 1, searchQuery = "") {
     }
   });
 }
+// Every user's Checkr status, with a link to the full report in Checkr,
+// where "consider" results are reviewed and adverse action is sent.
+function loadBackgroundChecks() {
+  adminFetch("/api/admin/background").then((users) => {
+    const box = document.getElementById("backgroundChecks");
+    if (!box) return;
+
+    const list = (Array.isArray(users) ? users : [])
+      .filter((u) => u.checkr_candidate_id || u.background_status !== "not_started");
+
+    if (list.length === 0) {
+      box.innerHTML = "<p>No background checks yet.</p>";
+      return;
+    }
+
+    const rows = list.map((u) => {
+      const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "N/A";
+      const done = u.background_completed_at
+        ? new Date(u.background_completed_at).toLocaleDateString()
+        : "—";
+      const link = /^https:\/\/dashboard\.checkr(hq-staging)?\.(com|net)\//.test(u.checkr_url || "")
+        ? `<a href="${esc(u.checkr_url)}" target="_blank" rel="noopener">View in Checkr</a>`
+        : "—";
+
+      return `
+        <tr>
+          <td>${esc(name)}</td>
+          <td>${esc(u.email || "—")}</td>
+          <td>${esc(u.role || "—")}</td>
+          <td>${statusPill(u.background_status || "not_started")}</td>
+          <td>${esc(done)}</td>
+          <td>${link}</td>
+        </tr>`;
+    }).join("");
+
+    box.innerHTML = `
+      <table class="admin-table">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Result date</th><th>Report</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }).catch(() => {
+    const box = document.getElementById("backgroundChecks");
+    if (box) box.innerHTML = "<p>Couldn't load background checks.</p>";
+  });
+}
+
 function applyUserSearch() {
   const query = document.getElementById("userSearch").value;
   loadUsers(1, query);
