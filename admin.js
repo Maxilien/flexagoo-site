@@ -1143,7 +1143,7 @@ function buildSenderTable(senders) {
   senders.forEach(u => {
     const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "N/A";
     const kycBadge = u.kycVerified
-      ? badge("Verified âœ“", "verified")
+      ? badge("Verified ✓", "verified")
       : badge("Pending", "pending");
 
     html += `
@@ -1202,7 +1202,7 @@ function buildTravelerTable(travelers) {
         : badge("Offline", "rejected");
 
     const verifiedBadge = t.verified
-      ? badge("Verified âœ“", "verified")
+      ? badge("Verified ✓", "verified")
       : badge("Not Verified", "rejected");
 
     const lastLocation =
