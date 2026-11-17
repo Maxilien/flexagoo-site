@@ -1036,10 +1036,11 @@ function loadUsers(page = 1, searchQuery = "") {
       "usersTable"
     ).innerHTML = html;
 
+    // Loaded first, so a map error can't stop it.
+    loadBackgroundChecks();
+
     // Render Google Maps traveler map
     renderTravelerMap(travelers);
-
-    loadBackgroundChecks();
 
     // Set up auto-refresh every 10 seconds (only once)
     if (!usersAutoRefreshInterval) {
