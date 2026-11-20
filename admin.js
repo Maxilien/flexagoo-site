@@ -63,6 +63,12 @@ const adminPageInformation = {
       "Review FlexaGo marketplace financial performance."
   },
 
+  promos: {
+    title: "Promos & rewards",
+    description:
+      "Create promo codes and track referral rewards."
+  },
+
   analytics: {
     title: "Analytics",
     description:
@@ -99,8 +105,11 @@ function formatAdminDate(value) {
 const STATUS_TONES = {
   delivered: "good", completed: "good", payout_completed: "good", resolved: "good", paid: "good",
   available: "info", accepted: "info", picked_up: "info", in_transit: "info", in_progress: "info",
-  pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn",
-  cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle"
+  pending: "warn", payout_pending: "warn", open: "warn", normal: "idle", high: "warn", under_review: "warn",
+  clear: "good", invited: "info", consider: "warn", suspended: "bad", not_started: "idle",
+  canceled: "idle", disputed: "warn", pre_adverse_action: "bad", post_adverse_action: "bad",
+  cancelled: "bad", failed: "bad", refunded: "bad", urgent: "bad", closed: "idle",
+  active: "good", off: "idle", credited: "good", owed: "warn"
 };
 
 function statusPill(status) {
@@ -216,6 +225,10 @@ function loadAdminTabData(
     loadAnalytics();
   }
 
+  if (tabName === "promos") {
+    loadPromos();
+  }
+
    if (tabName === "support") {
     loadSupport();
   }
@@ -237,6 +250,12 @@ function renderAttentionList(items) {
   `).join("");
 
   refreshAdminIcons();
+}
+
+function loadFailedRefunds() {
+  return adminFetch("/api/admin/deliveries?page=1&status=&search=&refund=failed")
+    .then((data) => Number(data?.total) || 0)
+    .catch(() => 0);
 }
 
 function loadDashboardChart() {
@@ -309,7 +328,8 @@ function loadDashboard() {
 
     adminFetch(
       "/api/support-tickets/admin?limit=100"
-    )
+    ),
+    loadFailedRefunds()
   ])
     .then(
       ([
@@ -318,7 +338,8 @@ function loadDashboard() {
         escrowData,
         payoutsData,
         revenueData,
-        supportData
+        supportData,
+        failedRefunds
       ]) => {
         const totalUsers =
           Number(
@@ -425,7 +446,8 @@ function loadDashboard() {
         renderAttentionList([
           { label: "Open support tickets", count: activeSupport, tab: "support" },
           { label: "Identity checks pending", count: Number(usersData?.totals?.kycPending) || 0, tab: "users" },
-          { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" }
+          { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" },
+          { label: "Refunds that failed", count: failedRefunds, tab: "deliveries" }
         ]);
       }
     )
@@ -750,6 +772,14 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <option value="payout_completed">
             Payout Completed
           </option>
+
+          <option value="under_review">
+            Under Review
+          </option>
+
+          <option value="cancelled">
+            Cancelled
+          </option>
         </select>
 
         <button
@@ -806,7 +836,12 @@ function loadDeliveries(page = 1, statusFilter = "", searchQuery = "") {
           <td>${esc(d.package?.deliveryType || "—")}</td>
           <td><span class="admin-route">${esc(d.pickup?.address || "—")}<small>to ${esc(d.dropoff?.address || "—")}</small></span></td>
           <td>${formatAdminDate(d.createdAt)}</td>
-          <td><button onclick="viewDelivery('${d._id}')">View</button></td>
+          <td>
+            <button onclick="viewDelivery('${d._id}')">View</button>
+            ${d.refundStatus === "failed" ? `<span class="admin-status bad">Refund failed</span> <button onclick="resolveDelivery('${d._id}', 'retry_refund')">Retry refund</button>` : ""}
+            ${d.status === "under_review" ? `<button onclick="resolveDelivery('${d._id}', 'item_problem')">Uphold problem</button>` : ""}
+            ${["under_review", "accepted", "in_transit", "delivered"].includes(d.status) ? `<button onclick="resolveDelivery('${d._id}', 'full_refund')">Full refund</button>` : ""}
+          </td>
         </tr>
       `;
     });
@@ -833,6 +868,30 @@ function applyDeliveryFilters() {
 /* ============================================================
    VIEW DELIVERY DETAILS MODAL
 ============================================================ */
+
+const RESOLVE_MESSAGES = {
+  item_problem: "Uphold this item problem? The sender gets 50% back and the traveler gets 40%.",
+  full_refund: "Give the sender a full refund? This cancels the delivery.",
+  retry_refund: "Try this refund again?"
+};
+
+async function resolveDelivery(id, decision) {
+  if (!confirm(RESOLVE_MESSAGES[decision])) return;
+
+  const res = await fetch(`${API_BASE}/api/admin/deliveries/${id}/resolve`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${localStorage.getItem("adminToken")}`
+    },
+    body: JSON.stringify({ decision })
+  });
+  const data = await res.json();
+
+  if (!data.success) alert(data.error || "Unable to complete this.");
+
+  loadDeliveries();
+}
 
 function viewDelivery(id) {
   adminFetch(`/api/admin/deliveries?id=${id}`).then(d => {
@@ -957,6 +1016,9 @@ function loadUsers(page = 1, searchQuery = "") {
       <h3>Travelers</h3>
       ${buildTravelerTable(travelers)}
 
+      <h3>Background checks</h3>
+      <div id="backgroundChecks"><p>Loading…</p></div>
+
       <div class="pagination">
         ${
           page > 1
@@ -974,6 +1036,9 @@ function loadUsers(page = 1, searchQuery = "") {
       "usersTable"
     ).innerHTML = html;
 
+    // Loaded first, so a map error can't stop it.
+    loadBackgroundChecks();
+
     // Render Google Maps traveler map
     renderTravelerMap(travelers);
 
@@ -989,6 +1054,54 @@ function loadUsers(page = 1, searchQuery = "") {
     }
   });
 }
+// Every user's Checkr status, with a link to the full report in Checkr,
+// where "consider" results are reviewed and adverse action is sent.
+function loadBackgroundChecks() {
+  adminFetch("/api/admin/background/background").then((users) => {
+    const box = document.getElementById("backgroundChecks");
+    if (!box) return;
+
+    const list = (Array.isArray(users) ? users : [])
+      .filter((u) => u.checkr_candidate_id || u.background_status !== "not_started");
+
+    if (list.length === 0) {
+      box.innerHTML = "<p>No background checks yet.</p>";
+      return;
+    }
+
+    const rows = list.map((u) => {
+      const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "N/A";
+      const done = u.background_completed_at
+        ? new Date(u.background_completed_at).toLocaleDateString()
+        : "—";
+      const link = /^https:\/\/dashboard\.checkr(hq-staging)?\.(com|net)\//.test(u.checkr_url || "")
+        ? `<a href="${esc(u.checkr_url)}" target="_blank" rel="noopener">View in Checkr</a>`
+        : "—";
+
+      return `
+        <tr>
+          <td>${esc(name)}</td>
+          <td>${esc(u.email || "—")}</td>
+          <td>${esc(u.role || "—")}</td>
+          <td>${statusPill(u.background_status || "not_started")}</td>
+          <td>${esc(done)}</td>
+          <td>${link}</td>
+        </tr>`;
+    }).join("");
+
+    box.innerHTML = `
+      <table class="admin-table">
+        <thead>
+          <tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Result date</th><th>Report</th></tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>`;
+  }).catch(() => {
+    const box = document.getElementById("backgroundChecks");
+    if (box) box.innerHTML = "<p>Couldn't load background checks.</p>";
+  });
+}
+
 function applyUserSearch() {
   const query = document.getElementById("userSearch").value;
   loadUsers(1, query);
@@ -1021,6 +1134,7 @@ function buildSenderTable(senders) {
           <th>Zip</th>
           <th>Country</th>
           <th>KYC</th>
+          <th>Background</th>
         </tr>
       </thead>
       <tbody>
@@ -1029,7 +1143,7 @@ function buildSenderTable(senders) {
   senders.forEach(u => {
     const name = `${u.firstName || ""} ${u.lastName || ""}`.trim() || "N/A";
     const kycBadge = u.kycVerified
-      ? badge("Verified âœ“", "verified")
+      ? badge("Verified ✓", "verified")
       : badge("Pending", "pending");
 
     html += `
@@ -1044,6 +1158,7 @@ function buildSenderTable(senders) {
         <td>${esc(u.zipcode || "—")}</td>
         <td>${esc(u.country || "—")}</td>
         <td>${kycBadge}</td>
+        <td>${statusPill(u.background_status || "not_started")}</td>
       </tr>
     `;
   });
@@ -1067,6 +1182,7 @@ function buildTravelerTable(travelers) {
           <th>Status</th>
           <th>Rating</th>
           <th>Verified</th>
+          <th>Background</th>
           <th>Last Location</th>
         </tr>
       </thead>
@@ -1086,7 +1202,7 @@ function buildTravelerTable(travelers) {
         : badge("Offline", "rejected");
 
     const verifiedBadge = t.verified
-      ? badge("Verified âœ“", "verified")
+      ? badge("Verified ✓", "verified")
       : badge("Not Verified", "rejected");
 
     const lastLocation =
@@ -1104,6 +1220,7 @@ function buildTravelerTable(travelers) {
         <td>${statusBadge}</td>
         <td>${t.rating != null ? t.rating : "—"}</td>
         <td>${verifiedBadge}</td>
+        <td>${statusPill(user.background_status || "not_started")}</td>
         <td>${lastLocation}</td>
       </tr>
     `;

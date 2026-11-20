@@ -12,6 +12,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/mobile-site.css" />
+  <link rel="stylesheet" href="css/site-footer.css" />
 </head>
 
 <body>
@@ -22,11 +24,11 @@
 <header class="top-nav">
   <div class="top-nav-left">
     <div class="flexago-logo">
-      <img src="img/flexago-logo.JPG" alt="Flexago Logo" class="flexago-logo-img">
+      <img src="img/flexago-logo-new.png" alt="FlexaGo logo" class="flexago-logo-img">
+      <span class="flexago-wordmark">FlexaGo</span>
     </div>
 
     <div class="top-nav-title">
-      <div class="top-nav-title-main">FlexaGo</div>
       <div class="top-nav-title-sub">Logistics marketplace for travelers & senders</div>
     </div>
   </div>
@@ -46,24 +48,39 @@
       <option value="pt">PT</option>
     </select>
 
-    <a class="login-btn" href="https://app.flexagoo.com/login.html">Login</a>
-    <a class="signup-btn" href="https://app.flexagoo.com/signup.html">Sign Up</a>
+    <a class="login-btn" href="https://app.flexagoo.com/login">Login</a>
+    <a class="signup-btn" href="https://app.flexagoo.com/signup">Sign Up</a>
   </div>
 </header>
 
 <!-- ========================================================= -->
 <!-- HERO SECTION  Change home page welcome note here                                       -->
 <!-- ========================================================= -->
-<section class="hero fade-in-up">
-  <img src="img/flexago-watermark.png" alt="FlexaGo Watermark" class="hero-watermark-preload">
+<section class="hero hero-flow fade-in-up">
+  <div class="hero-slides" aria-hidden="true">
+    <video src="video/hero-photo.mp4" poster="video/hero-photo.jpg" data-step="0" style="object-position: 52% 30%" muted playsinline preload="auto"></video>
+    <video src="video/hero-shop.mp4" poster="video/hero-shop.jpg" data-step="0" style="object-position: 55% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-pickup.mp4" poster="video/hero-pickup.jpg" data-step="1" style="object-position: 20% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-drive.mp4" poster="video/hero-drive.jpg" data-step="2" style="object-position: 28% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-airport.mp4" poster="video/hero-airport.jpg" data-step="2" style="object-position: 62% 30%" muted playsinline preload="none"></video>
+    <video src="video/hero-door.mp4" poster="video/hero-door.jpg" data-step="3" style="object-position: 50% 30%" muted playsinline preload="none"></video>
+  </div>
   <div class="hero-content">
-    <h1> TRAVEL SMARTER. SEND SMARTER. .</h1>
-    <p>FlexaGo turns everyday trips into real‑world delivery power.</p>
+    <h1>Someone's already going there.</h1>
+    <p>Send with verified travelers already on that route, or get paid for a trip you're already taking.</p>
 
     <div class="hero-buttons">
       <a href="#how" class="btn-primary">Get Started</a>
       <a href="#features" class="btn-secondary">Learn More</a>
     </div>
+
+    <!-- Each clip above names its step with data-step -->
+    <ol class="hero-steps">
+      <li>Post your delivery</li>
+      <li>A traveler picks it up</li>
+      <li>On the way</li>
+      <li>Delivered and confirmed</li>
+    </ol>
   </div>
 
 </section>
@@ -71,14 +88,14 @@
 <!-- ABOUT SECTION                                             -->
 <!-- ========================================================= -->
 <section id="about" class="hero about-section fade-in-up">
-  <img src="img/FlexaGo ecosystem.png" class="hero-watermark-preload">
+  <img src="img/people/about-network.jpg" class="hero-watermark-preload" alt="" loading="lazy">
 
   <div class="hero-content">
     <h2 class="section-title">About FlexaGo</h2>
-    <p>
-      <strong>FlexaGo is a people‑powered way to move things from one place to another.</strong>
-      We connect senders with travelers already heading that way — simple, fast, and built around real people helping real people.
-    </p>
+    <p>Every day, people travel with room to spare. And every day, someone needs a package to reach the same place. FlexaGo brings them together.</p>
+    <p>Senders post what needs to go and where. Travelers see deliveries along their route and choose the ones that fit their trip.</p>
+    <p>Every member verifies their identity, and travelers pass a background check before their first job, so you know who you're dealing with.</p>
+    <p><strong>Real people, helping real people, on trips already happening.</strong></p>
   </div>
 </section>
 <!-- ========================================================= -->
@@ -86,6 +103,7 @@
 <!-- ========================================================= -->
 <section id="sender-section" class="section fade-in-up">
   <h2 class="section-title">For Senders</h2>
+  <img src="img/people/section-sender.jpg" class="section-photo" alt="Customer receiving a package at home" loading="lazy">
   <p class="section-intro">
     <strong>Ship anything, anywhere — today.</strong>
     FlexaGo lets you send packages, documents, and goods using real travelers
@@ -142,7 +160,7 @@
   </div>
 
   <div class="section-cta">
-    <a href="https://app.flexagoo.com/signup.html" class="btn-primary">Send a Package →</a>
+    <a href="https://app.flexagoo.com/signup" class="btn-primary">Send a Package →</a>
   </div>
 </section>
 
@@ -151,6 +169,7 @@
 <!-- ========================================================= -->
 <section id="traveler-section" class="section fade-in-up traveler-section">
   <h2 class="section-title">For Travelers</h2>
+  <img src="img/people/section-traveler.jpg" class="section-photo" alt="Traveler walking through an airport with a suitcase" loading="lazy">
   <p class="section-intro">
     <strong>Your trip. Your route. Your earnings.</strong>
     You're already going somewhere — FlexaGo lets you earn money on every
@@ -203,7 +222,7 @@
   </div>
 
   <div class="section-cta">
-    <a href="https://app.flexagoo.com/signup.html" class="btn-primary traveler-btn">Start Earning →</a>
+    <a href="https://app.flexagoo.com/signup" class="btn-primary traveler-btn">Start Earning →</a>
   </div>
 </section>
 
@@ -215,19 +234,19 @@
 
   <div class="steps">
     <div class="step">
-      <img src="img/flexago-step1.JPG" class="step-img" alt="Sender with package">
+      <img src="img/people/step-send.jpg" class="step-img" alt="Sender preparing a package" loading="lazy">
       <h3>1. Sender Creates a Request</h3>
       <p>Describe your item, pickup, and drop‑off.</p>
     </div>
 
     <div class="step">
-      <img src="img/flexago-step2.jpg" class="step-img" alt="Traveler driving">
+      <img src="img/people/step-drive.jpg" class="step-img" alt="Traveler driving" loading="lazy">
       <h3>2. Traveler Accepts & Delivers</h3>
       <p>Verified travelers pick up your item and deliver it along their route.</p>
     </div>
 
     <div class="step">
-      <img src="img/flexago-step3.JPG" class="step-img" alt="Delivery handoff">
+      <img src="img/people/step-handoff.jpg" class="step-img" alt="Family receiving a package" loading="lazy">
       <h3>3. Delivery Completed</h3>
       <p>Traveler hands the package to the receiver — simple and secure.</p>
     </div>
@@ -267,7 +286,7 @@
   <h2 class="section-title">Contact Us</h2>
   <p class="contact-text">Have questions? Need support? We’re here to help.</p>
   <div class="contact-box">
-    <p>Email: <strong>support@flexago.com</strong></p>
+    <p>Email: <a class="contact-email" href="mailto:support@flexagoo.com">support@flexagoo.com</a></p>
   </div>
 </section>
 
@@ -278,28 +297,17 @@
   <h2 class="section-title">Ready to Flex Your Route?</h2>
   <p>Whether you’re sending something important or traveling anyway, FlexaGo makes every trip smarter.</p>
   <div class="cta-buttons">
-    <a href="#senders" class="btn-primary">I Want to Send</a>
-    <a href="#travelers" class="btn-secondary">I Want to Travel</a>
+    <a href="#sender-section" class="btn-primary">I Want to Send</a>
+    <a href="#traveler-section" class="btn-secondary">I Want to Travel</a>
   </div>
 </section>
 
 <!-- ========================================================= -->
 <!-- UBER-STYLE FOOTER                                         -->
 <!-- ========================================================= -->
-<footer class="uber-footer">
-  <div class="uber-footer-row">
-    <span id="footerLanguage">English</span>
-    <span id="footerLocation">Detecting location…</span>
-  </div>
-
-  <div class="uber-footer-links">
-    <a href="https://www.flexagoo.com/privacy.html" target="_blank">Privacy</a>
-    <a href="https://www.flexagoo.com/terms.html" target="_blank">Terms</a>
-    <a href="#about">About</a>
-  </div>
-
-  <div class="uber-footer-copy">© 2026 FlexaGo</div>
-</footer>
+<footer id="siteFooter"></footer>
+<script src="js/ad-tags.js"></script>
+<script src="js/site-footer.js"></script>
 
 <!-- ========================================================= -->
 <!-- ALICE CHAT WIDGET                                         -->
@@ -657,60 +665,9 @@
 <!-- ========================================================= -->
 <!-- EXISTING JS                                               -->
 <!-- ========================================================= -->
-<script>
-  const fadeElements = document.querySelectorAll('.fade-in-up');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-      }
-    });
-  });
-  fadeElements.forEach(el => observer.observe(el));
-
-  document.getElementById('languageSelector').addEventListener('change', function() {
-    const lang = this.value;
-    alert('Language switched to: ' + lang);
-  });
-</script>
-
 <!-- ========================================================= -->
 <!-- LOCATION + LANGUAGE DETECTION (Uber-style)               -->
 <!-- ========================================================= -->
-<script>
-  const languageMap = {
-    "United States": "en",
-    "Mexico": "es",
-    "France": "fr",
-    "Haiti": "ht",
-    "China": "zh",
-    "Brazil": "pt"
-  };
-
-  fetch("https://ipapi.co/json/")
-    .then(res => res.json())
-    .then(data => {
-      const city = data.city;
-      const country = data.country_name;
-
-      document.getElementById("footerLocation").innerText = city;
-
-      const lang = languageMap[country] || "en";
-
-      const langText = {
-        en: "English",
-        es: "Español",
-        fr: "Français",
-        ht: "Kreyòl",
-        zh: "中文",
-        pt: "Português"
-      }[lang];
-
-      document.getElementById("footerLanguage").innerText = langText;
-    })
-    .catch(err => console.error("Location detection failed:", err));
-</script>
-
 <!-- ========================================================= -->
 <!-- SMOOTH SCROLL                                             -->
 <!-- ========================================================= -->
@@ -729,7 +686,10 @@
 <!-- ========================================================= -->
 <!-- ALICE JS                                                  -->
 <!-- ========================================================= -->
+<script src="js/hero-clips.js"></script>
 <script src="js/alice.js"></script>
+<script src="js/site-i18n.js"></script>
+<script src="js/site-location.js"></script>
 
 </body>
 </html>
