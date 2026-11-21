@@ -40,8 +40,56 @@
     return regionFromBrowser();
   }
 
-  locate().then((place) => {
+  function show(place) {
+    if (!place) return;
     label.textContent = place;
-    label.hidden = !place;
+    label.hidden = false;
+  }
+
+  // With the visitor's permission, the device location gives the real
+  // city. The browser remembers the answer, so it asks only once.
+  // Coordinates go only to the city lookup and are never stored.
+  async function cityFromDevice() {
+    if (!navigator.geolocation) return "";
+
+    try {
+      const state = await navigator.permissions?.query({ name: "geolocation" });
+      if (state?.state === "denied") return "";
+    } catch (error) {
+      // Some browsers can't report the permission; just ask.
+    }
+
+    const position = await new Promise((resolve, reject) =>
+      navigator.geolocation.getCurrentPosition(resolve, reject, {
+        enableHighAccuracy: false,
+        timeout: 15000,
+        maximumAge: 30 * 60 * 1000
+      })
+    );
+
+    const { latitude, longitude } = position.coords;
+    const response = await fetch(
+      "https://api.bigdatacloud.net/data/reverse-geocode-client" +
+      `?latitude=${latitude.toFixed(3)}&longitude=${longitude.toFixed(3)}&localityLanguage=en`
+    );
+
+    if (!response.ok) return "";
+
+    const d = await response.json();
+    const city = d.city || d.locality;
+    const area = d.countryCode === "US" ? d.principalSubdivision : d.countryName;
+
+    return city ? [city, area].filter(Boolean).join(", ") : "";
+  }
+
+  let cityShown = false;
+
+  // A slow IP lookup must not replace a city that already arrived.
+  locate().then((place) => { if (!cityShown) show(place); });
+  cityFromDevice().then((city) => {
+    if (city) cityShown = true;
+    show(city);
+  }).catch(() => {
+    // Declined or unavailable: keep the state and country.
   });
 })();
