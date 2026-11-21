@@ -1,12 +1,14 @@
 /* Shows where the visitor is, in the footer. Tries two services because
-   free ones limit requests, then falls back to the browser's region. */
+   free ones limit requests, then falls back to the browser's region.
+   IP lookups find the internet provider's hub, often a different city,
+   so only the state or region and the country are shown. */
 (function () {
   const label = document.getElementById("footerLocation");
   if (!label) return;
 
   const services = [
-    ["https://ipapi.co/json/", (d) => [d.city, d.country_name]],
-    ["https://ipwho.is/", (d) => (d.success === false ? [] : [d.city, d.country])]
+    ["https://ipapi.co/json/", (d) => (d.error ? [] : [d.region, d.country_name])],
+    ["https://ipwho.is/", (d) => (d.success === false ? [] : [d.region, d.country])]
   ];
 
   function regionFromBrowser() {
