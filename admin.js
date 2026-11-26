@@ -79,6 +79,12 @@ const adminPageInformation = {
     title: "Support",
     description:
       "Review and manage Sender and Traveler support requests."
+  },
+
+  reports: {
+    title: "Reports",
+    description:
+      "Problems people reported about each other in the app."
   }
 };
 /* ============================================================
@@ -232,6 +238,10 @@ function loadAdminTabData(
    if (tabName === "support") {
     loadSupport();
   }
+
+  if (tabName === "reports") {
+    loadReports();
+  }
 }
 /* ============================================================
    DASHBOARD DATA
@@ -329,7 +339,8 @@ function loadDashboard() {
     adminFetch(
       "/api/support-tickets/admin?limit=100"
     ),
-    loadFailedRefunds()
+    loadFailedRefunds(),
+    loadOpenReportCount()
   ])
     .then(
       ([
@@ -339,7 +350,8 @@ function loadDashboard() {
         payoutsData,
         revenueData,
         supportData,
-        failedRefunds
+        failedRefunds,
+        openReports
       ]) => {
         const totalUsers =
           Number(
@@ -445,6 +457,7 @@ function loadDashboard() {
 
         renderAttentionList([
           { label: "Open support tickets", count: activeSupport, tab: "support" },
+          { label: "Open safety reports", count: openReports, tab: "reports" },
           { label: "Identity checks pending", count: Number(usersData?.totals?.kycPending) || 0, tab: "users" },
           { label: "Deliveries with funds in escrow", count: totalEscrow, tab: "escrow" },
           { label: "Refunds that failed", count: failedRefunds, tab: "deliveries" }
@@ -1681,6 +1694,146 @@ function loadSupport() {
     supportTable.innerHTML = html;
   });
 }
+/* ============================================================
+   REPORTS TAB
+============================================================ */
+
+const REPORT_REASON_LABELS = {
+  harassment: "Harassment",
+  fraud: "Fraud or scam",
+  unsafe: "Unsafe behavior",
+  prohibited_item: "Prohibited item",
+  other: "Other"
+};
+
+let reportStatusFilter = "open";
+
+function reportPersonName(person) {
+  if (!person) return "Deleted user";
+  const name = `${person.firstName || ""} ${person.lastName || ""}`.trim();
+  return name || person.email || "Unknown user";
+}
+
+function setReportsBadge(count) {
+  const badge = document.getElementById("adminReportsBadge");
+  if (badge) badge.textContent = String(count).padStart(2, "0");
+}
+
+function loadOpenReportCount() {
+  return adminFetch("/api/safety/admin/reports?status=open")
+    .then((data) => {
+      const count = Array.isArray(data?.data) ? data.data.length : 0;
+      setReportsBadge(count);
+      return count;
+    })
+    .catch(() => 0);
+}
+
+function loadReports() {
+  const table = document.getElementById("reportsTable");
+  if (!table) return;
+
+  document.querySelectorAll("[data-report-status]").forEach((button) => {
+    button.classList.toggle("active", button.dataset.reportStatus === reportStatusFilter);
+  });
+
+  table.textContent = "Loading reports…";
+
+  adminFetch(`/api/safety/admin/reports?status=${reportStatusFilter}`)
+    .then((data) => {
+      if (!data?.success) {
+        table.textContent = data?.error || "Unable to load reports.";
+        return;
+      }
+
+      const reports = Array.isArray(data.data) ? data.data : [];
+
+      if (reportStatusFilter === "open") setReportsBadge(reports.length);
+
+      if (reports.length === 0) {
+        table.innerHTML = `<p>No ${reportStatusFilter} reports.</p>`;
+        return;
+      }
+
+      table.innerHTML = `
+        <table class="admin-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Reported by</th>
+              <th>Reported person</th>
+              <th>Reason</th>
+              <th>Details</th>
+              <th>Delivery</th>
+              <th>${reportStatusFilter === "open" ? "Action" : "Status"}</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${reports.map((report) => `
+              <tr>
+                <td>${esc(formatAdminDate(report.createdAt))}</td>
+                <td>${esc(reportPersonName(report.reporterId))}${report.reporterId?.email ? `<br><small>${esc(report.reporterId.email)}</small>` : ""}</td>
+                <td>${esc(reportPersonName(report.reportedUserId))}${report.reportedUserId?.email ? `<br><small>${esc(report.reportedUserId.email)}</small>` : ""}</td>
+                <td>${esc(REPORT_REASON_LABELS[report.reason] || report.reason)}</td>
+                <td class="admin-report-details">${esc(report.details || "—")}</td>
+                <td>${report.deliveryId ? `<button type="button" data-report-delivery="${esc(report.deliveryId)}">View</button>` : "—"}</td>
+                <td>${reportStatusFilter === "open"
+                  ? `<button type="button" data-report-review="${esc(report._id)}">Mark reviewed</button>`
+                  : statusPill("reviewed")}</td>
+              </tr>
+            `).join("")}
+          </tbody>
+        </table>
+      `;
+    })
+    .catch((error) => {
+      console.error("Reports load error:", error);
+      table.textContent = "Unable to load reports.";
+    });
+}
+
+async function markReportReviewed(id, button) {
+  button.disabled = true;
+
+  try {
+    const res = await fetch(`${API_BASE}/api/safety/admin/reports/${encodeURIComponent(id)}`, {
+      method: "PATCH",
+      headers: { Authorization: `Bearer ${localStorage.getItem("adminToken")}` }
+    });
+    const data = await res.json().catch(() => ({}));
+
+    if (!res.ok || !data.success) {
+      alert(data.error || "Unable to mark this report as reviewed.");
+      button.disabled = false;
+      return;
+    }
+  } catch {
+    alert("Unable to mark this report as reviewed.");
+    button.disabled = false;
+    return;
+  }
+
+  loadReports();
+}
+
+document.addEventListener("click", (event) => {
+  const filter = event.target.closest("[data-report-status]");
+  if (filter) {
+    reportStatusFilter = filter.dataset.reportStatus === "reviewed" ? "reviewed" : "open";
+    loadReports();
+    return;
+  }
+
+  const review = event.target.closest("[data-report-review]");
+  if (review) {
+    markReportReviewed(review.dataset.reportReview, review);
+    return;
+  }
+
+  const delivery = event.target.closest("[data-report-delivery]");
+  if (delivery) viewDelivery(delivery.dataset.reportDelivery);
+});
+
 /* ============================================================
    GOOGLE MAPS — TRAVELER MAP
 ============================================================ */

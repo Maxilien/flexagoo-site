@@ -175,3 +175,9 @@ body { background: var(--canvas); color: var(--ink); font-family: Inter, system-
 .promo-admin-message.bad { color: #e25555; }
 .promo-admin-help { margin: 12px 0 0; font-size: 13px; opacity: .75; }
 @media (max-width: 600px) { .promo-admin-wide { grid-column: auto; } }
+
+/* Reports tab */
+.admin-report-filter { display: inline-flex; margin-bottom: 14px; gap: 4px; padding: 3px; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); }
+.admin-report-filter button { border: 0; background: transparent; color: var(--ink-soft); padding: 6px 14px; border-radius: 8px; font: inherit; font-weight: 600; cursor: pointer; }
+.admin-report-filter button.active { background: var(--brand-soft); color: var(--brand); }
+.admin-report-details { max-width: 320px; white-space: pre-wrap; overflow-wrap: anywhere; }

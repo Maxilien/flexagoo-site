@@ -221,6 +221,25 @@
             </span>
           </button>
 
+          <button
+            type="button"
+            class="tab-btn admin-nav-item"
+            data-tab="reports"
+          >
+            <span class="admin-nav-icon"><i data-lucide="flag"></i></span>
+
+            <span>
+              Reports
+            </span>
+
+            <span
+              id="adminReportsBadge"
+              class="admin-nav-badge"
+            >
+              00
+            </span>
+          </button>
+
         </div>
 
       </nav>
@@ -1067,6 +1086,49 @@
               class="admin-loading-state"
             >
               Support tickets will appear here.
+            </div>
+
+          </div>
+
+        </section>
+
+        <!-- =================================================
+             REPORTS (user safety reports from the app)
+        ================================================== -->
+
+        <section
+          id="reports"
+          class="tab-section"
+          style="display:none;"
+        >
+
+          <div class="admin-section-header">
+
+            <div>
+              <h2>
+                Reports
+              </h2>
+
+              <p>
+                Problems people reported about each other in the app.
+              </p>
+            </div>
+
+
+          </div>
+
+          <div class="admin-panel">
+
+            <div class="admin-report-filter" role="group" aria-label="Report status">
+              <button type="button" class="active" data-report-status="open">Open</button>
+              <button type="button" data-report-status="reviewed">Reviewed</button>
+            </div>
+
+            <div
+              id="reportsTable"
+              class="admin-loading-state"
+            >
+              Reports will appear here.
             </div>
 
           </div>
